@@ -1,5 +1,6 @@
 package com.winchesters.devopsify.technologies.git;
 
+import com.winchesters.devopsify.exception.GitException;
 import com.winchesters.devopsify.technologies.TechnologyService;
 import com.winchesters.devopsify.technologies.Version;
 
@@ -11,6 +12,6 @@ import java.util.regex.Pattern;
 
 public interface GitService extends TechnologyService {
 
-    int initializeRepository(String path);
+    void initializeRepository(String path) throws GitException;
 
 }

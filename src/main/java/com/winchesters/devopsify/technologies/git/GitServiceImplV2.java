@@ -1,5 +1,7 @@
 package com.winchesters.devopsify.technologies.git;
 
+import com.winchesters.devopsify.exception.GitException;
+import com.winchesters.devopsify.exception.GitNotInstalledException;
 import com.winchesters.devopsify.technologies.Version;
 
 import java.io.BufferedReader;
@@ -57,18 +59,19 @@ public class GitServiceImplV2 implements GitService{
         return null;
     }
     @Override
-    public int initializeRepository(String path) {
+    public void initializeRepository(String path) throws GitException {
         try {
-            if(!installed()) return 1;
+            if(!installed()) throw new GitNotInstalledException();
             Process process = new ProcessBuilder("git", "init")
                     .directory(new File(path))
                     .inheritIO()
                     .start();
             process.waitFor();
             System.out.println(process.exitValue());
-        }catch (Exception e){
+        }catch (IOException e){
             e.printStackTrace();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
-        return 0;
     }
 }
