@@ -29,6 +29,7 @@ public interface GitService extends TechnologyService {
             if(!versionMatcher.matches()){
                 return null;
             }else{
+                versionMatcher = Pattern.compile("\\d+").matcher(output);
                 Version version = new Version();
                 versionMatcher.find();
                 version.setMajor(Integer.parseInt(versionMatcher.group()));
