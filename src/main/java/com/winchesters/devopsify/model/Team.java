@@ -18,5 +18,4 @@ public class Team {
     private Long teamId;
     private String name;
 
-
 }
