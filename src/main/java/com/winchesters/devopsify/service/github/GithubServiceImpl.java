@@ -1,25 +1,31 @@
-package com.winchesters.devopsify.service;
+package com.winchesters.devopsify.service.github;
 
 import com.winchesters.devopsify.exception.PersonalAccessTokenPermissionException;
+import lombok.AllArgsConstructor;
 import org.kohsuke.github.GitHub;
 import org.kohsuke.github.GitHubBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
-@Service
-@Transactional
-public class GithubServiceImplementation implements  GithubService{
+public class GithubServiceImpl implements  GithubService{
 
-    private static final Logger LOG = LoggerFactory.getLogger(GithubServiceImplementation.class);
+    private static final Logger LOG = LoggerFactory.getLogger(GithubServiceImpl.class);
     private GitHub github;
 
-   @Override
+
+    @Bean
+    public GitHub getGithub() throws IOException {
+        initGit("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");
+        return github;
+    }
+
+    @Override
     public void initGit(String personalAccessToken) throws IOException {
         github = new GitHubBuilder().withOAuthToken(personalAccessToken).build();
         if (!verifyAllPermissionsGranted()) {
@@ -41,4 +47,5 @@ public class GithubServiceImplementation implements  GithubService{
         }
         return false;
     }
+
 }
