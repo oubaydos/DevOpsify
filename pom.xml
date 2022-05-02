@@ -57,7 +57,12 @@
             <artifactId>github-api</artifactId>
             <version>1.306</version>
         </dependency>
-
+        <!-- https://mvnrepository.com/artifact/io.github.cdancy/jenkins-rest -->
+        <dependency>
+            <groupId>io.github.cdancy</groupId>
+            <artifactId>jenkins-rest</artifactId>
+            <version>1.0.0</version>
+        </dependency>
     </dependencies>
 
     <build>

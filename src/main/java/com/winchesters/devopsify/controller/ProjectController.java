@@ -29,4 +29,5 @@ public class ProjectController {
     public Project createNewProject(@RequestBody CreateNewProjectDto createNewProjectDto){
         return projectService.createNewProject(createNewProjectDto);
     }
+
 }
