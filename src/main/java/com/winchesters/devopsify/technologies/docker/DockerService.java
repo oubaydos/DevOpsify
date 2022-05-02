@@ -1,4 +1,10 @@
 package com.winchesters.devopsify.technologies.docker;
 
-public interface DockerService {
+import com.winchesters.devopsify.technologies.TechnologyService;
+
+public interface DockerService extends TechnologyService {
+    boolean dockerInstalled();
+    boolean dockerComposeInstalled();
+
+
 }
