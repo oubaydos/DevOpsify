@@ -20,11 +20,12 @@ import java.util.List;
 public class GithubServiceImpl implements  GithubService{
 
     private static final Logger LOG = LoggerFactory.getLogger(GithubServiceImpl.class);
-    private GitHub github;
+    protected GitHub github;
 
 
     @Override
-    public GitHub initGit(String personalAccessToken) throws IOException {
+    public GitHub connectToGithub(String personalAccessToken) throws IOException {
+        if (github != null) return github;
         github = new GitHubBuilder().withOAuthToken(personalAccessToken).build();
         if (!verifyAllPermissionsGranted()) {
             throw new PersonalAccessTokenPermissionException();
