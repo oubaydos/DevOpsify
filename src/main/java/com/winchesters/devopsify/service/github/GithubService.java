@@ -20,5 +20,5 @@ public interface GithubService {
      * @throws IOException if a problem occurs while connecting to github with the personalAccessToken
      * @return created Github Object
      */
-    GitHub initGit(String personalAccessToken) throws IOException;
+    GitHub connectToGithub(String personalAccessToken) throws IOException;
 }
