@@ -8,29 +8,28 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
+@Service
+@Transactional
 public class GithubServiceImpl implements  GithubService{
 
     private static final Logger LOG = LoggerFactory.getLogger(GithubServiceImpl.class);
     private GitHub github;
 
 
-    @Bean
-    public GitHub getGithub() throws IOException {
-        initGit("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");
-        return github;
-    }
-
     @Override
-    public void initGit(String personalAccessToken) throws IOException {
+    public GitHub initGit(String personalAccessToken) throws IOException {
         github = new GitHubBuilder().withOAuthToken(personalAccessToken).build();
         if (!verifyAllPermissionsGranted()) {
             throw new PersonalAccessTokenPermissionException();
         }
+        return github;
     }
 
     private boolean verifyAllPermissionsGranted() throws IOException {
