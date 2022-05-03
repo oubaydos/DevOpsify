@@ -1,4 +1,4 @@
-package com.winchesters.devopsify.controller;
+package com.winchesters.devopsify.controller.project;
 
 import com.winchesters.devopsify.dto.CreateNewProjectDto;
 import com.winchesters.devopsify.dto.ProjectDto;

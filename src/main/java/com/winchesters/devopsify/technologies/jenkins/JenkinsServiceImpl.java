@@ -49,4 +49,9 @@ public class JenkinsServiceImpl implements JenkinsService {
         });
         LOG.info(String.format("jenkins version :%s",systemInfo.jenkinsVersion()));
     }
+
+    @Override
+    public void pingJenkinsServer(String serverUrl) {
+
+    }
 }

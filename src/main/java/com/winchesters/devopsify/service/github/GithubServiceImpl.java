@@ -1,5 +1,6 @@
 package com.winchesters.devopsify.service.github;
 
+import javax.validation.constraints.NotNull;
 import com.winchesters.devopsify.exception.PersonalAccessTokenPermissionException;
 import lombok.AllArgsConstructor;
 import org.kohsuke.github.GitHub;
@@ -7,25 +8,35 @@ import org.kohsuke.github.GitHubBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
-
+@Validated
 @Service
 @Transactional
-public class GithubServiceImpl implements  GithubService{
+public class GithubServiceImpl implements GithubService {
 
     private static final Logger LOG = LoggerFactory.getLogger(GithubServiceImpl.class);
-    private GitHub github;
+    protected GitHub github;
 
+    @Autowired
+    ApplicationContext context;
 
     @Override
-    public GitHub initGit(String personalAccessToken) throws IOException {
-        github = new GitHubBuilder().withOAuthToken(personalAccessToken).build();
+    public GitHub connectToGithub(@NotNull @NotEmpty String personalAccessToken) throws IOException {
+        LOG.debug("is empty ? {}",personalAccessToken.isEmpty());
+        if (github != null) return github;
+//        github = new GitHubBuilder().withOAuthToken(personalAccessToken).build();
+        context.getBean(GithubServiceImpl.class).github = new GitHubBuilder().withOAuthToken(personalAccessToken).build();
+        github = context.getBean(GithubServiceImpl.class).github;
         if (!verifyAllPermissionsGranted()) {
             throw new PersonalAccessTokenPermissionException();
         }
@@ -33,17 +44,21 @@ public class GithubServiceImpl implements  GithubService{
     }
 
     private boolean verifyAllPermissionsGranted() throws IOException {
-        if (github != null) {
-            if (github.getMyself() != null) {
-                if (github.getMyself().getResponseHeaderFields() != null) {
-                    if (github.getMyself().getResponseHeaderFields().get("x-oauth-scopes") != null) {
-                        List<String> temp = Arrays.asList(github.getMyself().getResponseHeaderFields().get("x-oauth-scopes").get(0).split("\\s*,\\s*"));
-                        LOG.debug("x-oauth-scopes : {}", temp);
-                        return temp.containsAll(allPermissions);
-                    }
-                }
-            }
+        if (github != null &&
+                github.getMyself() != null &&
+                github.getMyself().getResponseHeaderFields() != null &&
+                github.getMyself().getResponseHeaderFields().get("x-oauth-scopes") != null
+        ) {
+            List<String> temp = Arrays.asList(
+                    github.getMyself().getResponseHeaderFields()
+                            .get("x-oauth-scopes")
+                            .get(0)
+                            .split("\\s*,\\s*")
+            );
+            LOG.debug("x-oauth-scopes : {}", temp);
+            return temp.containsAll(allPermissions);
         }
+
         return false;
     }
 
