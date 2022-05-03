@@ -27,6 +27,10 @@ public class GithubRepositoryImpl implements GithubRepository {
                 .licenseTemplate(githubRepositoryDto.licenseTemplate())
                 .gitignoreTemplate(githubRepositoryDto.gitIgnoreTemplate())
                 .owner(githubRepositoryDto.owner())
+                .description(githubRepositoryDto.description())
+                .visibility(githubRepositoryDto.visibility())
+                .private_(githubRepositoryDto.private_())
+
                 .create();
     }
 }
