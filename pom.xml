@@ -76,6 +76,13 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/com.vladmihalcea/hibernate-types-52 -->
+        <dependency>
+            <groupId>com.vladmihalcea</groupId>
+            <artifactId>hibernate-types-52</artifactId>
+            <version>2.16.1</version>
+        </dependency>
+
 
     </dependencies>
 
