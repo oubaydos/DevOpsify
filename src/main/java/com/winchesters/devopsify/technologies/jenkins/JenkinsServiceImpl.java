@@ -14,12 +14,12 @@ import java.io.IOException;
 public class JenkinsServiceImpl implements JenkinsService {
 
     private final Logger LOG = LoggerFactory.getLogger(GitServiceImpl.class);
-    public static void main(String[] args) {
-        JenkinsService jenkinsService = new JenkinsServiceImpl();
-        String jenkinsUrl = "http://188.166.100.241:8080/";
-        jenkinsService.pingJenkinsServer(jenkinsUrl,"benyazidhamza","DoBh8E@?m5Mr4PeB");
-
-    }
+//    public static void main(String[] args) {
+//        JenkinsService jenkinsService = new JenkinsServiceImpl();
+//        String jenkinsUrl = "http://188.166.100.241:8080/";
+//        jenkinsService.pingJenkinsServer(jenkinsUrl,"benyazidhamza","DoBh8E@?m5Mr4PeB");
+//
+//    }
 
     @Override
     public void generateJenkinsFile(File directory) {
