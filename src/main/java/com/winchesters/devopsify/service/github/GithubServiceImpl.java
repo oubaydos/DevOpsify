@@ -1,6 +1,6 @@
 package com.winchesters.devopsify.service.github;
 
-import com.sun.istack.NotNull;
+import javax.validation.constraints.NotNull;
 import com.winchesters.devopsify.exception.PersonalAccessTokenPermissionException;
 import lombok.AllArgsConstructor;
 import org.kohsuke.github.GitHub;
@@ -28,7 +28,6 @@ public class GithubServiceImpl implements GithubService {
 
 
     @Override
-    @Valid
     public GitHub connectToGithub(@NotNull @NotEmpty String personalAccessToken) throws IOException {
         LOG.debug("is empty ? {}",personalAccessToken.isEmpty());
         if (github != null) return github;
