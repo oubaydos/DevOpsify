@@ -8,6 +8,7 @@ import org.kohsuke.github.GitHubBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,12 +27,16 @@ public class GithubServiceImpl implements GithubService {
     private static final Logger LOG = LoggerFactory.getLogger(GithubServiceImpl.class);
     protected GitHub github;
 
+    @Autowired
+    ApplicationContext context;
 
     @Override
     public GitHub connectToGithub(@NotNull @NotEmpty String personalAccessToken) throws IOException {
         LOG.debug("is empty ? {}",personalAccessToken.isEmpty());
         if (github != null) return github;
-        github = new GitHubBuilder().withOAuthToken(personalAccessToken).build();
+//        github = new GitHubBuilder().withOAuthToken(personalAccessToken).build();
+        context.getBean(GithubServiceImpl.class).github = new GitHubBuilder().withOAuthToken(personalAccessToken).build();
+        github = context.getBean(GithubServiceImpl.class).github;
         if (!verifyAllPermissionsGranted()) {
             throw new PersonalAccessTokenPermissionException();
         }
