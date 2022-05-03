@@ -7,13 +7,14 @@ services:
     ports:
       - 8080:8080
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/devopsify
+        - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/devopsify
+        - SPRING_DATASOURCE_USERNAME=devopsify
+        - SPRING_DATASOURCE_PASSWORD=12345678
+        - SPRING_JPA_HIBERNATE_DDL_AUTO=update
     depends_on:
       - db
   db:
     image: postgres
-    ports:
-      - 5432:5432
     environment:
       - POSTGRES_PASSWORD=12345678
       - POSTGRES_USER=devopsify
