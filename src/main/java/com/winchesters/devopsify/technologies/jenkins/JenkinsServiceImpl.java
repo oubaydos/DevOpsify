@@ -17,4 +17,9 @@ public class JenkinsServiceImpl implements JenkinsService{
                 e.printStackTrace();
             }
     }
+
+    @Override
+    public void pingJenkinsServer(String serverUrl) {
+
+    }
 }
