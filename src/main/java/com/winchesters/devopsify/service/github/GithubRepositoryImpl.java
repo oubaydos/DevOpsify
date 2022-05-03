@@ -1,12 +1,13 @@
 package com.winchesters.devopsify.service.github;
 
-import com.sun.istack.NotNull;
+import com.winchesters.devopsify.dto.GithubRepositoryDto;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.kohsuke.github.GHRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.util.Optional;
 
@@ -14,22 +15,18 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Transactional
 public class GithubRepositoryImpl implements GithubRepository {
-    private final GithubServiceImpl githubServiceImpl;
+    private final GithubServiceImpl githubService;
 
     @Override
     public GHRepository createRepository(@NotNull String personalAccessToken,
-                                         @NonNull String name,
-                                         Boolean autoInit,
-                                         String licenseTemplate,
-                                         String gitIgnoreTemplate,
-                                         String owner
+                                         GithubRepositoryDto githubRepositoryDto
     ) throws IOException {
-        githubServiceImpl.connectToGithub(personalAccessToken);
-        return githubServiceImpl.github.createRepository(name)
-                .autoInit(Optional.ofNullable(autoInit).orElse(false))
-                .licenseTemplate(licenseTemplate)
-                .gitignoreTemplate(gitIgnoreTemplate)
-                .owner(owner)
+        githubService.connectToGithub(personalAccessToken);
+        return githubService.github.createRepository(githubRepositoryDto.name())
+                .autoInit(Optional.ofNullable(githubRepositoryDto.autoInit()).orElse(false))
+                .licenseTemplate(githubRepositoryDto.licenseTemplate())
+                .gitignoreTemplate(githubRepositoryDto.gitIgnoreTemplate())
+                .owner(githubRepositoryDto.owner())
                 .create();
     }
 }

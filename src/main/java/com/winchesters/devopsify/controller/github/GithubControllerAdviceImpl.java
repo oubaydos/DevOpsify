@@ -28,7 +28,7 @@ public class GithubControllerAdviceImpl implements GithubControllerAdvice{
     public ResponseEntity<GithubException> handleException(
             HttpException exception
     ) {
-        return handleGithubException(HttpStatus.UNAUTHORIZED.value(), new GithubException(exception));
+        return handleGithubException(exception.getResponseCode(), new GithubException(exception));
     }
 
 }
