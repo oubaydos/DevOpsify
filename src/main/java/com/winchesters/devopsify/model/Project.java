@@ -1,6 +1,9 @@
 package com.winchesters.devopsify.model;
 
+import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
 import lombok.*;
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
 
 import javax.persistence.*;
 
@@ -10,6 +13,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Setter
 @Getter
+@TypeDef(name = "jsonb", typeClass = JsonBinaryType.class)
 public class Project {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -23,6 +27,12 @@ public class Project {
     private Boolean isDockerized;
     private Boolean hasJenkinsFile;
     private Boolean hasTests;
-    private String jenkinsServerUrl;
-    private String nexusServerUrl;
+
+    @Type(type = "json")
+    @Column(columnDefinition = "jsonb")
+    private Server jenkinsServer;
+
+    @Type(type = "json")
+    @Column(columnDefinition = "jsonb")
+    private Server nexusServer;
 }

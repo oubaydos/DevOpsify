@@ -1,4 +1,6 @@
 package com.winchesters.devopsify.technologies.nexus;
 
-public interface NexusService {
+public interface NexusService{
+    void pingNexusServer(String serverUrl);
+
 }

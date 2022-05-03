@@ -1,8 +1,11 @@
 package com.winchesters.devopsify.service;
 
 import com.winchesters.devopsify.dto.CreateNewProjectDto;
+import com.winchesters.devopsify.dto.ProjectDto;
 import com.winchesters.devopsify.exception.ProjectNotFoundException;
+import com.winchesters.devopsify.mapper.EntityToDtoMapper;
 import com.winchesters.devopsify.model.Project;
+import com.winchesters.devopsify.model.Server;
 import com.winchesters.devopsify.repository.ProjectRepository;
 import com.winchesters.devopsify.technologies.git.GitService;
 import lombok.RequiredArgsConstructor;
@@ -15,36 +18,54 @@ import java.util.List;
 @Transactional
 @RequiredArgsConstructor
 public class ProjectService {
-    
+
     private final ProjectRepository projectRepository;
     private final GitService gitService;
 
 
-    public List<Project> listProjects() {
-        return projectRepository.findAll();
+    public List<ProjectDto> listProjects() {
+        return EntityToDtoMapper.ProjectToProjectDto(projectRepository.findAll());
     }
 
-    public Project getProject(Long projectId) {
-        return projectRepository.findById(projectId)
-                .orElseThrow(ProjectNotFoundException::new);
-    }
-
-    public Project createNewProject(CreateNewProjectDto createNewProjectDto) {
-        Project project = new Project();
-        project.setName(createNewProjectDto.name());
-        project.setLocalRepoPath(
-                createNewProjectDto.location()+"/"+createNewProjectDto.name()
+    public ProjectDto getProject(Long projectId) {
+        return EntityToDtoMapper.ProjectToProjectDto(
+                projectRepository.findById(projectId)
+                        .orElseThrow(ProjectNotFoundException::new)
         );
-        if(createNewProjectDto.initGitRepository()) {
+    }
+
+    public ProjectDto createNewProject(CreateNewProjectDto createNewProjectDto) {
+        Project project = new Project();
+        project.setName(createNewProjectDto.getName());
+        project.setLocalRepoPath(
+                createNewProjectDto.getLocation() + "/" + createNewProjectDto.getName()
+        );
+        if (createNewProjectDto.isInitGitRepository()) {
             gitService.initializeRepository(project.getLocalRepoPath());
             project.setIsGitInitialized(true);
-        }else{
+        } else {
             project.setIsGitInitialized(false);
         }
         project.setIsMavenProject(false);
         project.setHasJenkinsFile(false);
         project.setIsDockerized(false);
 
-        return projectRepository.save(project);
+        return EntityToDtoMapper.ProjectToProjectDto(projectRepository.save(project));
+    }
+
+    @Transactional
+    public void setJenkinsServer(Long projectId, Server jenkinsServer) {
+        Project project = projectRepository.findById(projectId)
+                .orElseThrow(ProjectNotFoundException::new);
+        //TODO: encode password before saving it
+        project.setJenkinsServer(jenkinsServer);
+    }
+
+    @Transactional
+    public void setNexusServer(Long projectId, Server nexusServer) {
+        Project project = projectRepository.findById(projectId)
+                .orElseThrow(ProjectNotFoundException::new);
+        //TODO: encode password before saving it
+        project.setNexusServer(nexusServer);
     }
 }
