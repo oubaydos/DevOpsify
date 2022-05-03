@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 
-@Validated
 @RestController
 @RequestMapping(path = "api/v1/github")
 @RequiredArgsConstructor
@@ -26,6 +25,6 @@ public class GithubController {
     private void connect(@RequestHeader String personalAccessToken) throws IOException {
         LOG.debug("connect request: {}", personalAccessToken);
         GitHub gitHub = githubService.connectToGithub(personalAccessToken);
-        LOG.debug("connect response: {}", gitHub.toString());
+        LOG.debug("connect response: {}", String.valueOf(gitHub));
     }
 }

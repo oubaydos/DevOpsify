@@ -1,7 +1,9 @@
 package com.winchesters.devopsify.controller.github;
 
 
+import com.winchesters.devopsify.exception.GithubException;
 import com.winchesters.devopsify.exception.PersonalAccessTokenPermissionException;
+import org.kohsuke.github.HttpException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.Ordered;
@@ -21,6 +23,12 @@ public class GithubControllerAdviceImpl implements GithubControllerAdvice{
             PersonalAccessTokenPermissionException exception
     ) {
         return handleGithubException(HttpStatus.UNAUTHORIZED.value(), exception);
+    }
+    @ExceptionHandler(HttpException.class)
+    public ResponseEntity<GithubException> handleException(
+            HttpException exception
+    ) {
+        return handleGithubException(HttpStatus.UNAUTHORIZED.value(), new GithubException(exception));
     }
 
 }
