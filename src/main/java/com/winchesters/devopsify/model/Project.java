@@ -1,6 +1,7 @@
 package com.winchesters.devopsify.model;
 
 import lombok.*;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 
@@ -23,6 +24,12 @@ public class Project {
     private Boolean isDockerized;
     private Boolean hasJenkinsFile;
     private Boolean hasTests;
-    private String jenkinsServerUrl;
-    private String nexusServerUrl;
+
+    @Type(type = "json")
+    @Column(columnDefinition = "jsonb")
+    private Server jenkinsServer;
+
+    @Type(type = "json")
+    @Column(columnDefinition = "jsonb")
+    private Server nexusServer;
 }
