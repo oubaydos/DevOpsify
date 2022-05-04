@@ -10,5 +10,7 @@ public interface DockerService extends TechnologyService {
 
     void generateDockerFile(File directory);
 
+    void installDockerCompose();
+    void installDocker();
 
 }

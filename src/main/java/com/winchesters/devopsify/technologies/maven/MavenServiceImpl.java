@@ -6,4 +6,9 @@ public class MavenServiceImpl implements MavenService{
     public boolean installed() {
         return installed("maven");
     }
+
+    @Override
+    public void install() {
+        installFromScript("maven/maven_install.sh");
+    }
 }

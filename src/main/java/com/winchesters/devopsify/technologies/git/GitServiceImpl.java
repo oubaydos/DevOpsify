@@ -27,6 +27,11 @@ public class GitServiceImpl implements GitService{
     }
 
     @Override
+    public void install() {
+        installFromScript("git/git_install.sh");
+    }
+
+    @Override
     public void initializeRepository(String path) throws GitException {
         try {
             if(!installed()) throw new GitNotInstalledException();

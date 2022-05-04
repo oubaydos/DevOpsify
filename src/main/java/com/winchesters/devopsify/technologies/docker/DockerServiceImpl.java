@@ -7,8 +7,7 @@ import java.io.IOException;
 public class DockerServiceImpl implements DockerService {
 
     public static void main(String[] args){
-        DockerService dockerService = new DockerServiceImpl();
-        dockerService.generateDockerFile(new File("/home/hamza/test"));
+//        DockerService dockerService = new DockerServiceImpl();
     }
 
     @Override
@@ -20,6 +19,12 @@ public class DockerServiceImpl implements DockerService {
     public boolean dockerComposeInstalled() {
         return installed("docker-compose");
     }
+
+    @Override
+    public boolean installed() {
+        return this.dockerComposeInstalled() && this.dockerInstalled();
+    }
+
 
     @Override
     public void generateDockerFile(File directory) {
@@ -35,7 +40,21 @@ public class DockerServiceImpl implements DockerService {
     }
 
     @Override
-    public boolean installed() {
-        return this.dockerComposeInstalled() && this.dockerInstalled();
+    public void installDockerCompose() {
+        this.installFromScript("docker/docker_compose_install.sh");
+
     }
+
+    @Override
+    public void installDocker() {
+        this.installFromScript("docker/docker_install.sh");
+    }
+
+    @Override
+    public void install() {
+        installDocker();
+        installDockerCompose();
+    }
+
+
 }
