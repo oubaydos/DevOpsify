@@ -7,6 +7,7 @@ import org.hibernate.annotations.TypeDef;
 
 import javax.persistence.*;
 
+
 @Entity
 @Table
 @NoArgsConstructor
@@ -28,11 +29,11 @@ public class Project {
     private Boolean hasJenkinsFile;
     private Boolean hasTests;
 
-    @Type(type = "json")
+    @Type(type = "jsonb")
     @Column(columnDefinition = "jsonb")
     private Server jenkinsServer;
 
-    @Type(type = "json")
+    @Type(type = "jsonb")
     @Column(columnDefinition = "jsonb")
     private Server nexusServer;
 }

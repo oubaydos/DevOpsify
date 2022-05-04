@@ -36,11 +36,11 @@ public class ProjectService {
 
     public ProjectDto createNewProject(CreateNewProjectDto createNewProjectDto) {
         Project project = new Project();
-        project.setName(createNewProjectDto.getName());
+        project.setName(createNewProjectDto.name());
         project.setLocalRepoPath(
-                createNewProjectDto.getLocation() + "/" + createNewProjectDto.getName()
+                createNewProjectDto.location() + "/" + createNewProjectDto.name()
         );
-        if (createNewProjectDto.isInitGitRepository()) {
+        if (createNewProjectDto.initGitRepository()) {
             gitService.initializeRepository(project.getLocalRepoPath());
             project.setIsGitInitialized(true);
         } else {
