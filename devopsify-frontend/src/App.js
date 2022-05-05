@@ -1,10 +1,8 @@
-import './css/App.css';
-
+import './css/fonts.css';
+import Temp from "./components/shared/header/Header";
 function App() {
   return (
-    <div className="App">
-      <h1>working</h1>
-    </div>
+    <Temp />
   );
 }
 
