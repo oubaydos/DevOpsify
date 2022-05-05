@@ -1,6 +1,7 @@
 package com.winchesters.devopsify.model;
 
 
+import com.winchesters.devopsify.security.ApplicationUserRole;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,4 +22,7 @@ public class User {
     private String username;
     private String email;
     private String password;
+
+    @Enumerated(EnumType.STRING)
+    private ApplicationUserRole role;
 }
