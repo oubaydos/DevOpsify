@@ -6,9 +6,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public enum ApplicationUserRole {
-    ADMIN(Set.of()),
-    CONTRIBUTOR(Set.of()),
-    CLIENT(Set.of());
+    ADMIN(Set.of());
 
     private final Set<ApplicationUserPermission> permissions;
 

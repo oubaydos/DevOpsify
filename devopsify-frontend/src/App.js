@@ -3,6 +3,7 @@ import './css/fonts.css';
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import NavBar from "./components/NavBar/NavBar";
 import "@fontsource/inter";
+import Footer from "./components/shared/footer/Footer"
 
 const theme = createTheme({
   typography: {
@@ -30,7 +31,7 @@ function App() {
     <ThemeProvider theme={theme}>
       <div className="App">
         <NavBar />
-        <Temp />
+        <Footer />
       </div>
     </ThemeProvider>
   );
