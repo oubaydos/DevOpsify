@@ -1,4 +1,5 @@
 import "./css/App.css";
+import './css/fonts.css';
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import NavBar from "./components/NavBar/NavBar";
 import "@fontsource/inter";
@@ -29,6 +30,7 @@ function App() {
     <ThemeProvider theme={theme}>
       <div className="App">
         <NavBar />
+        <Temp />
       </div>
     </ThemeProvider>
   );
