@@ -27,7 +27,7 @@ public class ProjectController {
     }
 
     @PostMapping
-    public ProjectDto createNewProject(@RequestBody CreateNewProjectDto createNewProjectDto){
+    public ProjectDto createNewProject(@ModelAttribute CreateNewProjectDto createNewProjectDto){
         return projectService.createNewProject(createNewProjectDto);
     }
 

@@ -104,13 +104,13 @@ const ResponsiveAppBar = () => {
           >
             DevOpsify
           </Typography>
-          <Box sx={{ flexGrow: 10, display: { xs: 'none', md: 'flex' } }}>
+          <Box sx={{ flexGrow: 2, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
               <Button
                 color='grey'
                 key={page}
                 onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'grey', display: 'block' }}
+                sx={{ my: 2,mx:1,px:3, color: 'grey', display: 'block' }}
               >
                 {page}
               </Button>

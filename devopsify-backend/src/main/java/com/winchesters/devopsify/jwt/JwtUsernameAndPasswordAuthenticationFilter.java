@@ -3,7 +3,6 @@ package com.winchesters.devopsify.jwt;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
-import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -18,11 +17,19 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Date;
 
-@RequiredArgsConstructor
 public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     private final AuthenticationManager authenticationManager;
     private final JwtConfig jwtConfig;
+
+    public JwtUsernameAndPasswordAuthenticationFilter(AuthenticationManager authenticationManager, JwtConfig jwtConfig) {
+
+        this.authenticationManager = authenticationManager;
+        this.jwtConfig = jwtConfig;
+
+        //this is line changes the login url from "/login" to "/api/v1/login"
+        this.setFilterProcessesUrl("/api/v1/login");
+    }
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request,

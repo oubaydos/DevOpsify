@@ -1,4 +1,5 @@
-import React from "react";
+import {React,useState} from "react";
+import {createNewProject} from "../../service/projectService"
 import {
   TextField,
   FormControlLabel,
@@ -17,111 +18,148 @@ const styles = {
   },
 };
 
-const CreateNewProjectForm = () => (
-  <form>
-    <Grid container direction="column">
-      <Grid item style={styles.formItem}>
-        <FormControlLabel
-          fullWidth
-          label="Project name"
-          control={
-            <TextField
-              style={styles.labeled}
-              required
-              id="create-new-project-name"
-              defaultValue="hello-world"
-              color="secondary"
-              size="small"
-            />
-          }
-          labelPlacement="start"
-        />
-      </Grid>
-      <Grid item style={styles.formItem}>
-        <FormControlLabel
-          label="Project Location"
-          control={
-            <TextField
-              fullWidth
-              style={styles.labeled}
-              required
-              id="create-new-project-location"
-              defaultValue=""
-              color="secondary"
-              size="small"
-            />
-          }
-          labelPlacement="start"
-        />
-      </Grid>
-      <Grid item style={styles.formItem}>
-        <FormControlLabel
-          control={<Checkbox defaultChecked color="success" />}
-          label="Create Git repository"
-        />
-      </Grid>
-      <Grid item style={styles.formItem}>
-        <FormControlLabel
-          label="Build System"
-          control={
-            <TextField
-              style={styles.labeled}
-              required
-              disabled
-              id="create-new-project-build-system"
-              defaultValue="maven"
-              color="secondary"
-              size="small"
-            />
-          }
-          labelPlacement="start"
-        />
-      </Grid>
-      <Grid item style={styles.formItem}>
-        <FormControlLabel
-          label="Language"
-          control={
-            <TextField
-              style={styles.labeled}
-              required
-              disabled
-              id="create-new-project-langauge"
-              defaultValue="Java"
-              color="secondary"
-              size="small"
-            />
-          }
-          labelPlacement="start"
-        />
-      </Grid>
-      <Grid item style={styles.formItem}>
-        <FormControlLabel
-          label="JDK"
-          control={
-            <TextField
-              style={styles.labeled}
-              disabled
-              required
-              id="create-new-project-jdk"
-              defaultValue="17"
-              color="secondary"
-              size="small"
-            />
-          }
-          labelPlacement="start"
-        />
-      </Grid>
-      <Grid item style={styles.formItem}>
-        <Button variant="contained" color="secondary">
-          Create
-        </Button>
-      </Grid>
-    </Grid>
-  </form>
-);
+const defaultValues = {
+  name: "hello-world",
+  location: "",
+  initGitRepository: true,
+  language: "Java",
+  buildSystem: "Maven",
+  JDK: "17",
+};
 
-CreateNewProjectForm.propTypes = {};
+const CreateNewProjectForm = () => {
+  const [formValues, setFormValues] = useState(defaultValues);
 
-CreateNewProjectForm.defaultProps = {};
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    createNewProject(event);
+    // console.log(formValues);
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormValues({
+      ...formValues,
+      [name]: value,
+    });
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <Grid container direction="column">
+        <Grid item style={styles.formItem}>
+          <FormControlLabel
+            label="Project name"
+            control={
+              <TextField
+                name="name"
+                style={styles.labeled}
+                required
+                id="create-new-project-name"
+                defaultValue={defaultValues.name}
+                color="secondary"
+                size="small"
+                onChange={handleInputChange}
+              />
+            }
+            labelPlacement="start"
+          />
+        </Grid>
+        <Grid item style={styles.formItem}>
+          <FormControlLabel
+            label="Project Location"
+            control={
+              <TextField
+                name="location"
+                style={styles.labeled}
+                required
+                id="create-new-project-location"
+                defaultValue={defaultValues.location}
+                color="secondary"
+                size="small"
+                onChange={handleInputChange}
+              />
+            }
+            labelPlacement="start"
+          />
+        </Grid>
+        <Grid item style={styles.formItem}>
+          <FormControlLabel
+            control={
+              <Checkbox
+                name="initGitRepository"
+                defaultChecked={defaultValues.initGitRepository}
+                color="success"
+                onChange={handleInputChange}
+              />
+            }
+            label="Create Git repository"
+          />
+        </Grid>
+        <Grid item style={styles.formItem}>
+          <FormControlLabel
+            label="Build System"
+            control={
+              <TextField
+                name="buildSystem"
+                style={styles.labeled}
+                required
+                disabled
+                id="create-new-project-build-system"
+                defaultValue={defaultValues.buildSystem}
+                color="secondary"
+                size="small"
+                onChange={handleInputChange}
+              />
+            }
+            labelPlacement="start"
+          />
+        </Grid>
+        <Grid item style={styles.formItem}>
+          <FormControlLabel
+            name="language"
+            label="Language"
+            control={
+              <TextField
+                style={styles.labeled}
+                required
+                disabled
+                id="create-new-project-langauge"
+                defaultValue={defaultValues.language}
+                color="secondary"
+                size="small"
+                onChange={handleInputChange}
+              />
+            }
+            labelPlacement="start"
+          />
+        </Grid>
+        <Grid item style={styles.formItem}>
+          <FormControlLabel
+            label="JDK"
+            control={
+              <TextField
+                name="jdk"
+                style={styles.labeled}
+                disabled
+                required
+                id="create-new-project-jdk"
+                defaultValue={defaultValues.JDK}
+                color="secondary"
+                size="small"
+              />
+            }
+            labelPlacement="start"
+          />
+        </Grid>
+        <Grid item style={styles.formItem}>
+          <Button variant="contained" color="secondary" type="submit">
+            Create
+          </Button>
+        </Grid>
+      </Grid>
+    </form>
+  );
+};
 
 export default CreateNewProjectForm;
