@@ -5,6 +5,7 @@ import NavBar from "./components/NavBar/NavBar";
 import "@fontsource/inter";
 import Footer from "./components/shared/footer/Footer"
 import CreateNewProjectForm from "./components/CreateNewProjectForm/CreateNewProjectForm"
+import SignIn from "./components/loginForm/SignIn";
 
 const theme = createTheme({
   typography: {
@@ -32,7 +33,7 @@ function App() {
     <ThemeProvider theme={theme}>
       <div className="App">
         <NavBar />
-        <CreateNewProjectForm/>
+        <SignIn/>
         <Footer />
       </div>
     </ThemeProvider>

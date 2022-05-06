@@ -4,12 +4,12 @@ import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
 import Container from '@mui/material/Container';
 
-function Copyright(props) {
+export function Copyright(props) {
     return (
         <Typography variant="body2" color="text.secondary" align="center" {...props}>
             {'Copyright © '}
             <Link color="inherit" href="https://mui.com/">
-                Your Website
+                DevOpsify
             </Link>{' '}
             {new Date().getFullYear()}
             {'.'}
@@ -18,28 +18,23 @@ function Copyright(props) {
 }
 
 const footers = [
-    {
-        title: 'Company',
-        description: ['Team', 'History', 'Contact us', 'Locations'],
-    },
-    {
-        title: 'Features',
-        description: [
-            'Cool stuff',
-            'Random feature',
-            'Team feature',
-            'Developer stuff',
-            'Another one',
-        ],
-    },
-    {
-        title: 'Resources',
-        description: ['Resource', 'Resource name', 'Another resource', 'Final resource'],
-    },
-    {
-        title: 'Legal',
-        description: ['Privacy policy', 'Terms of use'],
-    },
+    // {
+    //     // title: 'Company',
+    //     description: ['Team', 'History', 'Contact us', 'Locations'],
+    // },
+    // {
+    //     description: [
+    //         'Contact Us',
+    //     ],
+    // },
+    // {
+    //     title: 'Resources',
+    //     description: ['Resource', 'Resource name', 'Another resource', 'Final resource'],
+    // },
+    // {
+    //     title: 'Legal',
+    //     description: ['Privacy policy', 'Terms of use'],
+    // },
 ];
 
 function PricingContent() {
