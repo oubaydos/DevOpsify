@@ -1,6 +1,7 @@
 import axios from "axios";
 import configData from "../config.json";
-import {getCookie, goto} from "../utils/utils";
+import {goto} from "../utils/utils";
+import { setCookie, withCookies, Cookies } from "react-cookie";
 
 const endpoint = configData.SERVER_URL+"/login";
 
@@ -24,15 +25,8 @@ export function login(event, setSuccessful) {
     }).then(
         (res) => {
             // TODO : setCookies
-            // let resData = extractRoleAndJWT(res.data);
-            // localStorage.setItem("currentUser", resData[1]);
-            // if (resData[0] === "ROLE_COACH") {
-            //     localStorage.setItem("isMentee", "false");
-            // } else if (resData[0] === "ROLE_CLIENT") {
-            //     localStorage.setItem("isMentee", "true");
-            // } else if (resData[0] === "ROLE_SUPERUSER") {
-            //     localStorage.setItem("isAdmin", "true");
-            // }
+            console.log(res.headers["Authorization"])
+            setCookie("Authorization",res.headers["Authorization"])
             setSuccessful(true);
             console.log(res.data);
             goto("/");

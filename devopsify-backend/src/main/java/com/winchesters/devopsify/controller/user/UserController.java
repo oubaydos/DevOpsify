@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping(path = "/user")
@@ -17,10 +16,6 @@ public class UserController {
 
     private final UserService userService;
 
-    @GetMapping()
-    public Map<String,String> authenticatedUser(){
-        return userService.getAuthenticatedUser();
-    }
     @GetMapping(path ="users")
     public List<UserResponseDto> getUsers(){
         return userService.getUsers();
