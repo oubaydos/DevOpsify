@@ -3,18 +3,16 @@ import configData from "../config.json";
 
 const endpoint = configData.SERVER_URL+"/project";
 
-export function createNewProject(event) {
-    const data = new FormData(event.currentTarget);
-    for (let i of data.entries())
-        console.log(i);
-    console.log(data)
+export function createNewProject(formValues) {
+
+    console.log(formValues)
 
 
-    axios.post(`${endpoint}`, data
+    axios.post(`${endpoint}`, formValues
         , {
-            headers: {
-                "Authorization": `${localStorage.getItem("currentUser")}`
-            }
+            // headers: {
+            //     "Authorization": `${localStorage.getItem("currentUser")}`
+            // }
         }
     ).then(
         (res) => {

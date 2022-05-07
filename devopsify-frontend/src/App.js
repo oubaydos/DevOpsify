@@ -33,7 +33,7 @@ function App() {
     <ThemeProvider theme={theme}>
       <div className="App">
         <NavBar />
-        <SignIn/>
+        <CreateNewProjectForm/>
         <Footer />
       </div>
     </ThemeProvider>

@@ -32,8 +32,7 @@ const CreateNewProjectForm = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    createNewProject(event);
-    // console.log(formValues);
+    createNewProject(formValues);
   };
 
   const handleInputChange = (e) => {
@@ -41,6 +40,13 @@ const CreateNewProjectForm = () => {
     setFormValues({
       ...formValues,
       [name]: value,
+    });
+  };
+  const handleCheckboxChange = (e) => {
+    const { name, checked } = e.target;
+    setFormValues({
+      ...formValues,
+      [name]: checked,
     });
   };
 
@@ -90,7 +96,7 @@ const CreateNewProjectForm = () => {
                 name="initGitRepository"
                 defaultChecked={defaultValues.initGitRepository}
                 color="success"
-                onChange={handleInputChange}
+                onChange={handleCheckboxChange}
               />
             }
             label="Create Git repository"

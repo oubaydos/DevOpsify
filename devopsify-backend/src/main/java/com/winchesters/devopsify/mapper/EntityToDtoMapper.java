@@ -1,7 +1,9 @@
 package com.winchesters.devopsify.mapper;
 
 import com.winchesters.devopsify.dto.ProjectDto;
+import com.winchesters.devopsify.dto.UserResponseDto;
 import com.winchesters.devopsify.model.Project;
+import com.winchesters.devopsify.model.User;
 
 import java.util.Collection;
 import java.util.List;
@@ -22,12 +24,24 @@ public class EntityToDtoMapper {
                 project.getIsDockerized(),
                 project.getHasJenkinsFile(),
                 project.getHasTests(),
-                project.getJenkinsServer().getUrl(),
-                project.getNexusServer().getUrl()
+                (project.getJenkinsServer()!=null)?project.getJenkinsServer().getUrl():null,
+                (project.getNexusServer()!=null)?project.getNexusServer().getUrl():null
         );
     }
 
     public static List<ProjectDto> ProjectToProjectDto(Collection<Project> projects) {
         return projects.stream().map(EntityToDtoMapper::ProjectToProjectDto).collect(Collectors.toList());
+    }
+
+    public static UserResponseDto userToUserResponseDto(User user) {
+        return new UserResponseDto(
+                user.getUserId(),
+                user.getUsername(),
+                user.getEmail()
+        );
+    }
+    public static List<UserResponseDto> userToUserResponseDto(Collection<User> users) {
+        return users.stream().map(EntityToDtoMapper::userToUserResponseDto).collect(Collectors.toList());
+
     }
 }
