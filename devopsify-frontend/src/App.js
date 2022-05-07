@@ -14,6 +14,7 @@ import { getAuthenticatedUser } from "./api/authService";
 import { useState,useEffect } from "react";
 import SignUp from "./components/signupForm/SignUp";
 import colors from "./utils/colors.json";
+import ConnectToGithub from "./components/ConnectToGithub/ConnectToGithub"
 
 
 const theme = createTheme({
@@ -110,8 +111,8 @@ function App() {
           <Router>
             <div className="body">
               <NavBar />
-              {/* <Sidebar/> */}
-              {getRoutes()}
+              <ConnectToGithub/>
+              {/* {getRoutes()} */}
               <Footer />
             </div>
           </Router>
