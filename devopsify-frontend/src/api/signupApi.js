@@ -1,20 +1,22 @@
 import axios from "axios";
 import configData from "../config.json";
-import {setCookie, goto} from "../utils/utils";
+import {getCookie, goto} from "../utils/utils";
 
-const endpoint = configData.SERVER_URL+"/login";
+const endpoint = configData.SERVER_URL+"/user/signup";
 
-export function login(event, setSuccessful) {
+export function signup(event, setSuccessful) {
     console.log(event.currentTarget)
     const data = new FormData(event.currentTarget);
-    // eslint-disable-next-line no-console
     console.log({
         username: data.get('username'),
+        email: data.get('email'),
         password: data.get('password'),
     });
     const dataToSend = {
         username: data.get('username'),
-        password: data.get('password')
+        email: data.get('email'),
+        password: data.get('password'),
+        login:'CONTRIBUTOR'
     }
 
     axios.post(`${endpoint}`, dataToSend, {
@@ -23,9 +25,16 @@ export function login(event, setSuccessful) {
         }
     }).then(
         (res) => {
-            // TODO : setCookies
-            console.log(res.headers.authorization)
-            setCookie("Authorization"+configData.COOKIE_SUFFIX,res.headers.authorization,60)
+            // TODO : setCookies -- email verification ?
+            // let resData = extractRoleAndJWT(res.data);
+            // localStorage.setItem("currentUser", resData[1]);
+            // if (resData[0] === "ROLE_COACH") {
+            //     localStorage.setItem("isMentee", "false");
+            // } else if (resData[0] === "ROLE_CLIENT") {
+            //     localStorage.setItem("isMentee", "true");
+            // } else if (resData[0] === "ROLE_SUPERUSER") {
+            //     localStorage.setItem("isAdmin", "true");
+            // }
             setSuccessful(true);
             console.log(res.data);
             goto("/");

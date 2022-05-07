@@ -11,27 +11,28 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import {createTheme, ThemeProvider} from '@mui/material/styles';
+import {createTheme, ThemeProvider, useTheme} from '@mui/material/styles';
 import {useState} from "react";
-import axios from "axios";
 import {login} from "../../api/loginApi";
 
 
-const theme = createTheme({
-    palette: {
-        primary:{
-            main:"#EDEDF0",
-        },
-        secondary:{
-            main:"#000000",
-        },
-        success: {
-            main: "#EDEDF0",
-        }
-    },
-});
+// const theme = createTheme({
+//     palette: {
+//         primary:{
+//             main:"#EDEDF0",
+//         },
+//         secondary:{
+//             main:"#000000",
+//         },
+//         success: {
+//             main: "#EDEDF0",
+//         }
+//     },
+// });
 
 export default function SignIn() {
+    const theme = useTheme();
+
     const [successful, setSuccessful] = useState(false);
 
     const handleSubmit = (event) => {
@@ -59,7 +60,7 @@ export default function SignIn() {
                 }>
                     <
                         Avatar sx={
-                        {m: 1, bgcolor: 'gray'}
+                        {m: 1}
                     }>
                         < LockOutlinedIcon/>
                     <
@@ -77,10 +78,10 @@ export default function SignIn() {
                 }>
                     <
                         TextField margin="normal"
-                                  required fullWidth id="email"
-                                  label="Email Address"
-                                  name="email"
-                                  autoComplete="email"
+                                  required fullWidth id="username"
+                                  label="username"
+                                  name="username"
+                                  autoComplete="username"
                                   color="success"
                                   autoFocus /
                     >
