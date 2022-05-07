@@ -13,6 +13,8 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import {createTheme, ThemeProvider} from '@mui/material/styles';
 import {useState} from "react";
+import axios from "axios";
+import {login} from "../../api/loginApi";
 
 
 const theme = createTheme({
@@ -31,10 +33,14 @@ const theme = createTheme({
 
 export default function SignIn() {
     const [successful, setSuccessful] = useState(false);
-    const handleSubmit = (event) => {
-        alert("submitted")
-    };
 
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        // alert(event.currentTarget)
+        login(event,setSuccessful);
+
+
+    };
     return (<
         ThemeProvider theme={theme}>
         <

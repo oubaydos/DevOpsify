@@ -10,6 +10,7 @@ import javax.persistence.*;
 
 @Entity
 @Table
+// why didnt you use @Data ? TODO
 @NoArgsConstructor
 @AllArgsConstructor
 @Setter
