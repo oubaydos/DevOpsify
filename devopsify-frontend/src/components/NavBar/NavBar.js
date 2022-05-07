@@ -5,12 +5,15 @@ import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
+
 import Container from '@mui/material/Container';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
+
+import MenuIcon from '@mui/icons-material/Menu';
+import LogoutIcon from '@mui/icons-material/Logout';
 
 const pages = ['Home', 'Projects', 'Settings','Profile'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
@@ -34,6 +37,17 @@ const ResponsiveAppBar = () => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+  const handleClickUserMenu = (event) => {
+    console.log(event.target)
+    switch(event.target){
+      case "Logout" : 
+        console.log("logging out...")
+        break; 
+      default : 
+        break;
+    }
+  } 
 
   return (
     <AppBar position="static" className="nav-bar">
@@ -141,8 +155,8 @@ const ResponsiveAppBar = () => {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
+                <MenuItem name={setting} key={setting} onClick={handleClickUserMenu}>
+                  <Typography textAlign="center" >{setting}</Typography>
                 </MenuItem>
               ))}
             </Menu>

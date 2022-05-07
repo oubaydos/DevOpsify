@@ -3,7 +3,7 @@ import configData from "../config.json";
 import {goto} from "../utils/utils";
 
 
-export function login(event, setSuccessful,setCookie) {
+export function login(event,setOpen,setCookie) {
 
     const endpoint = configData.SERVER_URL+"/login";
 
@@ -27,7 +27,8 @@ export function login(event, setSuccessful,setCookie) {
     }).then(
         (res) => {
             setCookie("Authorization",res.headers["authorization"])
-            setSuccessful(true);
+            setOpen(true);
+            goto("/")
         }
         ,
         (err) => {
@@ -43,6 +44,8 @@ export function getAuthenticatedUser(authCookie,setCurrentUser){
 
     const endpoint = configData.SERVER_URL+"/user";
 
+    if(authCookie===undefined) return;
+
     axios.get(`${endpoint}`,  {
         headers: {
             'Authorization': authCookie,
@@ -54,14 +57,7 @@ export function getAuthenticatedUser(authCookie,setCurrentUser){
                 role : res.data["role"]
             })
         }
-        ,
-        (err) => {
-            //TODO : handle error with customized stuff
-            alert("erreur lors de l'authentification, veuillez reentrer vos données, en cas de besoin contacter l'admin");
-            console.error(err);
-        }
     );
-
 }
 
 

@@ -33,9 +33,6 @@ const theme = createTheme({
         grey: {
             main: colors.GREY,
         },
-        success: {
-            main: colors.SUCCESS,
-        }
     },
     components: {
         MuiAvatar: {
