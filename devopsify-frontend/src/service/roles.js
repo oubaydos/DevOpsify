@@ -1,19 +1,19 @@
-import {notNull} from "../utils/utils";
+import {notNull, getCookie} from "../utils/utils";
 
-// TODO : update to use cookies instead of localStorage
 function isContributor() {
-    return localStorage.getItem("isContributor") === "true" 
-        && notNull(localStorage.getItem("currentUser"))
+    return getCookie("isContributor") === "true"
+        && notNull(getCookie("currentUser"))
 }
 
 
 function isAdmin() {
-    return localStorage.getItem("isAdmin") === "true" 
-        && notNull(localStorage.getItem("currentUser"));
+    return getCookie("isAdmin") === "true"
+        && notNull(getCookie("currentUser"));
 }
 
 function isGuest() {
-    return !notNull(localStorage.getItem("currentUser"));
+    // TODO : shouldn't it be else ? without checking anything
+    return !notNull(getCookie("currentUser"));
 }
 
 
