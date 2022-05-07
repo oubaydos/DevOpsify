@@ -16,20 +16,6 @@ import { useState } from "react";
 import { login } from "../../api/authService";
 import { useCookies } from 'react-cookie';
 
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: "#EDEDF0",
-    },
-    secondary: {
-      main: "#000000",
-    },
-    success: {
-      main: "#EDEDF0",
-    },
-  },
-});
-
 export default function SignIn() {
 
   const [successful, setSuccessful] = useState(false);

@@ -8,18 +8,12 @@ import CreateNewProjectForm from "./components/CreateNewProjectForm/CreateNewPro
 import SignIn from "./components/loginForm/SignIn";
 import { BrowserRouter as Router, useRoutes } from "react-router-dom";
 import { Helmet } from "react-helmet";
-import { isContributor, isGuest, isAdmin } from "./service/roles";
-import { useCookies } from "react-cookie";
-import { CookiesProvider } from "react-cookie";
+import { useCookies ,CookiesProvider} from "react-cookie";
 import { getAuthenticatedUser } from "./api/authService";
 import { useState,useEffect } from "react";
-import {BrowserRouter as Router, useRoutes} from "react-router-dom";
-import {Helmet} from "react-helmet";
-import {isContributor, isGuest, isAdmin} from "./service/roles";
 import SignUp from "./components/signupForm/SignUp";
 import colors from "./utils/colors.json";
 
-import {palette} from "@mui/system";
 
 const theme = createTheme({
     typography: {
