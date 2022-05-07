@@ -37,7 +37,8 @@ public class EntityToDtoMapper {
         return new UserResponseDto(
                 user.getUserId(),
                 user.getUsername(),
-                user.getEmail()
+                user.getEmail(),
+                user.getRole().name()
         );
     }
     public static List<UserResponseDto> userToUserResponseDto(Collection<User> users) {

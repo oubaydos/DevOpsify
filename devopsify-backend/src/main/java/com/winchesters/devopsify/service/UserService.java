@@ -8,7 +8,6 @@ import com.winchesters.devopsify.exception.InvalidUsernameException;
 import com.winchesters.devopsify.mapper.EntityToDtoMapper;
 import com.winchesters.devopsify.model.User;
 import com.winchesters.devopsify.repository.UserRepository;
-import com.winchesters.devopsify.security.ApplicationUserRole;
 import com.winchesters.devopsify.security.PasswordConfig;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -17,6 +16,8 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Map;
+
+import static com.winchesters.devopsify.security.ApplicationUserRole.CONTRIBUTOR;
 
 @Transactional
 @RequiredArgsConstructor
@@ -66,7 +67,7 @@ public class UserService {
         user.setUsername(signUpForm.getUsername());
         //TODO: add email validation
         user.setEmail(signUpForm.getEmail());
-        user.setRole(ApplicationUserRole.fromName(signUpForm.getRole()));
+        user.setRole(CONTRIBUTOR);
 
         return EntityToDtoMapper.userToUserResponseDto(userRepository.save(user));
     }
