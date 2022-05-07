@@ -2,7 +2,7 @@ package com.winchesters.devopsify.controller.project;
 
 import com.winchesters.devopsify.dto.CreateNewProjectDto;
 import com.winchesters.devopsify.dto.ProjectDto;
-import com.winchesters.devopsify.model.Server;
+import com.winchesters.devopsify.model.entity.Server;
 import com.winchesters.devopsify.service.ProjectService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,6 +1,6 @@
 package com.winchesters.devopsify.repository;
 
-import com.winchesters.devopsify.model.Project;
+import com.winchesters.devopsify.model.entity.Project;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

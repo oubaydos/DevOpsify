@@ -1,4 +1,4 @@
-package com.winchesters.devopsify.model;
+package com.winchesters.devopsify.model.entity;
 
 
 import com.winchesters.devopsify.security.ApplicationUserRole;

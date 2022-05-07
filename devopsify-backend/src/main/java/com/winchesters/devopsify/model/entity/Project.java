@@ -1,4 +1,4 @@
-package com.winchesters.devopsify.model;
+package com.winchesters.devopsify.model.entity;
 
 import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
 import lombok.*;

@@ -1,6 +1,6 @@
 package com.winchesters.devopsify.auth;
 
-import com.winchesters.devopsify.model.User;
+import com.winchesters.devopsify.model.entity.User;
 import com.winchesters.devopsify.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;

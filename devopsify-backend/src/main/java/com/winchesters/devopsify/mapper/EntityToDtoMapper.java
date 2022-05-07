@@ -2,8 +2,8 @@ package com.winchesters.devopsify.mapper;
 
 import com.winchesters.devopsify.dto.ProjectDto;
 import com.winchesters.devopsify.dto.UserResponseDto;
-import com.winchesters.devopsify.model.Project;
-import com.winchesters.devopsify.model.User;
+import com.winchesters.devopsify.model.entity.Project;
+import com.winchesters.devopsify.model.entity.User;
 
 import java.util.Collection;
 import java.util.List;

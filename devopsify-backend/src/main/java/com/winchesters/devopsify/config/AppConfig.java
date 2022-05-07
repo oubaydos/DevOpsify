@@ -1,6 +1,6 @@
 package com.winchesters.devopsify.config;
 
-import com.winchesters.devopsify.model.User;
+import com.winchesters.devopsify.model.entity.User;
 import com.winchesters.devopsify.repository.UserRepository;
 import com.winchesters.devopsify.security.ApplicationUserRole;
 import lombok.RequiredArgsConstructor;

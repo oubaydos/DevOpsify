@@ -6,7 +6,7 @@ import com.winchesters.devopsify.dto.UserResponseDto;
 import com.winchesters.devopsify.exception.InvalidEmailException;
 import com.winchesters.devopsify.exception.InvalidUsernameException;
 import com.winchesters.devopsify.mapper.EntityToDtoMapper;
-import com.winchesters.devopsify.model.User;
+import com.winchesters.devopsify.model.entity.User;
 import com.winchesters.devopsify.repository.UserRepository;
 import com.winchesters.devopsify.security.PasswordConfig;
 import lombok.RequiredArgsConstructor;

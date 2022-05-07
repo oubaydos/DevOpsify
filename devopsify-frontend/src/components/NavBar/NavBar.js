@@ -5,6 +5,7 @@ import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
+import { styled, useTheme } from "@mui/material/styles";
 
 import Container from '@mui/material/Container';
 import Avatar from '@mui/material/Avatar';
@@ -14,6 +15,7 @@ import MenuItem from '@mui/material/MenuItem';
 
 import MenuIcon from '@mui/icons-material/Menu';
 import LogoutIcon from '@mui/icons-material/Logout';
+import Sidebar from '../Sidebar/Sidebar';
 
 const pages = ['Home', 'Projects', 'Settings','Profile'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
@@ -23,15 +25,19 @@ const ResponsiveAppBar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
-  const handleOpenNavMenu = (event) => {
-    setAnchorElNav(event.currentTarget);
+
+  const [open,setOpen] = React.useState(false);
+
+  const handleOpenNavMenu = () => {
+    setOpen(true)
   };
+  
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
 
   const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
+    setOpen(false);
   };
 
   const handleCloseUserMenu = () => {
@@ -47,10 +53,11 @@ const ResponsiveAppBar = () => {
       default : 
         break;
     }
-  } 
+  }
 
   return (
-    <AppBar position="static" className="nav-bar">
+    <AppBar position="fixed" className="nav-bar">
+      <Sidebar open={open} handleCloseNavMenu={handleCloseNavMenu} />
       <Container maxWidth="xl" >
         <Toolbar disableGutters>
         <IconButton sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex' }}}
@@ -58,7 +65,7 @@ const ResponsiveAppBar = () => {
               // aria-label="account of current user"
               // aria-controls="menu-appbar"
               // aria-haspopup="true"
-              // onClick={handleOpenNavMenu}
+              onClick={handleOpenNavMenu}
               color="inherit"
             >
             <MenuIcon />

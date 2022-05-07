@@ -2,6 +2,7 @@ import "./css/App.css";
 import './css/fonts.css';
 import {createTheme, ThemeProvider, experimental_sx as sx} from "@mui/material/styles";
 import NavBar from "./components/NavBar/NavBar";
+import Sidebar from "./components/Sidebar/Sidebar"
 import "@fontsource/inter";
 import Footer from "./components/shared/footer/Footer";
 import CreateNewProjectForm from "./components/CreateNewProjectForm/CreateNewProjectForm";
@@ -109,6 +110,7 @@ function App() {
           <Router>
             <div className="body">
               <NavBar />
+              {/* <Sidebar/> */}
               {getRoutes()}
               <Footer />
             </div>
