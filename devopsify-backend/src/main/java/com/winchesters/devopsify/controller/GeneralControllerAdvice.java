@@ -1,5 +1,6 @@
 package com.winchesters.devopsify.controller;
 
+import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
 import org.hibernate.exception.ConstraintViolationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,7 +31,8 @@ public class GeneralControllerAdvice {
             ConstraintViolationException.class,
             HttpMessageConversionException.class,
             ValidationException.class,
-            MissingRequestHeaderException.class})
+            MissingRequestHeaderException.class,
+            UnrecognizedPropertyException.class})
     public void handleBadRequest(Exception exception) {
         LOG.debug("Bad request {}", exception.toString());
     }
