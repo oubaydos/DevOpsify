@@ -83,7 +83,7 @@ export default function SignUp() {
                                       label="username"
                                       name="username"
                                       autoComplete="username"
-                                      color="success" /
+                                      color="secondary" /
                         >
 
                     <
@@ -95,7 +95,7 @@ export default function SignUp() {
                                           label="Email Address"
                                           name="email"
                                           autoComplete="email"
-                                          color="success" /
+                                          color="secondary" /
                             >
                         <
         /Grid> <
@@ -106,7 +106,7 @@ export default function SignUp() {
                                       type="password"
                                       id="password"
                                       autoComplete="new-password"
-                                      color="success" /
+                                      color="secondary" /
                         >
                     <
         /Grid>
@@ -116,7 +116,7 @@ export default function SignUp() {
 
 
                            fullWidth variant="contained"
-                           color="success"
+                           color="secondary"
                            sx={
                                {mt: 3, mb: 2}
                            }>
@@ -126,7 +126,7 @@ export default function SignUp() {
                     <
                         Grid item>
                         <
-                            Link href="#"
+                            Link href="/login"
                                  color="#2e7d32"
                                  variant="body2">
                             Already have an account ? Sign in

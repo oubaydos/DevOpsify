@@ -66,10 +66,10 @@ const AdminRoutes = () => useRoutes([
     // {path: "/NewPassword/:userId", element: <NewPassword/>}
 ]);
 const GuestRoutes = () => useRoutes([
-    {path: "/", element: <SignUp/>},
+    {path: "/", element: <SignIn/>},
     // {path: "/profil", element: <Home/>},
-    {path: "/signin", element: <SignIn/>},
-    // {path: "/signup", element: <SignUp/>},
+    {path: "/login", element: <SignIn/>},
+    {path: "/signup", element: <SignUp/>},
     // {path: "/forgotPassword", element: <Forgot/>},
     // {path: "/EmailSent", element: <EmailSent/>},
     // {path: "/NewPassword/:userId", element: <NewPassword/>},

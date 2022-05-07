@@ -16,7 +16,7 @@ export function signup(event, setSuccessful) {
         username: data.get('username'),
         email: data.get('email'),
         password: data.get('password'),
-        login:'CONTRIBUTOR'
+        role:'CONTRIBUTOR'
     }
 
     axios.post(`${endpoint}`, dataToSend, {

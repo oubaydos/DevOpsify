@@ -82,7 +82,7 @@ export default function SignIn() {
                                   label="username"
                                   name="username"
                                   autoComplete="username"
-                                  color="success"
+                                  color="secondary"
                                   autoFocus /
                     >
                         <
@@ -90,20 +90,20 @@ export default function SignIn() {
                                       required fullWidth name="password"
                                       label="Password"
                                       type="password"
-                                      color="success"
+                                      color="secondary"
                                       id="password"
                                       autoComplete="current-password" /
                         >
                             <
                                 FormControlLabel control={< Checkbox value="remember"
-                                                                     color="success" / >
+                                                                     color="secondary" / >
                                 }
                                 label = "Remember me" /
                                 >
                                 <
                                     Button type="submit"
                                            fullWidth variant="contained"
-                                           color="success"
+                                           color="secondary"
                                            sx={
                                                {mt: 3, mb: 2}
                                            }>
