@@ -44,7 +44,7 @@ export default function Sidebar({ handleCloseNavMenu, open }) {
   };
 
   React.useEffect(() => {
-    listProjects(setProjects,projects);
+    listProjects(setProjects, projects);
   }, []);
 
   return (
@@ -114,7 +114,10 @@ export default function Sidebar({ handleCloseNavMenu, open }) {
                       create new project
                     </Typography>
                   }
-                  onClick={()=>{goto("/project/create")}}
+                  onClick={() => {
+                    console.log("create new project clicked");
+                    goto("/project/create");
+                  }}
                 />
               </ListItem>
             </List>

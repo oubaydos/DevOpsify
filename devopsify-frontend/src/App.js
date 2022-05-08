@@ -21,6 +21,7 @@ import colors from "./utils/colors.json";
 import ConnectToGithub from "./components/ConnectToGithub/ConnectToGithub";
 import ProjectList from "./components/ProjectList/ProjectList"
 import Home from "./components/Home/Home";
+import Loading from "./components/Loading/Loading";
 
 const theme = createTheme({
   typography: {
@@ -74,6 +75,7 @@ const GuestRoutes = () =>
     { path: "/", element: <SignIn /> },
     { path: "/login", element: <SignIn /> },
     { path: "/signup", element: <SignUp /> },
+    { path: "/project/create", element: <SignIn /> },
   ]);
 
 function App() {
@@ -93,8 +95,10 @@ function App() {
         return <ContributorRoutes />;
       case "ADMIN":
         return <AdminRoutes />;
-      default:
+      case "GUEST":
         return <GuestRoutes />;
+      default:
+        return <Loading/>;
     }
   };
 
@@ -113,7 +117,6 @@ function App() {
           <Router>
             <div className="body">
               <NavBar />
-
               {getRoutes()}
               <Footer />
             </div>

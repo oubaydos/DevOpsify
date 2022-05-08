@@ -44,7 +44,13 @@ export function getAuthenticatedUser(authCookie,setCurrentUser){
 
     const endpoint = configData.SERVER_URL+"/user";
 
-    if(authCookie===undefined) return;
+    if(authCookie===undefined) {
+        setCurrentUser({
+            role:"GUEST",
+            name :""
+        })
+        return;
+    }
 
     axios.get(`${endpoint}`,  {
         headers: {
@@ -56,6 +62,13 @@ export function getAuthenticatedUser(authCookie,setCurrentUser){
                 username : res.data["username"],
                 role : res.data["role"]
             })
+        },
+        (err)=>{
+            setCurrentUser({
+                role:"GUEST",
+                name :""
+            })
+            return;
         }
     );
 }
