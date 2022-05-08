@@ -27,3 +27,19 @@ export function createNewProject(formValues) {
         }
     );
 }
+
+export function listProjects(setProjects,projects){
+
+    axios.get(`${endpoint}`
+        , {
+            // headers: {
+            //     "Authorization": `${localStorage.getItem("currentUser")}`
+            // }
+        }
+    ).then(
+        (res) => {
+            console.log(res.data)
+            setProjects(res.data);
+        }
+    );
+}

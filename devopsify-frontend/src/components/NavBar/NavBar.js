@@ -16,8 +16,15 @@ import MenuItem from '@mui/material/MenuItem';
 import MenuIcon from '@mui/icons-material/Menu';
 import LogoutIcon from '@mui/icons-material/Logout';
 import Sidebar from '../Sidebar/Sidebar';
+import {goto} from "../../utils/utils"
 
-const pages = ['Home', 'Projects', 'Settings','Profile'];
+const pages = [
+  {name :'Home',path :"/"},
+  {name :'Projects',path :"/project"},
+  {name :'Settings',path :"/settings"},
+  {name :'Profile',path :"/profile"}
+]
+
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 
@@ -54,17 +61,18 @@ const ResponsiveAppBar = () => {
         break;
     }
   }
+  const handleClickNavItem = (page)=>{
+    console.log(page  )
+    goto(page.path)
+  }
 
   return (
-    <AppBar position="fixed" className="nav-bar">
+    <AppBar position="sticky" className="nav-bar">
       <Sidebar open={open} handleCloseNavMenu={handleCloseNavMenu} />
       <Container maxWidth="xl" >
         <Toolbar disableGutters>
         <IconButton sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex' }}}
               size="large"
-              // aria-label="account of current user"
-              // aria-controls="menu-appbar"
-              // aria-haspopup="true"
               onClick={handleOpenNavMenu}
               color="inherit"
             >
@@ -110,8 +118,8 @@ const ResponsiveAppBar = () => {
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
+                <MenuItem key={page.name} onClick={()=>handleClickNavItem(page)}>
+                  <Typography textAlign="center">{page.name}</Typography>
                 </MenuItem>
               ))}
             </Menu>
@@ -129,11 +137,11 @@ const ResponsiveAppBar = () => {
             {pages.map((page) => (
               <Button
                 color='grey'
-                key={page}
-                onClick={handleCloseNavMenu}
+                key={page.name}
+                onClick={()=>handleClickNavItem(page)}
                 sx={{ my: 2,mx:1,px:3, color: 'grey', display: 'block' }}
               >
-                {page}
+                {page.name}
               </Button>
             ))}
           </Box>

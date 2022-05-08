@@ -1,81 +1,79 @@
 import "./css/App.css";
-import './css/fonts.css';
-import {createTheme, ThemeProvider, experimental_sx as sx} from "@mui/material/styles";
+import "./css/fonts.css";
+import {
+  createTheme,
+  ThemeProvider,
+  experimental_sx as sx,
+} from "@mui/material/styles";
 import NavBar from "./components/NavBar/NavBar";
-import Sidebar from "./components/Sidebar/Sidebar"
+import Sidebar from "./components/Sidebar/Sidebar";
 import "@fontsource/inter";
 import Footer from "./components/shared/footer/Footer";
 import CreateNewProjectForm from "./components/CreateNewProjectForm/CreateNewProjectForm";
 import SignIn from "./components/loginForm/SignIn";
 import { BrowserRouter as Router, useRoutes } from "react-router-dom";
 import { Helmet } from "react-helmet";
-import { useCookies ,CookiesProvider} from "react-cookie";
+import { useCookies, CookiesProvider } from "react-cookie";
 import { getAuthenticatedUser } from "./api/authService";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import SignUp from "./components/signupForm/SignUp";
 import colors from "./utils/colors.json";
-import ConnectToGithub from "./components/ConnectToGithub/ConnectToGithub"
-
+import ConnectToGithub from "./components/ConnectToGithub/ConnectToGithub";
+import ProjectList from "./components/ProjectList/ProjectList"
 
 const theme = createTheme({
-    typography: {
-        fontFamily: ["Inter"].join(","),
-        fontSize: 15,
-        button: {
-            textTransform: "none",
-        },
+  typography: {
+    fontFamily: ["Inter"].join(","),
+    fontSize: 15,
+    button: {
+      textTransform: "none",
     },
-    palette: {
-        primary: {
-            main: colors.PRIMARY,
-        },
-        secondary: {
-            main: colors.SECONDARY,
-        },
-        grey: {
-            main: colors.GREY,
-        },
+  },
+  palette: {
+    primary: {
+      main: colors.PRIMARY,
     },
-    components: {
-        MuiAvatar: {
-            styleOverrides: {
-                root: sx({
-                    bgcolor: colors.SECONDARY,
-                }),
-            },
-        },
+    secondary: {
+      main: colors.SECONDARY,
     },
+    grey: {
+      main: colors.GREY,
+    },
+  },
+  components: {
+    MuiAvatar: {
+      styleOverrides: {
+        root: sx({
+          bgcolor: colors.SECONDARY,
+        }),
+      },
+    },
+  },
 });
 
-const ContributorRoutes = () => useRoutes([
+const ContributorRoutes = () =>
+  useRoutes([
+    { path: "/project/create", element: <CreateNewProjectForm /> },
+    { path: "/project", element: <ProjectList/>},
+    { path: "/connect-to-github", element: <ConnectToGithub />},
+    
 
-  {path: "/", element: <CreateNewProjectForm/>},
-  // {path: "/profil", element: <CoachProfil/>},
-  // {path:"/add_offer",element:<AddOffer/>},
-  // {path:"/offers",element:<ConsultOffer/>},
-  // {path:"/offers/clients",element:<MyClient/>},
-  // {path: "/changePassword", element: <ChangePassword/>}
-]);
-const AdminRoutes = () => useRoutes([
-  {path: "/", element: <CreateNewProjectForm/>},
-  // {path: "/profil", element: <AdminProfil/>},
-  // {path: "/changePassword", element: <ChangePassword/>},
-  // {path: "/admin/coaches_documents", element: <CoachList/>},
-  // {path: "/NewPassword/:userId", element: <NewPassword/>}
-]);
-const GuestRoutes = () => useRoutes([
-  {path: "/", element: <SignIn/>},
-  // {path: "/profil", element: <Home/>},
-  {path: "/login", element: <SignIn/>},
-  {path: "/signup", element: <SignUp/>},
-  // {path: "/forgotPassword", element: <Forgot/>},
-  // {path: "/EmailSent", element: <EmailSent/>},
-  // {path: "/NewPassword/:userId", element: <NewPassword/>},
-
-]);
+  ]);
+const AdminRoutes = () =>
+  useRoutes([
+    { path: "/project/create", element: <CreateNewProjectForm /> },
+    { path: "/project", element: <ProjectList/> },
+    { path: "/connect-to-github", element: <ConnectToGithub />},
+  ]);
+const GuestRoutes = () =>
+  useRoutes([
+    { path: "/", element: <SignIn /> },
+    { path: "/login", element: <SignIn /> },
+    { path: "/signup", element: <SignUp /> },
+  ]);
 
 function App() {
-  const [authCookies,setAuthCookie] = useCookies(["Authorization"]);
+  const [authCookies, setAuthCookie] = useCookies(["Authorization"]);
 
   const authenticatedUser = () => {
     getAuthenticatedUser(authCookies.Authorization, setCurrentUser);
@@ -96,9 +94,9 @@ function App() {
     }
   };
 
-  useEffect(()=>{
-    authenticatedUser()
-  }, [])
+  useEffect(() => {
+    authenticatedUser();
+  }, []);
 
   return (
     <CookiesProvider>
@@ -111,8 +109,8 @@ function App() {
           <Router>
             <div className="body">
               <NavBar />
-              <ConnectToGithub/>
-              {/* {getRoutes()} */}
+
+              {getRoutes()}
               <Footer />
             </div>
           </Router>

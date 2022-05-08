@@ -30,7 +30,7 @@ public class ProjectController {
     }
 
     @PostMapping
-    public ProjectDto createNewProject(@ModelAttribute CreateNewProjectDto createNewProjectDto){
+    public ProjectDto createNewProject(@RequestBody CreateNewProjectDto createNewProjectDto){
         return projectService.createNewProject(createNewProjectDto);
     }
 

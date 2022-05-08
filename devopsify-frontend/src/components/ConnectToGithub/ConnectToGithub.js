@@ -36,6 +36,7 @@ const ConnectToGithub = () => {
             width: 200,
             maxHeight: { xs: 200, md: 100 },
             maxWidth: { xs: 200, md: 100 },
+            my:2,
           }}
           alt="github logo"
           src={githubLogo}
@@ -43,6 +44,7 @@ const ConnectToGithub = () => {
         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
           <TextField
             margin="normal"
+            size="small"
             required
             fullWidth
             id="github"
