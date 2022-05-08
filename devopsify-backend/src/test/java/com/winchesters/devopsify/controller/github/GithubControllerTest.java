@@ -1,6 +1,6 @@
 package com.winchesters.devopsify.controller.github;
 
-import com.winchesters.devopsify.controller.GeneralControllerAdvice;
+import com.winchesters.devopsify.controller.GeneralControllerAdviceImpl;
 import com.winchesters.devopsify.service.github.GithubServiceImpl;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -29,7 +29,7 @@ class GithubControllerTest {
     @BeforeEach
     void setUp() {
         mvc = MockMvcBuilders.standaloneSetup(githubController)
-                .setControllerAdvice(new GithubControllerAdviceImpl(),new GeneralControllerAdvice())
+                .setControllerAdvice(new GithubControllerAdviceImpl(),new GeneralControllerAdviceImpl())
                 .build();
     }
     @Test

@@ -1,6 +1,8 @@
 package com.winchesters.devopsify.controller.github;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.winchesters.devopsify.dto.ErrorResponseDto;
 import com.winchesters.devopsify.exception.GithubException;
 import com.winchesters.devopsify.exception.PersonalAccessTokenPermissionException;
 import org.kohsuke.github.HttpException;
@@ -13,22 +15,24 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import static com.winchesters.devopsify.utils.ExceptionJsonFormatter.HttpExceptionToGithubException;
+
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @ControllerAdvice(assignableTypes = GithubController.class)
 public class GithubControllerAdviceImpl implements GithubControllerAdvice{
     private static final Logger LOG = LoggerFactory.getLogger(GithubControllerAdvice.class);
 
     @ExceptionHandler(PersonalAccessTokenPermissionException.class)
-    public ResponseEntity<PersonalAccessTokenPermissionException> handleException(
+    public ResponseEntity<ErrorResponseDto> handleException(
             PersonalAccessTokenPermissionException exception
     ) {
         return handleGithubException(HttpStatus.UNAUTHORIZED.value(), exception);
     }
     @ExceptionHandler(HttpException.class)
-    public ResponseEntity<GithubException> handleException(
+    public ResponseEntity<ErrorResponseDto> handleException(
             HttpException exception
-    ) {
-        return handleGithubException(exception.getResponseCode(), new GithubException(exception));
+    ) throws JsonProcessingException {
+        return handleGithubException(exception.getResponseCode(), HttpExceptionToGithubException(exception));
     }
 
 }
