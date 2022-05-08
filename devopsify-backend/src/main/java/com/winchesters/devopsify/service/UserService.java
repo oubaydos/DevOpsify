@@ -27,14 +27,7 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationFacade authenticationFacade;
     public UserResponseDto getUser() {
-        String username = authenticationFacade.getAuthenticatedUsername();
-
-        if(!username.equals("anonymousUser")){
-            User user = userRepository.findByUsername(username)
-                .orElseThrow(()->new IllegalStateException(String.format("user %s not found",username)));
-            return EntityToDtoMapper.userToUserResponseDto(user);
-        }
-        throw new IllegalStateException("user must be authenticated");
+        return EntityToDtoMapper.userToUserResponseDto(this.getCurrentUser());
     }
 
     public List<UserResponseDto> getUsers() {
@@ -86,14 +79,17 @@ public class UserService {
     }
 
     public void updatePersonalAccessToken(String personalAccessToken) {
-        // TODO
-        // there is a new attribute in the user model
-        // that need to be updated
-        // user : authenticated user
+        User user = this.getCurrentUser();
+        user.setPersonalAccessToken(personalAccessToken);
     }
     public User getCurrentUser(){
-        // TODO
-        // i want the user not the dto
-        return new User();
+        String username = authenticationFacade.getAuthenticatedUsername();
+
+        if(!username.equals("anonymousUser")) {
+            return userRepository.findByUsername(username)
+                    .orElseThrow(() -> new IllegalStateException(String.format("user %s not found", username)));
+        }
+        //TODO : create UserNotAuthenticatedException
+        throw new IllegalStateException("user must be authenticated");
     }
 }
