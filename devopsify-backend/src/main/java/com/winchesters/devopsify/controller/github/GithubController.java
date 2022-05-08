@@ -27,15 +27,11 @@ public class GithubController {
     @PostMapping("/connect")
     @ResponseStatus( HttpStatus.CREATED )
     private void connect(@RequestHeader String personalAccessToken) throws IOException {
-        LOG.debug("connect request: {}", personalAccessToken);
         GitHub gitHub = githubService.connectToGithub(personalAccessToken);
-        LOG.debug("connect response: {}", String.valueOf(gitHub));
     }
     @PostMapping(path = "/create/repository",consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus( HttpStatus.CREATED )
-    private void createRepository(@RequestHeader String personalAccessToken,@Valid @RequestBody GithubRepositoryDto githubRepositoryDto) throws IOException {
-        LOG.debug("connect request: {}", personalAccessToken);
-        GHRepository repository = githubRepository.createRepository(personalAccessToken, githubRepositoryDto);
-        LOG.debug("connect response: {}", String.valueOf(repository));
+    private void createRepository(@Valid @RequestBody GithubRepositoryDto githubRepositoryDto) throws IOException {
+        GHRepository repository = githubRepository.createRepository(githubRepositoryDto);
     }
 }

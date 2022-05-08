@@ -29,14 +29,16 @@ public class AppConfig {
                     "levi",
                     "benyazidhamza969@gmail.com",
                     passwordEncoder.encode(password),
-                    ApplicationUserRole.ADMIN
+                    ApplicationUserRole.ADMIN,
+                    "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"
             );
             User oubaydos = new User(
                     2L,
                     "oubaydos",
                     "oubaydos@gmail.com",
                     passwordEncoder.encode(password),
-                    ApplicationUserRole.CONTRIBUTOR
+                    ApplicationUserRole.CONTRIBUTOR,
+                    "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"
             );
             LOG.info("");
             hamza=userRepository.save(hamza);

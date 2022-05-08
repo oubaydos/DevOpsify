@@ -10,12 +10,10 @@ import java.io.IOException;
 public interface GithubRepository {
     /**
      *  create a new repository in github
-     * @param personalAccessToken personal access token for GitHub account
      * @param githubRepositoryDto an object containing name, owner, autoInit, licenseTemplate, gitIgnoreTemplate attributes
      * @throws IOException : connection problems
      * @return the created repository
      */
-    GHRepository createRepository(@NotNull String personalAccessToken,
-                                  GithubRepositoryDto githubRepositoryDto
+    GHRepository createRepository(GithubRepositoryDto githubRepositoryDto
     ) throws IOException;
 }

@@ -84,4 +84,16 @@ public class UserService {
                 "role",authenticationFacade.getAuthenticatedUserRole()
         );
     }
+
+    public void updatePersonalAccessToken(String personalAccessToken) {
+        // TODO
+        // there is a new attribute in the user model
+        // that need to be updated
+        // user : authenticated user
+    }
+    public User getCurrentUser(){
+        // TODO
+        // i want the user not the dto
+        return new User();
+    }
 }

@@ -37,4 +37,6 @@ public class User {
     @NotNull(message = "role must not be null")
     @Enumerated(EnumType.STRING)
     private ApplicationUserRole role;
+
+    private String PersonalAccessToken;
 }

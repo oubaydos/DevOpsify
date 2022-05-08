@@ -1,6 +1,7 @@
 package com.winchesters.devopsify.service.github;
 
 import com.winchesters.devopsify.dto.GithubRepositoryDto;
+import com.winchesters.devopsify.exception.PersonalAccessTokenPermissionException;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.kohsuke.github.GHRepository;
@@ -18,10 +19,10 @@ public class GithubRepositoryImpl implements GithubRepository {
     private final GithubServiceImpl githubService;
 
     @Override
-    public GHRepository createRepository(@NotNull String personalAccessToken,
-                                         GithubRepositoryDto githubRepositoryDto
+    public GHRepository createRepository(GithubRepositoryDto githubRepositoryDto
     ) throws IOException {
-        githubService.connectToGithub(personalAccessToken);
+        if (githubService.github == null)
+            throw new PersonalAccessTokenPermissionException(); //TODO -- a more specific exception
         return githubService.github.createRepository(githubRepositoryDto.name())
                 .autoInit(Optional.ofNullable(githubRepositoryDto.autoInit()).orElse(false))
                 .licenseTemplate(githubRepositoryDto.licenseTemplate())
@@ -30,7 +31,6 @@ public class GithubRepositoryImpl implements GithubRepository {
                 .description(githubRepositoryDto.description())
                 .visibility(githubRepositoryDto.visibility())
                 .private_(githubRepositoryDto.private_())
-
                 .create();
     }
 }
