@@ -16,7 +16,7 @@ import { signup } from "../../api/signupApi";
 export default function SignUp() {
   const theme = useTheme();
 
-  const [successful, setSuccessful] = useState(false);
+    const [successful, setSuccessful] = useState(false);
   const [value, setValue] = useState("");
   const [isCoach, setIsCoach] = useState(false);
   const handleChange = (e) => {
