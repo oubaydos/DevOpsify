@@ -20,6 +20,7 @@ import SignUp from "./components/signupForm/SignUp";
 import colors from "./utils/colors.json";
 import ConnectToGithub from "./components/ConnectToGithub/ConnectToGithub";
 import ProjectList from "./components/ProjectList/ProjectList"
+import Home from "./components/Home/Home";
 
 const theme = createTheme({
   typography: {
@@ -56,6 +57,7 @@ const ContributorRoutes = () =>
     { path: "/project/create", element: <CreateNewProjectForm /> },
     { path: "/project", element: <ProjectList/>},
     { path: "/connect-to-github", element: <ConnectToGithub />},
+    { path: "/",element:<Home/>},
     
 
   ]);
@@ -64,6 +66,8 @@ const AdminRoutes = () =>
     { path: "/project/create", element: <CreateNewProjectForm /> },
     { path: "/project", element: <ProjectList/> },
     { path: "/connect-to-github", element: <ConnectToGithub />},
+    { path: "/",element:<Home/>},
+
   ]);
 const GuestRoutes = () =>
   useRoutes([

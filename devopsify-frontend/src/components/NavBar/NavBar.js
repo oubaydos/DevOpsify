@@ -14,7 +14,6 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 
 import MenuIcon from '@mui/icons-material/Menu';
-import LogoutIcon from '@mui/icons-material/Logout';
 import Sidebar from '../Sidebar/Sidebar';
 import {goto} from "../../utils/utils"
 
@@ -25,7 +24,7 @@ const pages = [
   {name :'Profile',path :"/profile"}
 ]
 
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const settings = ['Profile', 'Logout'];
 
 
 const ResponsiveAppBar = () => {
