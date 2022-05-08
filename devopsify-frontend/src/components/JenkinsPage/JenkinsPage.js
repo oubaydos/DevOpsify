@@ -19,7 +19,7 @@ const JenkinsPage = () => {
   };
 
   return (
-    
+    <div></div>
   );
 };
 

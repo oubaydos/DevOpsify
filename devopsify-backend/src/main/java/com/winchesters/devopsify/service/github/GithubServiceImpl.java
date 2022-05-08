@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
-import javax.annotation.PostConstruct;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.IOException;
@@ -34,9 +33,13 @@ public class GithubServiceImpl implements GithubService {
     ApplicationContext context;
 
 
-    @PostConstruct
+
     public void initGithub() throws IOException {
-        if (userService.getCurrentUser() != null && userService.getCurrentUser().getPersonalAccessToken() != null && !userService.getCurrentUser().getPersonalAccessToken().isEmpty())
+        if (
+                userService.getCurrentUser() != null
+                && userService.getCurrentUser().getPersonalAccessToken() != null
+                && !userService.getCurrentUser().getPersonalAccessToken().isEmpty()
+        )
             connectToGithub(userService.getCurrentUser().getPersonalAccessToken());
     }
 

@@ -11,7 +11,7 @@ export function connectToGithub(event, setSuccessful) {
 
     axios.post(`${endpoint}`, null, {
         headers: {
-            'personalAccessToken':data.get('github'),
+            'Personal-Access-Token':data.get('github'),
             'Content-Type': 'application/json',
         }
     }).then(

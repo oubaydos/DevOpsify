@@ -76,6 +76,8 @@ const GuestRoutes = () =>
     { path: "/login", element: <SignIn /> },
     { path: "/signup", element: <SignUp /> },
     { path: "/project/create", element: <SignIn /> },
+    { path: "/connect-to-github", element: <SignIn />},
+
   ]);
 
 function App() {
