@@ -6,5 +6,5 @@ public record CreateNewProjectDto (
     String language,
     String buildSystem,
     String JDK,
-    boolean initGitRepository
+    Boolean initGitRepository
 ){}
