@@ -56,15 +56,15 @@ public class ProjectService {
     }
 
     @Transactional
-    public void setJenkinsServer(Long projectId, Server jenkinsServer) {
+    public void updateJenkinsServer(Long projectId, Server jenkinsServer) {
         Project project = projectRepository.findById(projectId)
                 .orElseThrow(ProjectNotFoundException::new);
         //TODO: encode password before saving it
 
         jenkinsService.setJenkinsClient(jenkinsServer);
         jenkinsService.pingJenkinsServer();
-        jenkinsService.installPlugins();
-        jenkinsService.createApiToken();
+//        jenkinsService.installPlugins();
+//        jenkinsService.createApiToken();
 
         project.setJenkinsServer(jenkinsServer);
 

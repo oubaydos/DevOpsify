@@ -9,7 +9,6 @@ import com.winchesters.devopsify.mapper.EntityToDtoMapper;
 import com.winchesters.devopsify.model.entity.User;
 import com.winchesters.devopsify.repository.UserRepository;
 import com.winchesters.devopsify.security.PasswordConfig;
-import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -20,12 +19,17 @@ import java.util.Map;
 import static com.winchesters.devopsify.security.ApplicationUserRole.CONTRIBUTOR;
 
 @Transactional
-@RequiredArgsConstructor
 @Service
 public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationFacade authenticationFacade;
+
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder,  AuthenticationFacade authenticationFacade) {
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.authenticationFacade = authenticationFacade;
+    }
     public UserResponseDto getUser() {
         return EntityToDtoMapper.userToUserResponseDto(this.getCurrentUser());
     }

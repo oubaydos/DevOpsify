@@ -32,8 +32,6 @@ public class GithubServiceImpl implements GithubService {
     @Autowired
     ApplicationContext context;
 
-
-
     public void initGithub() throws IOException {
         if (
                 userService.getCurrentUser() != null

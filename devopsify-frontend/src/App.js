@@ -22,6 +22,7 @@ import ConnectToGithub from "./components/ConnectToGithub/ConnectToGithub";
 import ProjectList from "./components/ProjectList/ProjectList"
 import Home from "./components/Home/Home";
 import Loading from "./components/Loading/Loading";
+import JenkinsPage from "./components/JenkinsPage/JenkinsPage";
 
 const theme = createTheme({
   typography: {
@@ -58,6 +59,8 @@ const ContributorRoutes = () =>
     { path: "/project/create", element: <CreateNewProjectForm /> },
     { path: "/project", element: <ProjectList/>},
     { path: "/connect-to-github", element: <ConnectToGithub />},
+    { path: "/jenkins", element: <JenkinsPage />},
+
     { path: "/",element:<Home/>},
     
 
@@ -67,6 +70,7 @@ const AdminRoutes = () =>
     { path: "/project/create", element: <CreateNewProjectForm /> },
     { path: "/project", element: <ProjectList/> },
     { path: "/connect-to-github", element: <ConnectToGithub />},
+    { path: "/jenkins", element: <JenkinsPage />},
     { path: "/",element:<Home/>},
 
   ]);
@@ -76,6 +80,7 @@ const GuestRoutes = () =>
     { path: "/login", element: <SignIn /> },
     { path: "/signup", element: <SignUp /> },
     { path: "/project/create", element: <SignIn /> },
+    { path: "/jenkins", element: <SignIn />},
     { path: "/connect-to-github", element: <SignIn />},
 
   ]);

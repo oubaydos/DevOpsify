@@ -34,9 +34,9 @@ public class ProjectController {
         return projectService.createNewProject(createNewProjectDto);
     }
 
-    @PostMapping("{projectId}/jenkins-server")
-    public void setJenkinsServer(@PathVariable Long projectId, @RequestBody Server jenkinsServer){
-        projectService.setJenkinsServer(projectId,jenkinsServer);
+    @PostMapping("{projectId}/jenkins")
+    public void updateJenkinsServer(@PathVariable Long projectId, @RequestBody Server jenkinsServer){
+        projectService.updateJenkinsServer(projectId,jenkinsServer);
     }
 
     @PostMapping("{projectId}/nexus-server")
