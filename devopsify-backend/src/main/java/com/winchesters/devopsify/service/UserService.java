@@ -3,8 +3,10 @@ package com.winchesters.devopsify.service;
 import com.winchesters.devopsify.auth.AuthenticationFacade;
 import com.winchesters.devopsify.dto.SignUpFormDto;
 import com.winchesters.devopsify.dto.UserResponseDto;
-import com.winchesters.devopsify.exception.InvalidEmailException;
-import com.winchesters.devopsify.exception.InvalidUsernameException;
+import com.winchesters.devopsify.exception.user.InvalidEmailException;
+import com.winchesters.devopsify.exception.user.InvalidUsernameException;
+import com.winchesters.devopsify.exception.user.UserNotAuthenticatedException;
+import com.winchesters.devopsify.exception.user.UserNotFoundException;
 import com.winchesters.devopsify.mapper.EntityToDtoMapper;
 import com.winchesters.devopsify.model.entity.User;
 import com.winchesters.devopsify.repository.UserRepository;
@@ -30,6 +32,12 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
         this.authenticationFacade = authenticationFacade;
     }
+
+    public User findUserByUsername(String username) throws UserNotFoundException{
+        return userRepository.findByUsername(username)
+                .orElseThrow(()->new UserNotFoundException(username));
+    }
+
     public UserResponseDto getUser() {
         return EntityToDtoMapper.userToUserResponseDto(this.getCurrentUser());
     }
@@ -90,10 +98,9 @@ public class UserService {
         String username = authenticationFacade.getAuthenticatedUsername();
 
         if(!username.equals("anonymousUser")) {
-            return userRepository.findByUsername(username)
-                    .orElseThrow(() -> new IllegalStateException(String.format("user %s not found", username)));
+            return findUserByUsername(username);
         }
-        //TODO : create UserNotAuthenticatedException
-        throw new IllegalStateException("user must be authenticated");
+
+        throw new UserNotAuthenticatedException();
     }
 }

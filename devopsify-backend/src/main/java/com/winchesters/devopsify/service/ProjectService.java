@@ -24,6 +24,10 @@ public class ProjectService {
     private final JenkinsService jenkinsService;
     private final GitService gitService;
 
+    public Project findProjectById(Long id){
+        return projectRepository.findById(id)
+                .orElseThrow(ProjectNotFoundException::new);
+    }
 
     public List<ProjectDto> listProjects() {
         return EntityToDtoMapper.ProjectToProjectDto(projectRepository.findAll());
@@ -57,8 +61,7 @@ public class ProjectService {
 
     @Transactional
     public void updateJenkinsServer(Long projectId, Server jenkinsServer) {
-        Project project = projectRepository.findById(projectId)
-                .orElseThrow(ProjectNotFoundException::new);
+        Project project = findProjectById(projectId);
         //TODO: encode password before saving it
 
         jenkinsService.setJenkinsClient(jenkinsServer);
@@ -72,8 +75,7 @@ public class ProjectService {
 
     @Transactional
     public void setNexusServer(Long projectId, Server nexusServer) {
-        Project project = projectRepository.findById(projectId)
-                .orElseThrow(ProjectNotFoundException::new);
+        Project project = findProjectById(projectId);
         //TODO: encode password before saving it
         project.setNexusServer(nexusServer);
     }

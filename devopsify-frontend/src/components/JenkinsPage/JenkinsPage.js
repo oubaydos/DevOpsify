@@ -101,6 +101,7 @@ const JenkinsPage = () => {
               label="password"
               control={
                 <TextField
+                  type="password"
                   name="password"
                   style={styles.labeled}
                   required

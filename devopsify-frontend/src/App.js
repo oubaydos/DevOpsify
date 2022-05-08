@@ -58,7 +58,7 @@ const ContributorRoutes = () =>
   useRoutes([
     { path: "/project/create", element: <CreateNewProjectForm /> },
     { path: "/project", element: <ProjectList/>},
-    { path: "/connect-to-github", element: <ConnectToGithub />},
+    { path: "/github", element: <ConnectToGithub />},
     { path: "/jenkins", element: <JenkinsPage />},
 
     { path: "/",element:<Home/>},
@@ -69,7 +69,7 @@ const AdminRoutes = () =>
   useRoutes([
     { path: "/project/create", element: <CreateNewProjectForm /> },
     { path: "/project", element: <ProjectList/> },
-    { path: "/connect-to-github", element: <ConnectToGithub />},
+    { path: "/github", element: <ConnectToGithub />},
     { path: "/jenkins", element: <JenkinsPage />},
     { path: "/",element:<Home/>},
 
@@ -81,7 +81,7 @@ const GuestRoutes = () =>
     { path: "/signup", element: <SignUp /> },
     { path: "/project/create", element: <SignIn /> },
     { path: "/jenkins", element: <SignIn />},
-    { path: "/connect-to-github", element: <SignIn />},
+    { path: "/github", element: <SignIn />},
 
   ]);
 
