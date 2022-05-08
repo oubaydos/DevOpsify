@@ -24,8 +24,8 @@ public class EntityToDtoMapper {
                 project.getIsDockerized(),
                 project.getHasJenkinsFile(),
                 project.getHasTests(),
-                (project.getJenkinsServer()!=null)?project.getJenkinsServer().getUrl():null,
-                (project.getNexusServer()!=null)?project.getNexusServer().getUrl():null
+                (project.getJenkinsServer()!=null)?project.getJenkinsServer().url():null,
+                (project.getNexusServer()!=null)?project.getNexusServer().url():null
         );
     }
 

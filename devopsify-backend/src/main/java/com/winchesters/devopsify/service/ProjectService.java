@@ -8,6 +8,7 @@ import com.winchesters.devopsify.model.entity.Project;
 import com.winchesters.devopsify.model.entity.Server;
 import com.winchesters.devopsify.repository.ProjectRepository;
 import com.winchesters.devopsify.technologies.git.GitService;
+import com.winchesters.devopsify.technologies.jenkins.JenkinsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +21,7 @@ import java.util.List;
 public class ProjectService {
 
     private final ProjectRepository projectRepository;
+    private final JenkinsService jenkinsService;
     private final GitService gitService;
 
 
@@ -58,7 +60,14 @@ public class ProjectService {
         Project project = projectRepository.findById(projectId)
                 .orElseThrow(ProjectNotFoundException::new);
         //TODO: encode password before saving it
+
+        jenkinsService.setJenkinsClient(jenkinsServer);
+        jenkinsService.pingJenkinsServer();
+        jenkinsService.installPlugins();
+        jenkinsService.createApiToken();
+
         project.setJenkinsServer(jenkinsServer);
+
     }
 
     @Transactional

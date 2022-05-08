@@ -1,24 +1,42 @@
 package com.winchesters.devopsify.technologies.jenkins;
 
 import com.cdancy.jenkins.rest.JenkinsClient;
+import com.cdancy.jenkins.rest.domain.common.RequestStatus;
 import com.cdancy.jenkins.rest.domain.system.SystemInfo;
+import com.cdancy.jenkins.rest.domain.user.ApiToken;
+import com.cdancy.jenkins.rest.domain.user.ApiTokenData;
 import com.winchesters.devopsify.exception.JenkinsException;
+import com.winchesters.devopsify.model.entity.Server;
 import com.winchesters.devopsify.technologies.git.GitServiceImpl;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+@RequiredArgsConstructor
+@Service
 public class JenkinsServiceImpl implements JenkinsService {
 
-    private final Logger LOG = LoggerFactory.getLogger(GitServiceImpl.class);
-    public static void main(String[] args) {
-        JenkinsService jenkinsService = new JenkinsServiceImpl();
-        String jenkinsUrl = "http://188.166.100.241:8080/";
-        jenkinsService.pingJenkinsServer(jenkinsUrl,"benyazidhamza","DoBh8E@?m5Mr4PeB");
+    private static final Logger LOG = LoggerFactory.getLogger(GitServiceImpl.class);
+    private final JenkinsClientFactory jenkinsClientFactory;
 
+    private JenkinsClient jenkinsClient;
+    public static void main(String[] args) {
+        JenkinsService jenkinsService = new JenkinsServiceImpl(new JenkinsClientFactory());
+
+        Server server = new Server(
+                "http://188.166.100.241:8080/",
+                "benyazidhamza",
+                "DoBh8E@?m5Mr4PeB"
+        );
+
+        jenkinsService.setJenkinsClient(server);
+        jenkinsService.pingJenkinsServer();
+        LOG.debug(jenkinsService.createApiToken().tokenName());
     }
 
     @Override
@@ -35,18 +53,50 @@ public class JenkinsServiceImpl implements JenkinsService {
     }
 
     @Override
-    public void pingJenkinsServer(String serverUrl,String username,String password) throws JenkinsException{
-        JenkinsClient client = JenkinsClient.builder()
-                .endPoint(serverUrl) // Optional. Defaults to http://127.0.0.1:8080
-                .credentials(String.format("%s:%s",username,password)) // Optional.
-                .build();
+    public void pingJenkinsServer() throws JenkinsException{
 
-        SystemInfo systemInfo = client.api().systemApi().systemInfo();
+        SystemInfo systemInfo = this.jenkinsClient.api().systemApi().systemInfo();
         LOG.info("pinging jenkins server...");
         systemInfo.errors().forEach(error -> {
             LOG.info("pinging jenkins server failed");
             throw new JenkinsException(error.exceptionName(),error.exceptionName());
         });
         LOG.info(String.format("jenkins version :%s",systemInfo.jenkinsVersion()));
+    }
+    public void installPlugins(){
+        //TODO add all required plugins
+        RequestStatus requestStatus  = this.jenkinsClient.api().pluginManagerApi().installNecessaryPlugins("maven-plugin");
+        requestStatus.errors().forEach(error -> {
+            LOG.info("installing plugin failed.");
+            throw new JenkinsException(error.exceptionName(),error.message());
+        });
+    }
+
+    public void setJenkinsClient(Server server){
+        this.jenkinsClient = jenkinsClientFactory.getClient(server);
+    }
+
+    public JenkinsClient getJenkinsClient() {
+        return jenkinsClient;
+    }
+
+    public ApiTokenData createApiToken(){
+        ApiToken apiToken = this.jenkinsClient.api().userApi().generateNewToken("devOpsify");
+        if(!apiToken.status().equals("ok")){
+            throw new JenkinsException("JenkinsServiceImpl.createApiToken()", "Token generation failed");
+        }
+        return apiToken.data();
+    }
+    public void createPipeline(){
+        //TODO
+        this.jenkinsClient.api().jobsApi().create("optionalFolderPath","jobName","configXML");
+    }
+
+    public void saveGithubCredentials(String token){
+    }
+    public void pullFromGithub(){
+    }
+    public void createGithubTrigger(){
+
     }
 }
