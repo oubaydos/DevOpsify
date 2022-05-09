@@ -3,7 +3,7 @@ package com.winchesters.devopsify.utils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.winchesters.devopsify.exception.GeneralException;
-import com.winchesters.devopsify.exception.GithubException;
+import com.winchesters.devopsify.exception.github.GithubException;
 import org.kohsuke.github.HttpException;
 
 import java.util.List;

@@ -5,7 +5,8 @@ import com.cdancy.jenkins.rest.domain.common.RequestStatus;
 import com.cdancy.jenkins.rest.domain.system.SystemInfo;
 import com.cdancy.jenkins.rest.domain.user.ApiToken;
 import com.cdancy.jenkins.rest.domain.user.ApiTokenData;
-import com.winchesters.devopsify.exception.JenkinsException;
+import com.winchesters.devopsify.exception.jenkins.JenkinsException;
+import com.winchesters.devopsify.exception.jenkins.JenkinsServerException;
 import com.winchesters.devopsify.model.entity.Server;
 import com.winchesters.devopsify.technologies.git.GitServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -59,7 +60,7 @@ public class JenkinsServiceImpl implements JenkinsService {
         LOG.info("pinging jenkins server...");
         systemInfo.errors().forEach(error -> {
             LOG.info("pinging jenkins server failed");
-            throw new JenkinsException(error.exceptionName(),error.exceptionName());
+            throw new JenkinsServerException(error.exceptionName(),error.exceptionName());
         });
         LOG.info(String.format("jenkins version :%s",systemInfo.jenkinsVersion()));
     }

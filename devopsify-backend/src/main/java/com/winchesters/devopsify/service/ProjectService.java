@@ -2,7 +2,7 @@ package com.winchesters.devopsify.service;
 
 import com.winchesters.devopsify.dto.CreateNewProjectDto;
 import com.winchesters.devopsify.dto.ProjectDto;
-import com.winchesters.devopsify.exception.ProjectNotFoundException;
+import com.winchesters.devopsify.exception.project.ProjectNotFoundException;
 import com.winchesters.devopsify.mapper.EntityToDtoMapper;
 import com.winchesters.devopsify.model.entity.Project;
 import com.winchesters.devopsify.model.entity.Server;

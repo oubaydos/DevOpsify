@@ -1,7 +1,7 @@
 package com.winchesters.devopsify.technologies.git;
 
-import com.winchesters.devopsify.exception.GitException;
-import com.winchesters.devopsify.exception.GitNotInstalledException;
+import com.winchesters.devopsify.exception.git.GitException;
+import com.winchesters.devopsify.exception.git.GitNotInstalledException;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
