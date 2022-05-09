@@ -26,43 +26,37 @@ import java.util.List;
 public class GithubServiceImpl implements GithubService {
 
     private static final Logger LOG = LoggerFactory.getLogger(GithubServiceImpl.class);
-    protected GitHub github;
+    private GitHub github;
     private final UserService userService;
+    private String personalAccessToken;
 
-    @Autowired
-    ApplicationContext context;
-
-    public void initGithub() throws IOException {
-        if (
-                userService.getCurrentUser() != null
-                && userService.getCurrentUser().getPersonalAccessToken() != null
-                && !userService.getCurrentUser().getPersonalAccessToken().isEmpty()
-        )
-            connectToGithub(userService.getCurrentUser().getPersonalAccessToken());
+    public GitHub getGithub() throws IOException {
+        if (github == null){
+            personalAccessToken = userService.getPersonalAccessToken();
+            github = connectToGithub(personalAccessToken);
+        }
+        return github;
     }
 
     @Override
     public GitHub connectToGithub(@NotNull @NotEmpty String personalAccessToken) throws IOException {
-        LOG.debug("is empty ? {}", personalAccessToken.isEmpty());
         if (github != null) return github;
-//        github = new GitHubBuilder().withOAuthToken(personalAccessToken).build();
-        context.getBean(GithubServiceImpl.class).github = new GitHubBuilder().withOAuthToken(personalAccessToken).build();
-        github = context.getBean(GithubServiceImpl.class).github;
-        if (!verifyAllPermissionsGranted()) {
+        GitHub tempGithub =  new GitHubBuilder().withOAuthToken(personalAccessToken).build();
+        if (!verifyAllPermissionsGranted(tempGithub)) {
             throw new PersonalAccessTokenPermissionException();
         }
         userService.updatePersonalAccessToken(personalAccessToken);
         return github;
     }
 
-    private boolean verifyAllPermissionsGranted() throws IOException {
-        if (github != null &&
-                github.getMyself() != null &&
-                github.getMyself().getResponseHeaderFields() != null &&
-                github.getMyself().getResponseHeaderFields().get("x-oauth-scopes") != null
+    private boolean verifyAllPermissionsGranted(@NotNull GitHub myGitHub) throws IOException {
+        if (myGitHub != null &&
+                myGitHub.getMyself() != null &&
+                myGitHub.getMyself().getResponseHeaderFields() != null &&
+                myGitHub.getMyself().getResponseHeaderFields().get("x-oauth-scopes") != null
         ) {
             List<String> temp = Arrays.asList(
-                    github.getMyself().getResponseHeaderFields()
+                    myGitHub.getMyself().getResponseHeaderFields()
                             .get("x-oauth-scopes")
                             .get(0)
                             .split("\\s*,\\s*")

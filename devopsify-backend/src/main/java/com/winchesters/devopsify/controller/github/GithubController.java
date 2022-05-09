@@ -26,8 +26,8 @@ public class GithubController {
     private final GithubRepositoryImpl githubRepository;
     @PostMapping("/connect")
     @ResponseStatus( HttpStatus.CREATED )
-    private void connect(@RequestHeader String personalAccessToken) throws IOException {
-        GitHub gitHub = githubService.connectToGithub(personalAccessToken);
+    private void connect(@RequestHeader(name="Personal-Access-Token") String personalAccessToken) throws IOException {
+        githubService.connectToGithub(personalAccessToken);
     }
     @PostMapping(path = "/create/repository",consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus( HttpStatus.CREATED )

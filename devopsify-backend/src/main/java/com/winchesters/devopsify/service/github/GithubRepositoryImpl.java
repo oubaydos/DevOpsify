@@ -5,6 +5,7 @@ import com.winchesters.devopsify.exception.PersonalAccessTokenPermissionExceptio
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.kohsuke.github.GHRepository;
+import org.kohsuke.github.GitHub;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,9 +22,10 @@ public class GithubRepositoryImpl implements GithubRepository {
     @Override
     public GHRepository createRepository(GithubRepositoryDto githubRepositoryDto
     ) throws IOException {
-        if (githubService.github == null)
+        GitHub gitHub = githubService.getGithub();
+        if (gitHub == null)
             throw new PersonalAccessTokenPermissionException(); //TODO -- a more specific exception
-        return githubService.github.createRepository(githubRepositoryDto.name())
+        return gitHub.createRepository(githubRepositoryDto.name())
                 .autoInit(Optional.ofNullable(githubRepositoryDto.autoInit()).orElse(false))
                 .licenseTemplate(githubRepositoryDto.licenseTemplate())
                 .gitignoreTemplate(githubRepositoryDto.gitIgnoreTemplate())

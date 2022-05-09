@@ -15,7 +15,7 @@ import MenuItem from '@mui/material/MenuItem';
 
 import MenuIcon from '@mui/icons-material/Menu';
 import Sidebar from '../Sidebar/Sidebar';
-import {goto} from "../../utils/utils"
+import {goto, logOut} from "../../utils/utils"
 
 const pages = [
   {name :'Home',path :"/"},
@@ -52,9 +52,10 @@ const ResponsiveAppBar = () => {
 
   const handleClickUserMenu = (event) => {
     console.log(event.target)
-    switch(event.target){
-      case "Logout" : 
-        console.log("logging out...")
+    switch(event.target.innerHTML){
+      case "Logout" :
+        console.log("logging out...");
+        logOut();
         break; 
       default : 
         break;

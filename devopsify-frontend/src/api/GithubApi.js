@@ -1,6 +1,6 @@
 import axios from "axios";
 import configData from "../config.json";
-import {goto} from "../utils/utils";
+import {getCookie, goto} from "../utils/utils";
 
 const endpoint = configData.SERVER_URL+"/github/connect";
 
@@ -12,6 +12,7 @@ export function connectToGithub(event, setSuccessful) {
     axios.post(`${endpoint}`, null, {
         headers: {
             'Personal-Access-Token':data.get('github'),
+            'Authorization':getCookie('Authorization'+configData.COOKIE_SUFFIX),
             'Content-Type': 'application/json',
         }
     }).then(
