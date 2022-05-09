@@ -103,4 +103,9 @@ public class UserService {
 
         throw new UserNotAuthenticatedException();
     }
+
+    public String getPersonalAccessToken() {
+        //TODO
+        return null;
+    }
 }

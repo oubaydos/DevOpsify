@@ -23,6 +23,7 @@ import ProjectList from "./components/ProjectList/ProjectList"
 import Home from "./components/Home/Home";
 import Loading from "./components/Loading/Loading";
 import JenkinsPage from "./components/JenkinsPage/JenkinsPage";
+import configData from "./config.json";
 
 const theme = createTheme({
   typography: {
@@ -61,7 +62,7 @@ const ContributorRoutes = () =>
     { path: "/github", element: <ConnectToGithub />},
     { path: "/jenkins", element: <JenkinsPage />},
 
-    { path: "/",element:<Home/>},
+    { path: "/",element:<CreateNewProjectForm/>},
     
 
   ]);
@@ -86,16 +87,15 @@ const GuestRoutes = () =>
   ]);
 
 function App() {
-  const [authCookies, setAuthCookie] = useCookies(["Authorization"]);
+  const [authCookies] = useCookies(["Authorization"+configData.COOKIE_SUFFIX]);
 
   const authenticatedUser = () => {
-    getAuthenticatedUser(authCookies.Authorization, setCurrentUser);
+    getAuthenticatedUser(authCookies.Authorization_devopsify, setCurrentUser);
   };
   const [currentUser, setCurrentUser] = useState({
     username: "",
     role: "",
   });
-
   const getRoutes = () => {
     switch (currentUser.role) {
       case "CONTRIBUTOR":

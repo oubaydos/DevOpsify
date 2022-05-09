@@ -26,7 +26,7 @@ export function login(event,setOpen,setCookie) {
         }
     }).then(
         (res) => {
-            setCookie("Authorization",res.headers["authorization"])
+            setCookie("Authorization"+configData.COOKIE_SUFFIX,res.headers["authorization"])
             setOpen(true);
             goto("/")
         }
