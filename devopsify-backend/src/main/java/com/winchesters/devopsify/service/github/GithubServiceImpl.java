@@ -46,7 +46,7 @@ public class GithubServiceImpl implements GithubService {
             throw new PersonalAccessTokenPermissionException();
         }
         userService.updatePersonalAccessToken(personalAccessToken);
-        return github;
+        return tempGithub;
     }
 
     private boolean verifyAllPermissionsGranted(@NotNull GitHub myGitHub) throws IOException {

@@ -3,6 +3,7 @@ package com.winchesters.devopsify.controller.github;
 import com.winchesters.devopsify.dto.GithubRepositoryDto;
 import com.winchesters.devopsify.service.github.GithubRepositoryImpl;
 import com.winchesters.devopsify.service.github.GithubServiceImpl;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.kohsuke.github.GHRepository;
 import org.kohsuke.github.GitHub;
@@ -33,5 +34,9 @@ public class GithubController {
     @ResponseStatus( HttpStatus.CREATED )
     private void createRepository(@Valid @RequestBody GithubRepositoryDto githubRepositoryDto) throws IOException {
         GHRepository repository = githubRepository.createRepository(githubRepositoryDto);
+    }
+    @GetMapping("/username")
+    private String getUsername() throws IOException {
+        return githubService.getGithub().getMyself().getLogin();
     }
 }
