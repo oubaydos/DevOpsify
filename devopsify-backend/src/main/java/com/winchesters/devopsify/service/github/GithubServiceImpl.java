@@ -1,6 +1,6 @@
 package com.winchesters.devopsify.service.github;
 
-import com.winchesters.devopsify.exception.PersonalAccessTokenPermissionException;
+import com.winchesters.devopsify.exception.github.PersonalAccessTokenPermissionException;
 import com.winchesters.devopsify.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.kohsuke.github.GitHub;

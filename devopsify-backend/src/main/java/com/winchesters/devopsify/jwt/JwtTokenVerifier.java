@@ -1,7 +1,7 @@
 package com.winchesters.devopsify.jwt;
 
 import com.google.common.base.Strings;
-import com.winchesters.devopsify.exception.JwtTokenNotValidException;
+import com.winchesters.devopsify.exception.jwt.JwtTokenNotValidException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtException;

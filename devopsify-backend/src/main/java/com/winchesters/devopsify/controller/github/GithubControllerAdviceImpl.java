@@ -3,8 +3,7 @@ package com.winchesters.devopsify.controller.github;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.winchesters.devopsify.dto.ErrorResponseDto;
-import com.winchesters.devopsify.exception.GithubException;
-import com.winchesters.devopsify.exception.PersonalAccessTokenPermissionException;
+import com.winchesters.devopsify.exception.github.PersonalAccessTokenPermissionException;
 import org.kohsuke.github.HttpException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
