@@ -14,16 +14,17 @@ public interface JenkinsService {
 
     void setJenkinsClient(Server server);
 
-    public JenkinsClient getJenkinsClient();
+    JenkinsClient getJenkinsClient();
 
-    public void installPlugins();
+    void installPlugins();
 
-    public void saveGithubCredentials(String token);
+    void saveGithubCredentials(String token);
 
-    public void pullFromGithub();
+    void pullFromGithub();
 
-    public void createGithubTrigger();
+    void createGithubTrigger();
 
-    public ApiTokenData createApiToken();
+    ApiTokenData createApiToken();
+    void createPipeline();
 
 }

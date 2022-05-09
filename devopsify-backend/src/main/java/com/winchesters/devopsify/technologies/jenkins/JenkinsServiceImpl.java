@@ -22,7 +22,7 @@ import java.io.IOException;
 @Service
 public class JenkinsServiceImpl implements JenkinsService {
 
-    private static final Logger LOG = LoggerFactory.getLogger(GitServiceImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(JenkinsService.class);
     private final JenkinsClientFactory jenkinsClientFactory;
 
     private JenkinsClient jenkinsClient;
@@ -38,6 +38,7 @@ public class JenkinsServiceImpl implements JenkinsService {
         jenkinsService.setJenkinsClient(server);
         jenkinsService.pingJenkinsServer();
         LOG.debug(jenkinsService.createApiToken().tokenName());
+        jenkinsService.createPipeline();
     }
 
     @Override
@@ -90,7 +91,26 @@ public class JenkinsServiceImpl implements JenkinsService {
     }
     public void createPipeline(){
         //TODO
-        this.jenkinsClient.api().jobsApi().create("optionalFolderPath","jobName","configXML");
+        // https://stackoverflow.com/questions/21405427/how-to-create-a-job-in-jenkins-by-using-simple-java-program
+        String temp= """
+                <?xml version='1.0' encoding='UTF-8'?>
+                <project>
+                  <actions/>
+                  <description></description>
+                  <keepDependencies>false</keepDependencies>
+                  <properties/>
+                  <scm class="hudson.scm.NullSCM"/>
+                  <canRoam>true</canRoam>
+                  <disabled>false</disabled>
+                  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+                  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+                  <triggers/>
+                  <concurrentBuild>false</concurrentBuild>
+                  <builders/>
+                  <publishers/>
+                  <buildWrappers/>
+                </project>""";
+        LOG.info("{}",this.jenkinsClient.api().jobsApi().create(null,"tmp",temp).toString());
     }
 
     public void saveGithubCredentials(String token){
