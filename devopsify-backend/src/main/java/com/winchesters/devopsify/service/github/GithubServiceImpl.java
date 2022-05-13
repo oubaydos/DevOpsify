@@ -31,7 +31,7 @@ public class GithubServiceImpl implements GithubService {
     private String personalAccessToken;
 
     public GitHub getGithub() throws IOException {
-        if (github == null){
+        if (github == null) {
             personalAccessToken = userService.getPersonalAccessToken();
             github = connectToGithub(personalAccessToken);
         }
@@ -41,14 +41,15 @@ public class GithubServiceImpl implements GithubService {
     @Override
     public GitHub connectToGithub(@NotNull @NotEmpty String personalAccessToken) throws IOException {
         if (github != null) return github;
-        GitHub tempGithub =  new GitHubBuilder().withOAuthToken(personalAccessToken).build();
+        GitHub tempGithub = new GitHubBuilder().withOAuthToken(personalAccessToken).build();
         if (!verifyAllPermissionsGranted(tempGithub)) {
             throw new PersonalAccessTokenPermissionException();
         }
         userService.updatePersonalAccessToken(personalAccessToken);
-        return github;
+        return tempGithub;
     }
 
+    @SuppressWarnings("deprecation")
     private boolean verifyAllPermissionsGranted(@NotNull GitHub myGitHub) throws IOException {
         if (myGitHub != null &&
                 myGitHub.getMyself() != null &&

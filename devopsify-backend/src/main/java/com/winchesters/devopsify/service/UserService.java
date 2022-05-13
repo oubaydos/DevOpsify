@@ -105,7 +105,6 @@ public class UserService {
     }
 
     public String getPersonalAccessToken() {
-        //TODO
-        return null;
+        return getCurrentUser().getPersonalAccessToken();
     }
 }
