@@ -16,8 +16,9 @@ import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import { listProjects } from "../../api/projectService";
 import { goto } from "../../utils/utils";
+import config from "../../config.json"
 
-const drawerWidth = 240;
+const drawerWidth = config.DRAWER_WIDTH ;
 
 const DrawerHeader = styled("div")(({ theme }) => ({
   display: "flex",
