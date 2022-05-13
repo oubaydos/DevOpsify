@@ -31,7 +31,7 @@ export function createNewProject(formValues) {
     );
 }
 
-export function listProjects(setProjects,projects){
+export function listProjects(setProjects){
 
     axios.get(`${endpoint}`
         , {
@@ -41,7 +41,6 @@ export function listProjects(setProjects,projects){
         }
     ).then(
         (res) => {
-            console.log(res.data)
             setProjects(res.data);
         }
     );

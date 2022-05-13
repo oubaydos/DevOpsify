@@ -45,7 +45,7 @@ export default function Sidebar({ handleCloseNavMenu, open }) {
   };
 
   React.useEffect(() => {
-    listProjects(setProjects, projects);
+    listProjects(setProjects);
   }, []);
 
   return (
