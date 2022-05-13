@@ -11,6 +11,8 @@ import config from "../../config.json";
 import StarIcon from '@mui/icons-material/Star';
 import StarOutlineIcon from '@mui/icons-material/StarOutline';
 import { Icon } from '@mui/material';
+import { listProjects } from "../../api/projectService";
+import { goto } from "../../utils/utils";
 
 
 const drawerWidth = config.DRAWER_WIDTH + 20 + "px";
@@ -22,22 +24,26 @@ const columns = [
   { id: "created-by", label: "Created By", minWidth: 100 },
 ];
 
-function createData(fav, name, status, createdBy) {
-  return { fav, name, status, "created-by":createdBy };
-}
 
-const rows = [
-  createData(true,"hello-world", "empty", "hamza"),
-  createData(false,"maven-app", "in progress", "hamza"),
-  createData(true,"devopsify", "done", "hamza"),
-];
 
 const favIcon = <Icon ><StarIcon /></Icon>;
 
 export default function ProjectList() {
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
+  function createData(project) {
+    return { fav:true, name: project.name, status:"in progress", "created-by":"hamza" };
+  }
+
+  const [projects, setProjects] = React.useState([]);
+
+  const [rows, setRows] = React.useState([]);
+
+  React.useEffect(() => {
+    listProjects(setProjects, projects);
+    setRows(projects.map((project)=>{
+      return createData(project)
+    }))
+  });
 
   const contentToShow=(column, value)=>{
     if(column.format && typeof value === "number")
@@ -79,7 +85,6 @@ export default function ProjectList() {
           </TableHead>
           <TableBody>
             {rows
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => {
                 return (
                   <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>

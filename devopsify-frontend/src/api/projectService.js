@@ -1,5 +1,6 @@
 import axios from "axios";
 import configData from "../config.json";
+import {reload} from "../utils/utils"
 
 const endpoint = configData.SERVER_URL+"/project";
 
@@ -19,6 +20,8 @@ export function createNewProject(formValues) {
 
             // setSuccessful(true);
             console.log(res);
+            reload()
+
         }
         ,
         (err) => {

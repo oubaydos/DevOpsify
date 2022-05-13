@@ -3,6 +3,10 @@ import configData from "../config.json";
 export function goto(url){
     window.location.href = url;
 }
+
+export function reload(){
+    window.location.reload();
+}
 export function notNull(str){
     return str !== undefined && str != null;
 }
