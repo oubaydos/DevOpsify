@@ -1,5 +1,6 @@
 package com.winchesters.devopsify.controller.project;
 
+import com.winchesters.devopsify.dto.AnalyseResultsDto;
 import com.winchesters.devopsify.dto.CreateNewProjectDto;
 import com.winchesters.devopsify.dto.ProjectDto;
 import com.winchesters.devopsify.model.entity.Server;
@@ -42,6 +43,11 @@ public class ProjectController {
     @PostMapping("{projectId}/nexus-server")
     public void setNexusServer(@PathVariable Long projectId, @RequestBody Server nexusServer){
         projectService.setNexusServer(projectId,nexusServer);
+    }
+
+    @GetMapping("{projectId}/analyse")
+    public AnalyseResultsDto analyse(@PathVariable Long projectId){
+        return projectService.analyse(projectId);
     }
 
 }

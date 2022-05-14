@@ -1,4 +1,4 @@
-package com.winchesters.devopsify.technologies.maven;
+package com.winchesters.devopsify.service.technologies.maven;
 
 public class MavenServiceImpl implements MavenService{
 

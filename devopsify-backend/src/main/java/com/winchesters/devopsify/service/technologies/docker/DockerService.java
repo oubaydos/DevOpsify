@@ -1,6 +1,6 @@
-package com.winchesters.devopsify.technologies.docker;
+package com.winchesters.devopsify.service.technologies.docker;
 
-import com.winchesters.devopsify.technologies.TechnologyService;
+import com.winchesters.devopsify.service.technologies.TechnologyService;
 
 import java.io.File;
 

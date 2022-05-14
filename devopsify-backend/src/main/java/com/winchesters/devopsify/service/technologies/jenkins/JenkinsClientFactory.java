@@ -1,4 +1,4 @@
-package com.winchesters.devopsify.technologies.jenkins;
+package com.winchesters.devopsify.service.technologies.jenkins;
 
 import com.cdancy.jenkins.rest.JenkinsClient;
 import com.winchesters.devopsify.model.entity.Server;

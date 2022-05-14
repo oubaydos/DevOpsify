@@ -1,4 +1,4 @@
-package com.winchesters.devopsify.service.github;
+package com.winchesters.devopsify.service.technologies.github;
 
 import com.winchesters.devopsify.exception.github.PersonalAccessTokenPermissionException;
 import com.winchesters.devopsify.service.UserService;
@@ -7,8 +7,6 @@ import org.kohsuke.github.GitHub;
 import org.kohsuke.github.GitHubBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;

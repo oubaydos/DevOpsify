@@ -1,4 +1,4 @@
-package com.winchesters.devopsify.technologies.nexus;
+package com.winchesters.devopsify.service.technologies.nexus;
 
 public class NexusServiceImpl implements NexusService{
 

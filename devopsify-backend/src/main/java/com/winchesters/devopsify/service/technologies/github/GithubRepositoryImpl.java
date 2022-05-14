@@ -1,4 +1,4 @@
-package com.winchesters.devopsify.service.github;
+package com.winchesters.devopsify.service.technologies.github;
 
 import com.winchesters.devopsify.dto.GithubRepositoryDto;
 import com.winchesters.devopsify.exception.github.PersonalAccessTokenPermissionException;

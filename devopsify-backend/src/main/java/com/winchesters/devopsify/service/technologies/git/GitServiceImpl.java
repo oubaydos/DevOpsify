@@ -1,4 +1,4 @@
-package com.winchesters.devopsify.technologies.git;
+package com.winchesters.devopsify.service.technologies.git;
 
 import com.winchesters.devopsify.exception.git.GitException;
 import com.winchesters.devopsify.exception.git.GitNotInstalledException;

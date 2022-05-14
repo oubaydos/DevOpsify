@@ -1,5 +1,6 @@
-package com.winchesters.devopsify.controller.project;
+package com.winchesters.devopsify.controller.jenkins;
 
+import com.winchesters.devopsify.controller.project.ProjectControllerAdvice;
 import com.winchesters.devopsify.dto.ErrorResponseDto;
 import com.winchesters.devopsify.exception.jenkins.JenkinsException;
 import com.winchesters.devopsify.exception.jenkins.JenkinsServerException;

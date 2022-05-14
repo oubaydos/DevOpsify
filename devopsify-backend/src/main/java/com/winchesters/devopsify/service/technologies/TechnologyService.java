@@ -1,4 +1,4 @@
-package com.winchesters.devopsify.technologies;
+package com.winchesters.devopsify.service.technologies;
 
 import java.io.File;
 import java.io.IOException;

@@ -1,5 +1,6 @@
 package com.winchesters.devopsify.service;
 
+import com.winchesters.devopsify.dto.AnalyseResultsDto;
 import com.winchesters.devopsify.dto.CreateNewProjectDto;
 import com.winchesters.devopsify.dto.ProjectDto;
 import com.winchesters.devopsify.exception.project.ProjectNotFoundException;
@@ -7,8 +8,8 @@ import com.winchesters.devopsify.mapper.EntityToDtoMapper;
 import com.winchesters.devopsify.model.entity.Project;
 import com.winchesters.devopsify.model.entity.Server;
 import com.winchesters.devopsify.repository.ProjectRepository;
-import com.winchesters.devopsify.technologies.git.GitService;
-import com.winchesters.devopsify.technologies.jenkins.JenkinsService;
+import com.winchesters.devopsify.service.technologies.git.GitService;
+import com.winchesters.devopsify.service.technologies.jenkins.JenkinsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -59,24 +60,36 @@ public class ProjectService {
         return EntityToDtoMapper.ProjectToProjectDto(projectRepository.save(project));
     }
 
-    @Transactional
     public void updateJenkinsServer(Long projectId, Server jenkinsServer) {
         Project project = findProjectById(projectId);
         //TODO: encode password before saving it
 
         jenkinsService.setJenkinsClient(jenkinsServer);
         jenkinsService.pingJenkinsServer();
-//        jenkinsService.installPlugins();
-//        jenkinsService.createApiToken();
+        jenkinsService.installPlugins();
+        jenkinsService.createApiToken();
 
         project.setJenkinsServer(jenkinsServer);
-
     }
 
-    @Transactional
     public void setNexusServer(Long projectId, Server nexusServer) {
         Project project = findProjectById(projectId);
         //TODO: encode password before saving it
         project.setNexusServer(nexusServer);
+    }
+
+    public AnalyseResultsDto analyse(Long projectId) {
+        Project project = findProjectById(projectId);
+        //TODO
+        // This function must:
+        // check if there is a remote repo for the project
+        // check if the project is already cloned to a local repo and clone it if not
+        // pull changes from remote to a local repo
+        // analyse tests
+        // and analyse dockerfile , jenkinsfile .....
+        // connect to jenkins and get last results
+        // and return the result of the analyse
+        return new AnalyseResultsDto();
+
     }
 }

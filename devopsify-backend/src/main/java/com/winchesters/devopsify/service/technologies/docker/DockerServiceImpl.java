@@ -1,4 +1,4 @@
-package com.winchesters.devopsify.technologies.docker;
+package com.winchesters.devopsify.service.technologies.docker;
 
 import java.io.File;
 import java.io.FileWriter;

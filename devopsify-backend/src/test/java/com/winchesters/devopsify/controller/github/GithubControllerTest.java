@@ -1,7 +1,7 @@
 package com.winchesters.devopsify.controller.github;
 
 import com.winchesters.devopsify.controller.GeneralControllerAdviceImpl;
-import com.winchesters.devopsify.service.github.GithubServiceImpl;
+import com.winchesters.devopsify.service.technologies.github.GithubServiceImpl;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

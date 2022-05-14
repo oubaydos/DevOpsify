@@ -1,4 +1,4 @@
-package com.winchesters.devopsify.technologies.jenkins;
+package com.winchesters.devopsify.service.technologies.jenkins;
 
 import com.cdancy.jenkins.rest.JenkinsClient;
 import com.cdancy.jenkins.rest.domain.common.RequestStatus;
@@ -8,7 +8,6 @@ import com.cdancy.jenkins.rest.domain.user.ApiTokenData;
 import com.winchesters.devopsify.exception.jenkins.JenkinsException;
 import com.winchesters.devopsify.exception.jenkins.JenkinsServerException;
 import com.winchesters.devopsify.model.entity.Server;
-import com.winchesters.devopsify.technologies.git.GitServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

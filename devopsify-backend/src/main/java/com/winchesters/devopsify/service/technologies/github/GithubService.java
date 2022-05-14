@@ -1,4 +1,4 @@
-package com.winchesters.devopsify.service.github;
+package com.winchesters.devopsify.service.technologies.github;
 
 import javax.validation.constraints.NotNull;
 import org.kohsuke.github.GitHub;
