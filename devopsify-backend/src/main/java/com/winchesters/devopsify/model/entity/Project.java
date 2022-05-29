@@ -1,7 +1,11 @@
 package com.winchesters.devopsify.model.entity;
 
 import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
-import lombok.*;
+import com.winchesters.devopsify.model.AnalyseResults;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 
@@ -28,6 +32,10 @@ public class Project {
     private Boolean isDockerized;
     private Boolean hasJenkinsFile;
     private Boolean hasTests;
+
+    @Type(type = "jsonb")
+    @Column(columnDefinition = "jsonb")
+    private AnalyseResults analyseResults;
 
     @Type(type = "jsonb")
     @Column(columnDefinition = "jsonb")

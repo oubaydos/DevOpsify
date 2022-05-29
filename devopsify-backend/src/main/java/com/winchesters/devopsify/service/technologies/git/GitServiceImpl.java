@@ -2,6 +2,7 @@ package com.winchesters.devopsify.service.technologies.git;
 
 import com.winchesters.devopsify.exception.git.GitException;
 import com.winchesters.devopsify.exception.git.GitNotInstalledException;
+import com.winchesters.devopsify.model.GithubAnalyseResults;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,9 +18,6 @@ import java.io.IOException;
 public class GitServiceImpl implements GitService{
 
     private final Logger LOG = LoggerFactory.getLogger(GitServiceImpl.class);
-    public static void main(String[] args) {
-
-    }
 
     @Override
     public boolean installed() {
@@ -43,4 +41,29 @@ public class GitServiceImpl implements GitService{
             e.printStackTrace();
         }
     }
+
+    @Override
+    public Boolean remoteAndLocalInSync() throws GitException {
+        //TODO
+        return false;
+    }
+
+    @Override
+    public GithubAnalyseResults analyseGithub() {
+        //TODO
+        return null;
+    }
+
+    @Override
+    public void pull(String path) {
+        //TODO
+    }
+
+    @Override
+    public String clone(String remoteUrl,String localPath) {
+        //TODO
+        // clones repo from remoteUrl to localPath
+        return null;
+    }
+
 }

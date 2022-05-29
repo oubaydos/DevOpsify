@@ -7,6 +7,7 @@ import com.cdancy.jenkins.rest.domain.user.ApiToken;
 import com.cdancy.jenkins.rest.domain.user.ApiTokenData;
 import com.winchesters.devopsify.exception.jenkins.JenkinsException;
 import com.winchesters.devopsify.exception.jenkins.JenkinsServerException;
+import com.winchesters.devopsify.model.JenkinsAnalyseResults;
 import com.winchesters.devopsify.model.entity.Server;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -110,6 +111,12 @@ public class JenkinsServiceImpl implements JenkinsService {
                   <buildWrappers/>
                 </project>""";
         LOG.info("{}",this.jenkinsClient.api().jobsApi().create(null,"tmp",temp).toString());
+    }
+
+    @Override
+    public JenkinsAnalyseResults analyseJenkins() {
+        //TODO
+        return new JenkinsAnalyseResults();
     }
 
     public void saveGithubCredentials(String token){
