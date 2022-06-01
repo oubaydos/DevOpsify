@@ -6,4 +6,8 @@ public class GitException extends GeneralException {
     public GitException(String code, String message) {
         super(code, message);
     }
+
+    public GitException(Exception exception) {
+        super(exception);
+    }
 }

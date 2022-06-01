@@ -2,7 +2,12 @@ package com.winchesters.devopsify.service.technologies.git;
 
 import com.winchesters.devopsify.exception.git.GitException;
 import com.winchesters.devopsify.model.GithubAnalyseResults;
+import com.winchesters.devopsify.model.GithubCredentials;
 import com.winchesters.devopsify.service.technologies.TechnologyService;
+import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.lib.Repository;
+
+import java.io.IOException;
 
 public interface GitService extends TechnologyService {
 
@@ -12,7 +17,9 @@ public interface GitService extends TechnologyService {
 
     GithubAnalyseResults analyseGithub();
 
-    void pull(String path);
+    void pull(String path) throws GitException;
 
-    String clone(String remoteUrl,String localPath);
+    void clone(String remoteUrl, String localPath, GithubCredentials credentials) throws GitException, IOException, GitAPIException;
+
+    Repository getRepository(String path) throws IOException;
 }

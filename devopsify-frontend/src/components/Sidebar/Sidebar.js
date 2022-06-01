@@ -49,7 +49,7 @@ export default function Sidebar({ handleCloseNavMenu, open }) {
   }, []);
 
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box sx={{ display: "flex" ,bgcolor:"#E5E5E5"}}>
       <CssBaseline />
       <Drawer
         sx={{

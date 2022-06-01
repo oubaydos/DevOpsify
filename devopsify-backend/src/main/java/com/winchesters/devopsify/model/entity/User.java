@@ -1,11 +1,13 @@
 package com.winchesters.devopsify.model.entity;
 
 
+import com.winchesters.devopsify.model.GithubCredentials;
 import com.winchesters.devopsify.security.ApplicationUserRole;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -39,4 +41,8 @@ public class User {
     private ApplicationUserRole role;
 
     private String PersonalAccessToken;
+
+    @Type(type = "jsonb")
+    @Column(columnDefinition = "jsonb")
+    private GithubCredentials githubCredentials;
 }

@@ -1,9 +1,20 @@
 package com.winchesters.devopsify.service.technologies.git;
 
 import com.winchesters.devopsify.exception.git.GitException;
+import com.winchesters.devopsify.exception.git.GitInternalException;
 import com.winchesters.devopsify.exception.git.GitNotInstalledException;
 import com.winchesters.devopsify.model.GithubAnalyseResults;
+import com.winchesters.devopsify.model.GithubCredentials;
 import lombok.RequiredArgsConstructor;
+import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.PullCommand;
+import org.eclipse.jgit.api.PullResult;
+import org.eclipse.jgit.api.Status;
+import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.api.errors.JGitInternalException;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
+import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -18,6 +29,16 @@ import java.io.IOException;
 public class GitServiceImpl implements GitService{
 
     private final Logger LOG = LoggerFactory.getLogger(GitServiceImpl.class);
+
+    public static void main(String[] args) throws GitAPIException, IOException {
+        String localPath = "/home/hamza/test/devopsify_test";
+        String remoteUrl = "https://github.com/HamzaBenyazid/devopsify-testing";
+        GithubCredentials credentials = new GithubCredentials(
+                "HamzaBenyazid",
+                "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"
+        );
+        new GitServiceImpl().pull(localPath);
+    }
 
     @Override
     public boolean installed() {
@@ -56,14 +77,60 @@ public class GitServiceImpl implements GitService{
 
     @Override
     public void pull(String path) {
-        //TODO
+        try {
+            Repository repository = getRepository(path);
+            Git git = new Git(repository);
+            PullCommand pull = git.pull()
+                    .setRemote("origin")
+                    .setRemoteBranchName("main");
+            PullResult result = pull.call();
+            if (!result.isSuccessful()) {
+                LOG.error("Cannot pull from git '%s', branch '%s'");
+                Status status = git.status().call();
+                LOG.error("git status cleanliness: " + status.isClean());
+                if (!status.isClean()) {
+                    LOG.debug("git status uncommitted changes: " + status.getUncommittedChanges());
+                    LOG.debug("git status untracked: " + status.getUntracked());
+                }
+            } else {
+                LOG.info("Pull was successful.");
+            }
+            LOG.debug("git rebase result: " + result.getRebaseResult().getStatus().name());
+            LOG.debug("git fetch result: " + result.getFetchResult().getMessages());
+        }catch (GitAPIException | IOException e){
+            e.printStackTrace();
+        }
     }
 
     @Override
-    public String clone(String remoteUrl,String localPath) {
-        //TODO
-        // clones repo from remoteUrl to localPath
-        return null;
+    public void clone(String remoteUrl, String localPath, GithubCredentials credentials) throws GitAPIException {
+        final File localPathFile = new File(localPath);
+        try {
+            Git.cloneRepository()
+                    .setURI(remoteUrl)
+                    .setDirectory(localPathFile)
+                    .setCredentialsProvider(
+                            new UsernamePasswordCredentialsProvider(
+                                    credentials.username(),
+                                    credentials.personalAccessToken()
+                            )
+                    )
+                    .call();
+        }catch (JGitInternalException e){
+            throw new GitInternalException(e);
+        }catch (GitAPIException e){
+            throw new com.winchesters.devopsify.exception.git.GitAPIException(e);
+        }
     }
 
+    @Override
+    public Repository getRepository(String path) throws IOException {
+        FileRepositoryBuilder builder = new FileRepositoryBuilder();
+        try (Repository repository = builder.setGitDir(new File(path))
+                .readEnvironment() // scan environment GIT_* variables
+                .findGitDir() // scan up the file system tree
+                .build()) {
+            return repository;
+        }
+    }
 }

@@ -106,6 +106,13 @@
             <version>31.1-jre</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/org.eclipse.jgit/org.eclipse.jgit -->
+        <dependency>
+            <groupId>org.eclipse.jgit</groupId>
+            <artifactId>org.eclipse.jgit</artifactId>
+            <version>6.1.0.202203080745-r</version>
+        </dependency>
+
 
     </dependencies>
 

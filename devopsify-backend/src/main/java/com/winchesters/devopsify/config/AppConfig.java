@@ -1,5 +1,6 @@
 package com.winchesters.devopsify.config;
 
+import com.winchesters.devopsify.model.GithubCredentials;
 import com.winchesters.devopsify.model.entity.User;
 import com.winchesters.devopsify.repository.UserRepository;
 import com.winchesters.devopsify.security.ApplicationUserRole;
@@ -30,7 +31,11 @@ public class AppConfig {
                     "benyazidhamza969@gmail.com",
                     passwordEncoder.encode(password),
                     ApplicationUserRole.ADMIN,
-                    "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"
+                    "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",
+                    new GithubCredentials(
+                            "HamzaBenyazid",
+                            "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"
+                    )
             );
             User oubaydos = new User(
                     2L,
@@ -38,7 +43,11 @@ public class AppConfig {
                     "oubaydos@gmail.com",
                     passwordEncoder.encode(password),
                     ApplicationUserRole.CONTRIBUTOR,
+                    "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",
+                    new GithubCredentials(
+                            "HamzaBenyazid",
                     "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"
+                    )
             );
             LOG.info("");
             hamza=userRepository.save(hamza);

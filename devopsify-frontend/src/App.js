@@ -16,14 +16,9 @@ import { Helmet } from "react-helmet";
 import { useCookies, CookiesProvider } from "react-cookie";
 import { getAuthenticatedUser } from "./api/authService";
 import { useState, useEffect } from "react";
-import SignUp from "./components/signupForm/SignUp";
 import colors from "./utils/colors.json";
-import ConnectToGithub from "./components/ConnectToGithub/ConnectToGithub";
-import ProjectList from "./components/ProjectList/ProjectList"
-import Home from "./components/Home/Home";
-import Loading from "./components/Loading/Loading";
-import JenkinsPage from "./components/JenkinsPage/JenkinsPage";
 import configData from "./config.json";
+import getRoutes from "./routes";
 
 const theme = createTheme({
   typography: {
@@ -55,37 +50,6 @@ const theme = createTheme({
   },
 });
 
-const ContributorRoutes = () =>
-  useRoutes([
-    { path: "/project/create", element: <CreateNewProjectForm /> },
-    { path: "/project", element: <ProjectList/>},
-    { path: "/github", element: <ConnectToGithub />},
-    { path: "/jenkins", element: <JenkinsPage />},
-
-    { path: "/",element:<CreateNewProjectForm/>},
-    
-
-  ]);
-const AdminRoutes = () =>
-  useRoutes([
-    { path: "/project/create", element: <CreateNewProjectForm /> },
-    { path: "/project", element: <ProjectList/> },
-    { path: "/github", element: <ConnectToGithub />},
-    { path: "/jenkins", element: <JenkinsPage />},
-    { path: "/",element:<Home/>},
-
-  ]);
-const GuestRoutes = () =>
-  useRoutes([
-    { path: "/", element: <SignIn /> },
-    { path: "/login", element: <SignIn /> },
-    { path: "/signup", element: <SignUp /> },
-    { path: "/project/create", element: <SignIn /> },
-    { path: "/jenkins", element: <SignIn />},
-    { path: "/github", element: <SignIn />},
-
-  ]);
-
 function App() {
   const [authCookies] = useCookies(["Authorization"+configData.COOKIE_SUFFIX]);
 
@@ -96,18 +60,6 @@ function App() {
     username: "",
     role: "",
   });
-  const getRoutes = () => {
-    switch (currentUser.role) {
-      case "CONTRIBUTOR":
-        return <ContributorRoutes />;
-      case "ADMIN":
-        return <AdminRoutes />;
-      case "GUEST":
-        return <GuestRoutes />;
-      default:
-        return <Loading/>;
-    }
-  };
 
   useEffect(() => {
     authenticatedUser();
@@ -124,7 +76,7 @@ function App() {
           <Router>
             <div className="body">
               <NavBar />
-              {getRoutes()}
+              {getRoutes(currentUser.role)}
               <Footer />
             </div>
           </Router>
