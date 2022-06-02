@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 
 import {React, useState} from "react";
-import {connectToGithub} from "../../api/GithubApi";
+import {connectToGithub} from "../../api/githubApi";
 
 
 const ConnectToGithub = () => {

@@ -6,18 +6,14 @@ import {
   experimental_sx as sx,
 } from "@mui/material/styles";
 import NavBar from "./components/NavBar/NavBar";
-import Sidebar from "./components/Sidebar/Sidebar";
 import "@fontsource/inter";
 import Footer from "./components/shared/footer/Footer";
-import CreateNewProjectForm from "./components/CreateNewProjectForm/CreateNewProjectForm";
-import SignIn from "./components/loginForm/SignIn";
-import { BrowserRouter as Router, useRoutes } from "react-router-dom";
+import { BrowserRouter as Router} from "react-router-dom";
 import { Helmet } from "react-helmet";
 import { useCookies, CookiesProvider } from "react-cookie";
 import { getAuthenticatedUser } from "./api/authService";
 import { useState, useEffect } from "react";
 import colors from "./utils/colors.json";
-import configData from "./config.json";
 import getRoutes from "./routes";
 
 const theme = createTheme({
@@ -51,10 +47,10 @@ const theme = createTheme({
 });
 
 function App() {
-  const [authCookies] = useCookies(["Authorization"+configData.COOKIE_SUFFIX]);
+  const [authCookies] = useCookies(["Authorization"]);
 
   const authenticatedUser = () => {
-    getAuthenticatedUser(authCookies.Authorization_devopsify, setCurrentUser);
+    getAuthenticatedUser(authCookies.Authorization, setCurrentUser);
   };
   const [currentUser, setCurrentUser] = useState({
     username: "",

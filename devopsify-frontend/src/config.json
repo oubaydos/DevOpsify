@@ -1,5 +1,4 @@
 {
     "SERVER_URL":"http://localhost:8080/api/v1",
-    "COOKIE_SUFFIX": "_devopsify",
-    "DRAWER_WIDTH": 240  
+    "DRAWER_WIDTH": 240
 }
