@@ -13,7 +13,6 @@ public interface GitService extends TechnologyService {
 
     void initializeRepository(String path) throws GitException;
 
-    Boolean remoteAndLocalInSync() throws GitException;
 
     GithubAnalyseResults analyseGithub();
 
@@ -36,5 +35,15 @@ public interface GitService extends TechnologyService {
     void commit(String path,String message);
 
     void commitAll(String path,String message);
+
+    Boolean localAndRemoteInSync(GithubCredentials githubCredentials,String localRepoPath, String remoteName,String remoteBranchName) throws GitException;
+
+    Boolean localAndOriginMainInSync(GithubCredentials githubCredentials,String localRepoPath) throws GitException;
+
+
+    void syncLocalWithRemote(GithubCredentials githubCredentials,String path,String remoteName, String remoteBranchName);
+
+    void syncLocalWithOriginMain(GithubCredentials githubCredentials,String path);
+
 
 }

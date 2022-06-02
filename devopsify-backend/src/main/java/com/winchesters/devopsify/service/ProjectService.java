@@ -95,11 +95,11 @@ public class ProjectService {
         }
 
         Project project = findProjectById(projectId);
-        if (gitService.remoteAndLocalInSync()) {
+        if (gitService.localAndOriginMainInSync(githubCredentials,project.getLocalRepoPath())) {
             return project.getAnalyseResults();
         }
 
-        gitService.pullOriginMain(githubCredentials,project.getLocalRepoPath());
+        gitService.syncLocalWithOriginMain(githubCredentials,project.getLocalRepoPath());
         AnalyseResults analyseResults = new AnalyseResults(
                 gitService.analyseGithub(),
                 jenkinsService.analyseJenkins(),

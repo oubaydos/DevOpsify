@@ -32,16 +32,6 @@ public class GitServiceImpl implements GitService {
 
     private final Logger LOG = LoggerFactory.getLogger(GitServiceImpl.class);
 
-    public static void main(String[] args) throws GitAPIException, IOException {
-        String localPath = "/home/hamza/test/devopsify_test";
-        String remoteUrl = "https://github.com/HamzaBenyazid/devopsify-testing";
-        GithubCredentials credentials = new GithubCredentials(
-                "HamzaBenyazid",
-                "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"
-        );
-        new GitServiceImpl().commitAll(localPath,"test commit all");
-    }
-
     @Override
     public boolean installed() {
         return installed("git");
@@ -66,9 +56,39 @@ public class GitServiceImpl implements GitService {
     }
 
     @Override
-    public Boolean remoteAndLocalInSync() throws GitException {
-        //TODO
-        return false;
+    public Boolean localAndRemoteInSync(GithubCredentials githubCredentials,String localRepoPath,String remoteName,String remoteBranchName) throws GitException {
+        try {
+            Repository repository = getRepository(localRepoPath);
+            Git git = new Git(repository);
+
+            String latestRemoteCommitHash = git.getRepository()
+                    .exactRef(String.format("refs/remotes/%s/%s",remoteName, remoteBranchName))
+                    .getObjectId()
+                    .name();
+
+            RevCommit latestLocalCommit = new Git(repository).
+                    log().
+                    setMaxCount(1).
+                    call().
+                    iterator().
+                    next();
+
+            String latestLocalCommitHash = latestLocalCommit.getName();
+            LOG.info("latestLocalCommitHash="+latestLocalCommitHash);
+            LOG.info("latestRemoteCommitHash="+latestRemoteCommitHash);
+
+            return latestLocalCommitHash.equals(latestRemoteCommitHash);
+
+        } catch (GitAPIException e) {
+            throw new com.winchesters.devopsify.exception.git.GitAPIException(e);
+        } catch (IOException e) {
+            throw new GitException(e);
+        }
+    }
+
+    @Override
+    public Boolean localAndOriginMainInSync(GithubCredentials githubCredentials, String localRepoPath) throws GitException {
+        return localAndRemoteInSync(githubCredentials,localRepoPath,"origin","main");
     }
 
     @Override
@@ -95,7 +115,8 @@ public class GitServiceImpl implements GitService {
                                     credentials.username(),
                                     credentials.personalAccessToken()
                             )
-                    );
+                    )
+                    .setRebase(true);
             PullResult result = pull.call();
             if (!result.isSuccessful()) {
                 LOG.error(String.format("Cannot pull from '%s', branch '%s'", remoteRepoName, remoteBranchName));
@@ -224,6 +245,17 @@ public class GitServiceImpl implements GitService {
     public void commitAll(String path,String message) {
         addAll(path);
         commit(path,message);
+    }
+
+    @Override
+    public void syncLocalWithRemote(GithubCredentials githubCredentials, String path, String remoteName, String remoteBranchName) {
+        pull(githubCredentials,path,remoteName,remoteBranchName);
+        push(githubCredentials,path,remoteName,remoteBranchName);
+    }
+
+    @Override
+    public void syncLocalWithOriginMain(GithubCredentials githubCredentials, String path) {
+        syncLocalWithRemote(githubCredentials,path,"origin","main");
     }
 
 
