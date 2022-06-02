@@ -26,7 +26,7 @@ import java.io.IOException;
 @Service
 @RequiredArgsConstructor
 @Transactional
-public class GitServiceImpl implements GitService{
+public class GitServiceImpl implements GitService {
 
     private final Logger LOG = LoggerFactory.getLogger(GitServiceImpl.class);
 
@@ -37,7 +37,7 @@ public class GitServiceImpl implements GitService{
                 "HamzaBenyazid",
                 "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"
         );
-        new GitServiceImpl().pull(localPath);
+        new GitServiceImpl().pullOriginMain(credentials,localPath);
     }
 
     @Override
@@ -53,12 +53,12 @@ public class GitServiceImpl implements GitService{
     @Override
     public void initializeRepository(String path) throws GitException {
         try {
-            if(!installed()) throw new GitNotInstalledException();
+            if (!installed()) throw new GitNotInstalledException();
             new ProcessBuilder("git", "init")
                     .directory(new File(path))
                     .inheritIO()
                     .start();
-        }catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -76,16 +76,27 @@ public class GitServiceImpl implements GitService{
     }
 
     @Override
-    public void pull(String path) {
+    public void pullOriginMain(GithubCredentials credentials,String path) throws GitException {
+        pull(credentials,path, "origin", "main");
+    }
+
+    @Override
+    public void pull(GithubCredentials credentials, String path, String remoteRepoName, String remoteBranchName) {
         try {
             Repository repository = getRepository(path);
             Git git = new Git(repository);
             PullCommand pull = git.pull()
-                    .setRemote("origin")
-                    .setRemoteBranchName("main");
+                    .setRemote(remoteRepoName)
+                    .setRemoteBranchName(remoteBranchName)
+                    .setCredentialsProvider(
+                            new UsernamePasswordCredentialsProvider(
+                                    credentials.username(),
+                                    credentials.personalAccessToken()
+                            )
+                    );
             PullResult result = pull.call();
             if (!result.isSuccessful()) {
-                LOG.error("Cannot pull from git '%s', branch '%s'");
+                LOG.error(String.format("Cannot pull from '%s', branch '%s'",remoteRepoName,remoteBranchName));
                 Status status = git.status().call();
                 LOG.error("git status cleanliness: " + status.isClean());
                 if (!status.isClean()) {
@@ -95,15 +106,15 @@ public class GitServiceImpl implements GitService{
             } else {
                 LOG.info("Pull was successful.");
             }
-            LOG.debug("git rebase result: " + result.getRebaseResult().getStatus().name());
-            LOG.debug("git fetch result: " + result.getFetchResult().getMessages());
-        }catch (GitAPIException | IOException e){
-            e.printStackTrace();
+        } catch (GitAPIException e) {
+            throw new com.winchesters.devopsify.exception.git.GitAPIException(e);
+        } catch (IOException e){
+            throw new GitException(e);
         }
     }
 
     @Override
-    public void clone(String remoteUrl, String localPath, GithubCredentials credentials) throws GitAPIException {
+    public void clone(String remoteUrl, String localPath, GithubCredentials credentials) {
         final File localPathFile = new File(localPath);
         try {
             Git.cloneRepository()
@@ -116,9 +127,9 @@ public class GitServiceImpl implements GitService{
                             )
                     )
                     .call();
-        }catch (JGitInternalException e){
+        } catch (JGitInternalException e) {
             throw new GitInternalException(e);
-        }catch (GitAPIException e){
+        } catch (GitAPIException e) {
             throw new com.winchesters.devopsify.exception.git.GitAPIException(e);
         }
     }
@@ -126,10 +137,11 @@ public class GitServiceImpl implements GitService{
     @Override
     public Repository getRepository(String path) throws IOException {
         FileRepositoryBuilder builder = new FileRepositoryBuilder();
-        try (Repository repository = builder.setGitDir(new File(path))
+        try (Repository repository = builder.setGitDir(new File(path + "/.git"))
                 .readEnvironment() // scan environment GIT_* variables
                 .findGitDir() // scan up the file system tree
                 .build()) {
+            LOG.debug(repository.isBare() ? "true" : "false");
             return repository;
         }
     }

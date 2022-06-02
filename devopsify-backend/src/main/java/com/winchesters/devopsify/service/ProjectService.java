@@ -2,11 +2,14 @@ package com.winchesters.devopsify.service;
 
 import com.winchesters.devopsify.dto.CreateNewProjectDto;
 import com.winchesters.devopsify.dto.ProjectDto;
+import com.winchesters.devopsify.exception.git.GitException;
 import com.winchesters.devopsify.exception.project.ProjectNotFoundException;
 import com.winchesters.devopsify.mapper.EntityToDtoMapper;
 import com.winchesters.devopsify.model.AnalyseResults;
+import com.winchesters.devopsify.model.GithubCredentials;
 import com.winchesters.devopsify.model.entity.Project;
 import com.winchesters.devopsify.model.entity.Server;
+import com.winchesters.devopsify.model.entity.User;
 import com.winchesters.devopsify.repository.ProjectRepository;
 import com.winchesters.devopsify.service.technologies.git.GitService;
 import com.winchesters.devopsify.service.technologies.jenkins.JenkinsService;
@@ -27,6 +30,8 @@ public class ProjectService {
     private final GitService gitService;
 
     private final NexusService nexusService;
+
+    private final UserService userService;
 
     public Project findProjectById(Long id) {
         return projectRepository.findById(id)
@@ -86,7 +91,12 @@ public class ProjectService {
         if (gitService.remoteAndLocalInSync()) {
             return project.getAnalyseResults();
         }
-        gitService.pull(project.getLocalRepoPath());
+        User user = userService.getCurrentUser();
+        GithubCredentials githubCredentials = user.getGithubCredentials();
+        if(githubCredentials==null){
+            throw new GitException("ProjectService.analyse","github credentials not found");
+        }
+        gitService.pullOriginMain(githubCredentials,project.getLocalRepoPath());
         AnalyseResults analyseResults = new AnalyseResults(
                 gitService.analyseGithub(),
                 jenkinsService.analyseJenkins(),
