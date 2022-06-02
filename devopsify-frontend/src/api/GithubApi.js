@@ -14,7 +14,7 @@ export function connectToGithub(event, setSuccessful) {
 
     axios.post(`${endpoint}`, dataToSend, {
         headers: {
-            'Authorization':getCookie('Authorization'+configData.COOKIE_SUFFIX),
+            'Authorization':getCookie('Authorization'),
             'Content-Type': 'application/json',
         }
     }).then(

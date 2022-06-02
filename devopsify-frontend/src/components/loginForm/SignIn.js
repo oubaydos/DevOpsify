@@ -15,14 +15,12 @@ import {
 } from "@mui/material";
 
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import { useState } from "react";
 import { login } from "../../api/authService";
 import { useCookies } from "react-cookie";
-import configData from "../../config.json";
 
 export default function SignIn() {
   const [open, setOpen] = React.useState(false);
-  const [cookies, setCookie] = useCookies(["Authorization"+configData.COOKIE_SUFFIX]);
+  const [, setCookie] = useCookies(["Authorization"]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
