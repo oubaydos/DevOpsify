@@ -6,14 +6,13 @@ import com.winchesters.devopsify.exception.git.GitNotInstalledException;
 import com.winchesters.devopsify.model.GithubAnalyseResults;
 import com.winchesters.devopsify.model.GithubCredentials;
 import lombok.RequiredArgsConstructor;
-import org.eclipse.jgit.api.Git;
-import org.eclipse.jgit.api.PullCommand;
-import org.eclipse.jgit.api.PullResult;
-import org.eclipse.jgit.api.Status;
+import org.eclipse.jgit.api.*;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
+import org.eclipse.jgit.transport.RefSpec;
+import org.eclipse.jgit.transport.RemoteRefUpdate;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,7 +36,7 @@ public class GitServiceImpl implements GitService {
                 "HamzaBenyazid",
                 "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"
         );
-        new GitServiceImpl().pullOriginMain(credentials,localPath);
+        new GitServiceImpl().pushOriginMain(credentials, localPath);
     }
 
     @Override
@@ -76,8 +75,8 @@ public class GitServiceImpl implements GitService {
     }
 
     @Override
-    public void pullOriginMain(GithubCredentials credentials,String path) throws GitException {
-        pull(credentials,path, "origin", "main");
+    public void pullOriginMain(GithubCredentials credentials, String path) throws GitException {
+        pull(credentials, path, "origin", "main");
     }
 
     @Override
@@ -96,7 +95,7 @@ public class GitServiceImpl implements GitService {
                     );
             PullResult result = pull.call();
             if (!result.isSuccessful()) {
-                LOG.error(String.format("Cannot pull from '%s', branch '%s'",remoteRepoName,remoteBranchName));
+                LOG.error(String.format("Cannot pull from '%s', branch '%s'", remoteRepoName, remoteBranchName));
                 Status status = git.status().call();
                 LOG.error("git status cleanliness: " + status.isClean());
                 if (!status.isClean()) {
@@ -108,7 +107,7 @@ public class GitServiceImpl implements GitService {
             }
         } catch (GitAPIException e) {
             throw new com.winchesters.devopsify.exception.git.GitAPIException(e);
-        } catch (IOException e){
+        } catch (IOException e) {
             throw new GitException(e);
         }
     }
@@ -144,5 +143,36 @@ public class GitServiceImpl implements GitService {
             LOG.debug(repository.isBare() ? "true" : "false");
             return repository;
         }
+    }
+
+    @Override
+    public void push(GithubCredentials credentials, String path, String remoteRepoName, String remoteBranchName) throws GitException {
+        try {
+            Repository repository = getRepository(path);
+            Git git = new Git(repository);
+            PushCommand push = git.push()
+                    .setRemote(remoteRepoName)
+                    .setRefSpecs(new RefSpec(remoteBranchName))
+                    .setCredentialsProvider(
+                            new UsernamePasswordCredentialsProvider(
+                                    credentials.username(),
+                                    credentials.personalAccessToken()
+                            )
+                    );
+
+            RemoteRefUpdate remoteRefUpdate = push.call().iterator().next().getRemoteUpdates().iterator().next();
+            LOG.info("Push was successful.");
+            LOG.info("Response status : " + remoteRefUpdate.getStatus().name());
+
+        } catch (GitAPIException e) {
+            throw new com.winchesters.devopsify.exception.git.GitAPIException(e);
+        } catch (IOException e) {
+            throw new GitException(e);
+        }
+    }
+
+    @Override
+    public void pushOriginMain(GithubCredentials credentials, String path) throws GitException {
+        push(credentials, path, "origin", "main");
     }
 }

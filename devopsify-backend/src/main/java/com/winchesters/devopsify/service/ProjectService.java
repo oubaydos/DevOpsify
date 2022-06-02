@@ -87,15 +87,18 @@ public class ProjectService {
     }
 
     public AnalyseResults analyse(Long projectId) {
-        Project project = findProjectById(projectId);
-        if (gitService.remoteAndLocalInSync()) {
-            return project.getAnalyseResults();
-        }
+
         User user = userService.getCurrentUser();
         GithubCredentials githubCredentials = user.getGithubCredentials();
         if(githubCredentials==null){
             throw new UserCredentialsNotFoundException();
         }
+
+        Project project = findProjectById(projectId);
+        if (gitService.remoteAndLocalInSync()) {
+            return project.getAnalyseResults();
+        }
+
         gitService.pullOriginMain(githubCredentials,project.getLocalRepoPath());
         AnalyseResults analyseResults = new AnalyseResults(
                 gitService.analyseGithub(),

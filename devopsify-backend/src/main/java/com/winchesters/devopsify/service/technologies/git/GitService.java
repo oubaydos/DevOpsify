@@ -24,4 +24,9 @@ public interface GitService extends TechnologyService {
     void clone(String remoteUrl, String localPath, GithubCredentials credentials) throws GitException, IOException, GitAPIException;
 
     Repository getRepository(String path) throws IOException;
+
+    void push(GithubCredentials credentials,String path, String remoteRepoName, String remoteBranchName) throws GitException;
+
+    void pushOriginMain(GithubCredentials credentials,String path) throws GitException;
+
 }
