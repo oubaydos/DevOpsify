@@ -50,7 +50,7 @@ function App() {
   const [authCookies] = useCookies(["Authorization"]);
 
   const authenticatedUser = () => {
-    getAuthenticatedUser(authCookies.Authorization_devopsify, setCurrentUser);
+    getAuthenticatedUser(authCookies.Authorization, setCurrentUser);
   };
   const [currentUser, setCurrentUser] = useState({
     username: "",
