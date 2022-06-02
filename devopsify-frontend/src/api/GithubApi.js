@@ -7,11 +7,13 @@ const endpoint = configData.SERVER_URL+"/github/connect";
 export function connectToGithub(event, setSuccessful) {
     console.log(event.currentTarget)
     const data = new FormData(event.currentTarget);
+    const dataToSend = {
+        username:data.get("username"),
+        personalAccessToken:data.get("token")
+    }
 
-
-    axios.post(`${endpoint}`, null, {
+    axios.post(`${endpoint}`, dataToSend, {
         headers: {
-            'Personal-Access-Token':data.get('github'),
             'Authorization':getCookie('Authorization'+configData.COOKIE_SUFFIX),
             'Content-Type': 'application/json',
         }
