@@ -31,10 +31,9 @@ public class AppConfig {
                     "benyazidhamza969@gmail.com",
                     passwordEncoder.encode(password),
                     ApplicationUserRole.ADMIN,
-                    "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",
                     new GithubCredentials(
-                            "HamzaBenyazid",
-                            "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"
+                            "devopsify-tempUser\n",
+                            "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"
                     )
             );
             User oubaydos = new User(
@@ -43,10 +42,9 @@ public class AppConfig {
                     "oubaydos@gmail.com",
                     passwordEncoder.encode(password),
                     ApplicationUserRole.CONTRIBUTOR,
-                    "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",
                     new GithubCredentials(
-                            "HamzaBenyazid",
-                    "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"
+                            "devopsify-tempUser\n",
+                            "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"
                     )
             );
             LOG.info("");

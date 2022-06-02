@@ -1,6 +1,7 @@
 package com.winchesters.devopsify.controller.github;
 
 import com.winchesters.devopsify.dto.GithubRepositoryDto;
+import com.winchesters.devopsify.model.GithubCredentials;
 import com.winchesters.devopsify.service.technologies.github.GithubRepositoryImpl;
 import com.winchesters.devopsify.service.technologies.github.GithubServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -23,8 +24,8 @@ public class GithubController {
     private final GithubRepositoryImpl githubRepository;
     @PostMapping("/connect")
     @ResponseStatus( HttpStatus.CREATED )
-    private void connect(@RequestHeader(name="Personal-Access-Token") String personalAccessToken) throws IOException {
-        githubService.connectToGithub(personalAccessToken);
+    private void connect(@RequestBody GithubCredentials githubCredentials) throws IOException {
+        githubService.connectToGithub(githubCredentials);
     }
     @PostMapping(path = "/create/repository",consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus( HttpStatus.CREATED )

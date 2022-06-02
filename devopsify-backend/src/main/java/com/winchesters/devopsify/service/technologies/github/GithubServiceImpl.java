@@ -1,6 +1,8 @@
 package com.winchesters.devopsify.service.technologies.github;
 
+import com.winchesters.devopsify.exception.UserCredentialsNotFoundException;
 import com.winchesters.devopsify.exception.github.PersonalAccessTokenPermissionException;
+import com.winchesters.devopsify.model.GithubCredentials;
 import com.winchesters.devopsify.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.kohsuke.github.GitHub;
@@ -26,24 +28,27 @@ public class GithubServiceImpl implements GithubService {
     private static final Logger LOG = LoggerFactory.getLogger(GithubServiceImpl.class);
     private GitHub github;
     private final UserService userService;
-    private String personalAccessToken;
+    private GithubCredentials githubCredentials;
 
     public GitHub getGithub() throws IOException {
         if (github == null) {
-            personalAccessToken = userService.getPersonalAccessToken();
-            github = connectToGithub(personalAccessToken);
+            githubCredentials = userService.getGithubCredentials();
+            github = connectToGithub(githubCredentials);
         }
         return github;
     }
 
     @Override
-    public GitHub connectToGithub(@NotNull @NotEmpty String personalAccessToken) throws IOException {
+    public GitHub connectToGithub(@NotNull GithubCredentials githubCredentials) throws IOException {
         if (github != null) return github;
-        GitHub tempGithub = new GitHubBuilder().withOAuthToken(personalAccessToken).build();
+        if (githubCredentials == null || githubCredentials.personalAccessToken() == null || githubCredentials.username() == null)
+            throw new UserCredentialsNotFoundException();
+        GitHub tempGithub = new GitHubBuilder().withOAuthToken(githubCredentials.personalAccessToken()).build();
         if (!verifyAllPermissionsGranted(tempGithub)) {
             throw new PersonalAccessTokenPermissionException();
         }
-        userService.updatePersonalAccessToken(personalAccessToken);
+        this.githubCredentials = githubCredentials;
+        userService.updateGithubCredentials(githubCredentials);
         return tempGithub;
     }
 

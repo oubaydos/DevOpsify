@@ -1,11 +1,9 @@
 package com.winchesters.devopsify.service.technologies.github;
 
-import javax.validation.constraints.NotNull;
+import com.winchesters.devopsify.model.GithubCredentials;
 import org.kohsuke.github.GitHub;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.util.List;
 
@@ -18,9 +16,9 @@ public interface GithubService {
 
     /**
      * initialize github and verify access token
-     * @param personalAccessToken personal access token : (https://github.com/settings/tokens)
+     * @param githubCredentials username && personal access token : (https://github.com/settings/tokens)
      * @throws IOException if a problem occurs while connecting to github with the personalAccessToken
      * @return created Github Object
      */
-    GitHub connectToGithub(@NotNull @NotEmpty String personalAccessToken) throws IOException;
+    GitHub connectToGithub(@NotNull GithubCredentials githubCredentials) throws IOException;
 }
