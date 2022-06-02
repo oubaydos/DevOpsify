@@ -30,7 +30,7 @@ public class GithubRepositoryImpl implements GithubRepository {
                 .owner(githubRepositoryDto.owner())
                 .description(githubRepositoryDto.description())
                 .visibility(githubRepositoryDto.visibility())
-                .private_(githubRepositoryDto.private_())
+                .private_(Optional.ofNullable(githubRepositoryDto.private_()).orElse(false))
                 .create();
     }
 }
