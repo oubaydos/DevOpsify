@@ -92,6 +92,11 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
        source.registerCorsConfiguration("/**", configuration);
        return source;
+       /***
+        * TODO : @HamzaBenyazid
+        * it seems that we need a customized exception for
+        * authorization header not found
+        */
    }
 
 }
