@@ -29,4 +29,12 @@ public interface GitService extends TechnologyService {
 
     void pushOriginMain(GithubCredentials credentials,String path) throws GitException;
 
+    void add(String path,String filePattern);
+
+    void addAll(String path);
+
+    void commit(String path,String message);
+
+    void commitAll(String path,String message);
+
 }

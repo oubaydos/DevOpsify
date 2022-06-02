@@ -9,7 +9,9 @@ import lombok.RequiredArgsConstructor;
 import org.eclipse.jgit.api.*;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
+import org.eclipse.jgit.api.errors.NoFilepatternException;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteRefUpdate;
@@ -19,6 +21,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.validation.constraints.NotNull;
 import java.io.File;
 import java.io.IOException;
 
@@ -36,7 +39,7 @@ public class GitServiceImpl implements GitService {
                 "HamzaBenyazid",
                 "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"
         );
-        new GitServiceImpl().pushOriginMain(credentials, localPath);
+        new GitServiceImpl().commitAll(localPath,"test commit all");
     }
 
     @Override
@@ -175,4 +178,53 @@ public class GitServiceImpl implements GitService {
     public void pushOriginMain(GithubCredentials credentials, String path) throws GitException {
         push(credentials, path, "origin", "main");
     }
+
+    @Override
+    public void add(String path, String filePattern) {
+        try {
+            Repository repository = getRepository(path);
+            Git git = new Git(repository);
+            git.add()
+                    .addFilepattern(filePattern)
+                    .call();
+            LOG.info("Add was successful.");
+
+        } catch (IOException | NoFilepatternException e) {
+            throw new GitException(e);
+        } catch (GitAPIException e) {
+            throw new com.winchesters.devopsify.exception.git.GitAPIException(e);
+        }
+    }
+
+    @Override
+    public void addAll(String path) {
+        add(path, ".");
+    }
+
+    @Override
+    public void commit(@NotNull String path,@NotNull String message) {
+        try {
+            Repository repository = getRepository(path);
+            Git git = new Git(repository);
+            RevCommit call = git.commit()
+                    .setMessage(message)
+                    .call();
+
+            LOG.info("Commit was successful.");
+            LOG.info(call.toString());
+
+        } catch (IOException | NoFilepatternException e) {
+            throw new GitException(e);
+        } catch (GitAPIException e) {
+            throw new com.winchesters.devopsify.exception.git.GitAPIException(e);
+        }
+    }
+
+    @Override
+    public void commitAll(String path,String message) {
+        addAll(path);
+        commit(path,message);
+    }
+
+
 }
