@@ -2,7 +2,7 @@ package com.winchesters.devopsify.service;
 
 import com.winchesters.devopsify.dto.CreateNewProjectDto;
 import com.winchesters.devopsify.dto.ProjectDto;
-import com.winchesters.devopsify.exception.git.GitException;
+import com.winchesters.devopsify.exception.UserCredentialsNotFoundException;
 import com.winchesters.devopsify.exception.project.ProjectNotFoundException;
 import com.winchesters.devopsify.mapper.EntityToDtoMapper;
 import com.winchesters.devopsify.model.AnalyseResults;
@@ -94,7 +94,7 @@ public class ProjectService {
         User user = userService.getCurrentUser();
         GithubCredentials githubCredentials = user.getGithubCredentials();
         if(githubCredentials==null){
-            throw new GitException("ProjectService.analyse","github credentials not found");
+            throw new UserCredentialsNotFoundException();
         }
         gitService.pullOriginMain(githubCredentials,project.getLocalRepoPath());
         AnalyseResults analyseResults = new AnalyseResults(
