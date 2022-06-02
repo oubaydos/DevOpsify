@@ -40,8 +40,6 @@ public class User {
     @Enumerated(EnumType.STRING)
     private ApplicationUserRole role;
 
-    private String PersonalAccessToken;
-
     @Type(type = "jsonb")
     @Column(columnDefinition = "jsonb")
     private GithubCredentials githubCredentials;

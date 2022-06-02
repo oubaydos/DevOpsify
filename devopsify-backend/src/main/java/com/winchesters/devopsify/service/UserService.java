@@ -3,14 +3,17 @@ package com.winchesters.devopsify.service;
 import com.winchesters.devopsify.auth.AuthenticationFacade;
 import com.winchesters.devopsify.dto.SignUpFormDto;
 import com.winchesters.devopsify.dto.UserResponseDto;
+import com.winchesters.devopsify.exception.UserCredentialsNotFoundException;
 import com.winchesters.devopsify.exception.user.InvalidEmailException;
 import com.winchesters.devopsify.exception.user.InvalidUsernameException;
 import com.winchesters.devopsify.exception.user.UserNotAuthenticatedException;
 import com.winchesters.devopsify.exception.user.UserNotFoundException;
 import com.winchesters.devopsify.mapper.EntityToDtoMapper;
+import com.winchesters.devopsify.model.GithubCredentials;
 import com.winchesters.devopsify.model.entity.User;
 import com.winchesters.devopsify.repository.UserRepository;
 import com.winchesters.devopsify.security.PasswordConfig;
+import org.eclipse.jgit.api.Git;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -90,21 +93,28 @@ public class UserService {
         );
     }
 
+    public void updateGithubCredentials(GithubCredentials githubCredentials){
+        User user = this.getCurrentUser();
+        user.setGithubCredentials(githubCredentials);
+    }
     public void updatePersonalAccessToken(String personalAccessToken) {
         User user = this.getCurrentUser();
-        user.setPersonalAccessToken(personalAccessToken);
+        if (user.getGithubCredentials() == null)
+            throw new UserCredentialsNotFoundException();
+        user.setGithubCredentials(new GithubCredentials(user.getGithubCredentials().username(),personalAccessToken));
     }
     public User getCurrentUser(){
         String username = authenticationFacade.getAuthenticatedUsername();
-
         if(!username.equals("anonymousUser")) {
             return findUserByUsername(username);
         }
-
         throw new UserNotAuthenticatedException();
     }
 
     public String getPersonalAccessToken() {
-        return getCurrentUser().getPersonalAccessToken();
+        return getCurrentUser().getGithubCredentials().personalAccessToken();
+    }
+    public GithubCredentials getGithubCredentials() {
+        return getCurrentUser().getGithubCredentials();
     }
 }
