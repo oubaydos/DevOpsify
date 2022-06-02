@@ -49,10 +49,22 @@ const ConnectToGithub = () => {
                         size="small"
                         required
                         fullWidth
-                        id="github"
+                        id="username"
+                        label="Github Username"
+                        name="username"
+                        autoComplete="username"
+                        color="success"
+                        autoFocus
+                    />
+                    <TextField
+                        margin="normal"
+                        size="small"
+                        required
+                        fullWidth
+                        id="token"
                         label="Github token"
-                        name="github"
-                        autoComplete="github"
+                        name="token"
+                        autoComplete="token"
                         color="success"
                         autoFocus
                     />
