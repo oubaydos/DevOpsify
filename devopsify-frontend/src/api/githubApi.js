@@ -6,7 +6,7 @@ const ENDPOINT = configData.SERVER_URL+"/github";
 const CONNECT_ENDPOINT = ENDPOINT+"/connect";
 const CREATE_REPOSITORY_ENDPOINT = ENDPOINT+"/create/repository";
 
-export function connectToGithub(event, setSuccessful) {
+export function connectToGithub(event, setSuccessful, setError) {
     console.log(event.currentTarget)
     const data = new FormData(event.currentTarget);
     const dataToSend = {
@@ -23,13 +23,12 @@ export function connectToGithub(event, setSuccessful) {
         (res) => {
             setSuccessful(true);
             console.log(res.data);
-            goto("/");
+            setTimeout(()=>{goto("/");},500);
         }
         ,
         (err) => {
-            //TODO : handle error with customized stuff
-            alert("erreur lors de l'authentification, veuillez reentrer vos données, en cas de besoin contacter l'admin");
             console.error(err);
+            setError(err);
         }
     );
 

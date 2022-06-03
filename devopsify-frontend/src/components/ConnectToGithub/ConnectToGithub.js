@@ -5,19 +5,23 @@ import {
     CssBaseline,
     TextField,
     Box,
-    Container,
+    Container, Grid,
 } from "@mui/material";
 
 import {React, useState} from "react";
 import {connectToGithub} from "../../api/githubApi";
+import Success from "../shared/Success";
+import Error from "../shared/Error";
 
 
 const ConnectToGithub = () => {
 
     const [successful, setSuccessful] = useState(false);
+    const [error, setError] = useState(false);
+
     const handleSubmit = (event) => {
         event.preventDefault();
-        connectToGithub(event, setSuccessful);
+        connectToGithub(event, setSuccessful,setError);
     };
 
     return (
@@ -79,7 +83,18 @@ const ConnectToGithub = () => {
                     </Button>{" "}
                 </Box>
             </Box>{" "}
+            <Grid>
+                {(successful && error === false) && (
+                    <Success message={"successfully connected to github"}/>
+                )}{" "}
+            </Grid>
+            <Grid>
+                {error !== false && (
+                    <Error error={error}/>
+                )}{" "}
+            </Grid>
         </Container>
+
     );
 };
 
