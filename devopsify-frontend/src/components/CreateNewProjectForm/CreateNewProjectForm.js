@@ -9,9 +9,8 @@ import {
     FormControlLabel,
     Grid,
     Checkbox,
-    Button, Alert,
+    Button,
 } from "@mui/material";
-import Box from "@mui/material/Box";
 import Error from "../shared/Error";
 import Success from "../shared/Success";
 
@@ -27,12 +26,8 @@ const styles = {
 
 const defaultValues = {
     name: "hello-world",
-    // location: "",
     autoInit: true,
-    // language: "Java",
-    // buildSystem: "Maven",
-    // JDK: "17",
-    private_:true
+    private_: true
 };
 
 const CreateNewProjectForm = () => {
@@ -42,7 +37,7 @@ const CreateNewProjectForm = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        createNewProject(formValues,setSuccessful, setError);
+        createNewProject(formValues, setSuccessful, setError);
         console.log(formValues)
     };
 
@@ -166,7 +161,7 @@ const CreateNewProjectForm = () => {
                     </Button>
                 </Grid>
                 <Grid>
-                    {(successful && error === false )&&  (
+                    {(successful && error === false) && (
                         <Success/>
                     )}{" "}
                 </Grid>
