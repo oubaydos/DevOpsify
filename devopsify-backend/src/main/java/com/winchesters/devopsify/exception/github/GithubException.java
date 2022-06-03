@@ -8,17 +8,6 @@ import org.kohsuke.github.HttpException;
 import java.util.Map;
 
 public class GithubException extends GeneralException {
-//    public GithubException(HttpException exception) {
-//        super(exception.getClass().getSimpleName(),exception.getLocalizedMessage());
-//        ObjectMapper mapper = new ObjectMapper();
-//        try {
-//            Map<String,Object> map = mapper.readValue(exception.getLocalizedMessage(), Map.class);
-//            System.err.println(map.values());
-//        } catch (JsonProcessingException e) {
-//            e.printStackTrace();
-//        }
-//    }
-
     public GithubException(String message) {
         super("HttpException", message);
     }
