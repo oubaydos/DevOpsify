@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {createNewProject} from "../../api/githubApi"
+import {createNewProject} from "../../api/projectService"
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import licenseTemplates from "../../utils/licenseTemplates.json";
@@ -9,9 +9,8 @@ import {
     FormControlLabel,
     Grid,
     Checkbox,
-    Button, Alert,
+    Button,
 } from "@mui/material";
-import Box from "@mui/material/Box";
 import Error from "../shared/Error";
 import Success from "../shared/Success";
 
