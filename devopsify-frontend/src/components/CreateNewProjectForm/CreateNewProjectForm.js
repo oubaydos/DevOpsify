@@ -1,8 +1,9 @@
-import {useState} from "react";
+import React, {useState} from "react";
 import {createNewProject} from "../../api/githubApi"
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import licenseTemplates from "../../utils/licenseTemplates.json";
+import gitIgnoreTemplates from "../../utils/gitIgnoreTemplates.json";
 import {
     TextField,
     FormControlLabel,
@@ -10,6 +11,7 @@ import {
     Checkbox,
     Button,
 } from "@mui/material";
+import Box from "@mui/material/Box";
 
 const styles = {
     labeled: {
@@ -33,10 +35,12 @@ const defaultValues = {
 
 const CreateNewProjectForm = () => {
     const [formValues, setFormValues] = useState(defaultValues);
+    const [successful, setSuccessful] = useState(false);
+    const [error, setError] = useState(false);
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        createNewProject(formValues);
+        createNewProject(formValues,setSuccessful, setError);
         console.log(formValues)
     };
 
@@ -121,7 +125,7 @@ const CreateNewProjectForm = () => {
                                 onChange={handleInputChange}
 
                             >
-                                {licenseTemplates.map((v) => <MenuItem value={v.value}>{v.label}</MenuItem>)}
+                                {gitIgnoreTemplates.map((v) => <MenuItem value={v}>{v}</MenuItem>)}
                             </Select>
                         }
                         labelPlacement="start"
@@ -158,6 +162,42 @@ const CreateNewProjectForm = () => {
                     <Button variant="contained" color="secondary" type="submit">
                         Create
                     </Button>
+                </Grid>
+                <Grid>
+                    {successful && (
+                        <Box mt={5}>
+                            <div
+                                style={{
+                                    padding: "10px",
+                                    marginBottom: "-20px",
+                                    borderRadius: "3px 3px 3px 3px",
+                                    color: "#270",
+                                    backgroundColor: "#DFF2BF",
+                                }}
+                            >
+                                the repository is successfully added
+                            </div>
+                        </Box>
+                    )}{" "}
+                </Grid>
+                <Grid>
+                    {error !== false && (
+                        <Box mt={5}>
+                            <div
+                                style={{
+                                    padding: "10px",
+                                    marginBottom: "-20px",
+                                    borderRadius: "3px 3px 3px 3px",
+                                    color: "#270",
+                                    backgroundColor: "#DFF2BF",
+                                }}
+                            >
+                                Error:
+                                <br/>
+                                {error.response.data.exception.message}
+                            </div>
+                        </Box>
+                    )}{" "}
                 </Grid>
             </Grid>
         </form>

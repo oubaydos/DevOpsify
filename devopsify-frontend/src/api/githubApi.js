@@ -34,7 +34,7 @@ export function connectToGithub(event, setSuccessful) {
     );
 
 }
-export function createNewProject(formValues) {
+export function createNewProject(formValues,setSuccess,setError) {
 
     console.log(formValues)
 
@@ -50,13 +50,14 @@ export function createNewProject(formValues) {
 
             // setSuccessful(true);
             console.log(res);
-            reload()
+            setSuccess(true);
+            setTimeout(reload, 1000);
 
         }
         ,
         (err) => {
-            alert(err.response.data.error);
             console.error(err);
+            setError(err);
         }
     );
 }
