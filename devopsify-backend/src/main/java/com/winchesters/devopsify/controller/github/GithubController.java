@@ -2,7 +2,7 @@ package com.winchesters.devopsify.controller.github;
 
 import com.winchesters.devopsify.dto.GithubRepositoryDto;
 import com.winchesters.devopsify.model.GithubCredentials;
-import com.winchesters.devopsify.service.technologies.github.GithubRepositoryImpl;
+import com.winchesters.devopsify.service.technologies.github.GithubRepositoryServiceServiceImpl;
 import com.winchesters.devopsify.service.technologies.github.GithubServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.kohsuke.github.GHRepository;
@@ -21,7 +21,7 @@ import java.io.IOException;
 public class GithubController {
     private static final Logger LOG = LoggerFactory.getLogger(GithubController.class);
     private final GithubServiceImpl githubService;
-    private final GithubRepositoryImpl githubRepository;
+    private final GithubRepositoryServiceServiceImpl githubRepository;
     @PostMapping("/connect")
     @ResponseStatus( HttpStatus.CREATED )
     private void connect(@RequestBody GithubCredentials githubCredentials) throws IOException {
