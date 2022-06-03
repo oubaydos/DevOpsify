@@ -4,12 +4,12 @@ import * as React from "react";
 
 const styles = {
   card: {
-    width: "700px",
-    height: "130px",
+    width: "800px ",
+    height: "200px",
     background: "rgba(255, 255, 255, 0.8)",
     boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
     borderRadius: "10px",
-    position: "relative",
+    position: "relative"
   },
   title: {
     fontStyle: "normal",

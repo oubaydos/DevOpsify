@@ -87,9 +87,9 @@ public class ProjectService {
     }
 
     public AnalyseResults analyse(Long projectId) {
-
         User user = userService.getCurrentUser();
         GithubCredentials githubCredentials = user.getGithubCredentials();
+
         if(githubCredentials==null){
             throw new UserCredentialsNotFoundException();
         }
@@ -100,11 +100,13 @@ public class ProjectService {
         }
 
         gitService.syncLocalWithOriginMain(githubCredentials,project.getLocalRepoPath());
+
         AnalyseResults analyseResults = new AnalyseResults(
                 gitService.analyseGithub(),
                 jenkinsService.analyseJenkins(),
                 nexusService.analyseNexus()
         );
+
         project.setAnalyseResults(analyseResults);
 
         return analyseResults;
