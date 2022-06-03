@@ -27,11 +27,11 @@ public class Project {
     private String imagePath;
     private String remoteRepoUrl;
     private String localRepoPath;
-    private Boolean isGitInitialized;
-    private Boolean isMavenProject;
-    private Boolean isDockerized;
-    private Boolean hasJenkinsFile;
-    private Boolean hasTests;
+    private Boolean isGitInitialized = true;
+    private Boolean isMavenProject = false;
+    private Boolean isDockerized = false;
+    private Boolean hasJenkinsFile = false;
+    private Boolean hasTests = false;
 
     @Type(type = "jsonb")
     @Column(columnDefinition = "jsonb")
@@ -44,4 +44,6 @@ public class Project {
     @Type(type = "jsonb")
     @Column(columnDefinition = "jsonb")
     private Server nexusServer;
+
+
 }
