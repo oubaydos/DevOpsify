@@ -26,7 +26,7 @@ export function login(event,setOpen,setCookie) {
         }
     }).then(
         (res) => {
-            setCookie("Authorization"+configData.COOKIE_SUFFIX,res.headers["authorization"])
+            setCookie("Authorization",res.headers["authorization"])
             setOpen(true);
             goto("/")
         }
@@ -68,7 +68,7 @@ export function getAuthenticatedUser(authCookie,setCurrentUser){
                 role:"GUEST",
                 name :""
             })
-            return;
+
         }
     );
 }

@@ -1,5 +1,5 @@
 import {React,useState} from "react";
-import {createNewProject} from "../../api/projectService"
+import {createNewProject} from "../../api/githubApi"
 import {
   TextField,
   FormControlLabel,
