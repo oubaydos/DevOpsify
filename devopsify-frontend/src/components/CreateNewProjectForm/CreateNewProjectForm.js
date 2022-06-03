@@ -1,171 +1,167 @@
-import {React,useState} from "react";
+import {useState} from "react";
 import {createNewProject} from "../../api/githubApi"
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import licenseTemplates from "../../utils/licenseTemplates.json";
 import {
-  TextField,
-  FormControlLabel,
-  Grid,
-  Checkbox,
-  Button,
+    TextField,
+    FormControlLabel,
+    Grid,
+    Checkbox,
+    Button,
 } from "@mui/material";
 
 const styles = {
-  labeled: {
-    marginLeft: 20,
-  },
-  formItem: {
-    marginBottom: 10,
-    marginTop: 10,
-  },
+    labeled: {
+        marginLeft: 20,
+    },
+    formItem: {
+        marginBottom: 10,
+        marginTop: 10,
+    },
 };
 
 const defaultValues = {
-  name: "hello-world",
-  location: "",
-  initGitRepository: true,
-  language: "Java",
-  buildSystem: "Maven",
-  JDK: "17",
+    name: "hello-world",
+    // location: "",
+    autoInit: true,
+    // language: "Java",
+    // buildSystem: "Maven",
+    // JDK: "17",
+    private_:true
 };
 
 const CreateNewProjectForm = () => {
-  const [formValues, setFormValues] = useState(defaultValues);
+    const [formValues, setFormValues] = useState(defaultValues);
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    createNewProject(formValues);
-  };
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        createNewProject(formValues);
+        console.log(formValues)
+    };
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormValues({
-      ...formValues,
-      [name]: value,
-    });
-  };
-  const handleCheckboxChange = (e) => {
-    const { name, checked } = e.target;
-    setFormValues({
-      ...formValues,
-      [name]: checked,
-    });
-  };
+    const handleCheckboxChange = (e) => {
 
-  return (
-    <form onSubmit={handleSubmit}>
-      <Grid container direction="column">
-        <Grid item style={styles.formItem}>
-          <FormControlLabel
-            label="Project name"
-            control={
-              <TextField
-                name="name"
-                style={styles.labeled}
-                required
-                id="create-new-project-name"
-                defaultValue={defaultValues.name}
-                color="secondary"
-                size="small"
-                onChange={handleInputChange}
-              />
-            }
-            labelPlacement="start"
-          />
-        </Grid>
-        <Grid item style={styles.formItem}>
-          <FormControlLabel
-            label="Project Location"
-            control={
-              <TextField
-                name="location"
-                style={styles.labeled}
-                required
-                id="create-new-project-location"
-                defaultValue={defaultValues.location}
-                color="secondary"
-                size="small"
-                onChange={handleInputChange}
-              />
-            }
-            labelPlacement="start"
-          />
-        </Grid>
-        <Grid item style={styles.formItem}>
-          <FormControlLabel
-            control={
-              <Checkbox
-                name="initGitRepository"
-                defaultChecked={defaultValues.initGitRepository}
-                color="success"
-                onChange={handleCheckboxChange}
-              />
-            }
-            label="Create Git repository"
-          />
-        </Grid>
-        <Grid item style={styles.formItem}>
-          <FormControlLabel
-            label="Build System"
-            control={
-              <TextField
-                name="buildSystem"
-                style={styles.labeled}
-                required
-                disabled
-                id="create-new-project-build-system"
-                defaultValue={defaultValues.buildSystem}
-                color="secondary"
-                size="small"
-                onChange={handleInputChange}
-              />
-            }
-            labelPlacement="start"
-          />
-        </Grid>
-        <Grid item style={styles.formItem}>
-          <FormControlLabel
-            name="language"
-            label="Language"
-            control={
-              <TextField
-                style={styles.labeled}
-                required
-                disabled
-                id="create-new-project-langauge"
-                defaultValue={defaultValues.language}
-                color="secondary"
-                size="small"
-                onChange={handleInputChange}
-              />
-            }
-            labelPlacement="start"
-          />
-        </Grid>
-        <Grid item style={styles.formItem}>
-          <FormControlLabel
-            label="JDK"
-            control={
-              <TextField
-                name="jdk"
-                style={styles.labeled}
-                disabled
-                required
-                id="create-new-project-jdk"
-                defaultValue={defaultValues.JDK}
-                color="secondary"
-                size="small"
-              />
-            }
-            labelPlacement="start"
-          />
-        </Grid>
-        <Grid item style={styles.formItem}>
-          <Button variant="contained" color="secondary" type="submit">
-            Create
-          </Button>
-        </Grid>
-      </Grid>
-    </form>
-  );
+        const {name, checked} = e.target;
+        alert(checked)
+        setFormValues({
+            ...formValues,
+            [name]: checked,
+        });
+    };
+
+    const handleInputChange = (e) => {
+        const {name, value} = e.target;
+        setFormValues({
+            ...formValues,
+            [name]: value,
+        });
+    };
+
+
+    return (
+        <form onSubmit={handleSubmit}>
+            <Grid container direction="column" alignItems="center"
+                  justify="center" spacing={0}>
+                <Grid item style={styles.formItem}>
+                    <TextField
+                        name="name"
+                        style={styles.labeled}
+                        required
+                        id="create-new-project-name"
+                        color="secondary"
+                        size="small"
+                        label={"project name"}
+                        onChange={handleInputChange}
+                    />
+                </Grid>
+                <Grid item style={styles.formItem}>
+                    <TextField
+                        name="description"
+                        style={styles.labeled}
+                        multiline
+                        maxRows={6}
+                        id="create-new-project-description"
+                        defaultValue={defaultValues.description}
+                        color="secondary"
+                        size="small"
+                        label={"project description"}
+                        onChange={handleInputChange}
+                    />
+                </Grid>
+                <Grid item style={styles.formItem}>
+                    <FormControlLabel
+                        label="License"
+                        control={
+
+                            <Select
+                                labelId="licenses-select-label"
+                                id="licenses-select"
+                                style={{minWidth: "150px"}}
+                                name={"licenseTemplate"}
+                                onChange={handleInputChange}
+
+                            >
+                                {licenseTemplates.map((v) => <MenuItem value={v.value}>{v.label}</MenuItem>)}
+                            </Select>
+                        }
+                        labelPlacement="start"
+                    />
+                </Grid>
+                <Grid item style={styles.formItem}>
+                    <FormControlLabel
+                        label="gitignore template"
+                        control={
+
+                            <Select
+                                labelId="gitignore-select-label"
+                                id="gitignore-select"
+                                style={{minWidth: "150px"}}
+                                name="gitIgnoreTemplate"
+                                onChange={handleInputChange}
+
+                            >
+                                {licenseTemplates.map((v) => <MenuItem value={v.value}>{v.label}</MenuItem>)}
+                            </Select>
+                        }
+                        labelPlacement="start"
+                    />
+                </Grid>
+
+                <Grid item style={styles.formItem}>
+                    <FormControlLabel
+                        control={
+                            <Checkbox
+                                name="autoInit"
+                                defaultChecked={defaultValues.autoInit}
+                                color="success"
+                                onChange={handleCheckboxChange}
+                            />
+                        }
+                        label="create a ReadMe"
+                    />
+                </Grid>
+                <Grid item style={styles.formItem}>
+                    <FormControlLabel
+                        control={
+                            <Checkbox
+                                name="private_"
+                                defaultChecked={defaultValues.private_}
+                                color="success"
+                                onChange={handleCheckboxChange}
+                            />
+                        }
+                        label="the repository is private"
+                    />
+                </Grid>
+                <Grid item style={styles.formItem}>
+                    <Button variant="contained" color="secondary" type="submit">
+                        Create
+                    </Button>
+                </Grid>
+            </Grid>
+        </form>
+    );
 };
 
 export default CreateNewProjectForm;
