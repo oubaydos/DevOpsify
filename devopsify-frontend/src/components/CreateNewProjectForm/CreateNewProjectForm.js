@@ -9,9 +9,11 @@ import {
     FormControlLabel,
     Grid,
     Checkbox,
-    Button,
+    Button, Alert,
 } from "@mui/material";
 import Box from "@mui/material/Box";
+import Error from "../shared/Error";
+import Success from "../shared/Success";
 
 const styles = {
     labeled: {
@@ -164,39 +166,13 @@ const CreateNewProjectForm = () => {
                     </Button>
                 </Grid>
                 <Grid>
-                    {successful && (
-                        <Box mt={5}>
-                            <div
-                                style={{
-                                    padding: "10px",
-                                    marginBottom: "-20px",
-                                    borderRadius: "3px 3px 3px 3px",
-                                    color: "#270",
-                                    backgroundColor: "#DFF2BF",
-                                }}
-                            >
-                                the repository is successfully added
-                            </div>
-                        </Box>
+                    {(successful && error === false )&&  (
+                        <Success/>
                     )}{" "}
                 </Grid>
                 <Grid>
                     {error !== false && (
-                        <Box mt={5}>
-                            <div
-                                style={{
-                                    padding: "10px",
-                                    marginBottom: "-20px",
-                                    borderRadius: "3px 3px 3px 3px",
-                                    color: "#270",
-                                    backgroundColor: "#DFF2BF",
-                                }}
-                            >
-                                Error:
-                                <br/>
-                                {error.response.data.exception.message}
-                            </div>
-                        </Box>
+                        <Error error={error}/>
                     )}{" "}
                 </Grid>
             </Grid>
