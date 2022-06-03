@@ -1,6 +1,8 @@
 package com.winchesters.devopsify.service;
 
 import com.winchesters.devopsify.dto.CreateNewProjectDto;
+import com.winchesters.devopsify.dto.CreateNewProjectWithInitDto;
+import com.winchesters.devopsify.dto.GithubRepositoryDto;
 import com.winchesters.devopsify.dto.ProjectDto;
 import com.winchesters.devopsify.exception.UserCredentialsNotFoundException;
 import com.winchesters.devopsify.exception.project.ProjectNotFoundException;
@@ -12,13 +14,19 @@ import com.winchesters.devopsify.model.entity.Server;
 import com.winchesters.devopsify.model.entity.User;
 import com.winchesters.devopsify.repository.ProjectRepository;
 import com.winchesters.devopsify.service.technologies.git.GitService;
+import com.winchesters.devopsify.service.technologies.github.GithubRepositoryServiceServiceImpl;
 import com.winchesters.devopsify.service.technologies.jenkins.JenkinsService;
 import com.winchesters.devopsify.service.technologies.nexus.NexusService;
 import lombok.RequiredArgsConstructor;
+import org.eclipse.jgit.api.errors.GitAPIException;
+import org.kohsuke.github.GHRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.List;
+
+import static com.winchesters.devopsify.utils.IOUtils.projectsDirectory;
 
 @Service
 @Transactional
@@ -28,7 +36,7 @@ public class ProjectService {
     private final ProjectRepository projectRepository;
     private final JenkinsService jenkinsService;
     private final GitService gitService;
-
+    private final GithubRepositoryServiceServiceImpl githubRepositoryService;
     private final NexusService nexusService;
 
     private final UserService userService;
@@ -48,6 +56,19 @@ public class ProjectService {
                         .orElseThrow(ProjectNotFoundException::new)
         );
     }
+
+    public ProjectDto createNewProjectWithInit(CreateNewProjectWithInitDto createNewProjectWithInitDto) throws IOException, GitAPIException {
+        GithubRepositoryDto githubRepositoryDto = new GithubRepositoryDto(createNewProjectWithInitDto);
+        GHRepository ghRepository = githubRepositoryService.createRepository(githubRepositoryDto);
+        String localPath = projectsDirectory() + "/" + createNewProjectWithInitDto.name();
+        gitService.clone(ghRepository.getHtmlUrl().toString(), localPath, userService.getGithubCredentials());
+        Project project = new Project();
+        project.setName(createNewProjectWithInitDto.name());
+        project.setLocalRepoPath(localPath);
+        project.setRemoteRepoUrl(ghRepository.getHtmlUrl().toString());
+        return EntityToDtoMapper.ProjectToProjectDto(projectRepository.save(project));
+    }
+
 
     public ProjectDto createNewProject(CreateNewProjectDto createNewProjectDto) {
         Project project = new Project();
@@ -90,16 +111,16 @@ public class ProjectService {
         User user = userService.getCurrentUser();
         GithubCredentials githubCredentials = user.getGithubCredentials();
 
-        if(githubCredentials==null){
+        if (githubCredentials == null) {
             throw new UserCredentialsNotFoundException();
         }
 
         Project project = findProjectById(projectId);
-        if (gitService.localAndOriginMainInSync(githubCredentials,project.getLocalRepoPath())) {
+        if (gitService.localAndOriginMainInSync(githubCredentials, project.getLocalRepoPath())) {
             return project.getAnalyseResults();
         }
 
-        gitService.syncLocalWithOriginMain(githubCredentials,project.getLocalRepoPath());
+        gitService.syncLocalWithOriginMain(githubCredentials, project.getLocalRepoPath());
 
         AnalyseResults analyseResults = new AnalyseResults(
                 gitService.analyseGithub(),
