@@ -28,6 +28,7 @@ import static com.winchesters.devopsify.service.technologies.github.readme.ReadM
 @RequiredArgsConstructor
 @Transactional
 public class GithubRepositoryServiceImpl implements GithubRepositoryService {
+    //TODO : add github after analysis actions
     private final GithubServiceImpl githubService;
     private final UserService userService;
 
