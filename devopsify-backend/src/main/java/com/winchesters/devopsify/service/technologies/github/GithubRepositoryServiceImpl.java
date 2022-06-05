@@ -7,6 +7,7 @@ import com.winchesters.devopsify.exception.github.GithubRepositoryBranchNotFound
 import com.winchesters.devopsify.exception.github.GithubRepositoryNotFoundException;
 import com.winchesters.devopsify.exception.github.PersonalAccessTokenPermissionException;
 import com.winchesters.devopsify.model.GithubAnalyseResults;
+import com.winchesters.devopsify.service.technologies.github.branch.Branch;
 import com.winchesters.devopsify.service.technologies.github.readme.ReadMe;
 import lombok.RequiredArgsConstructor;
 import org.kohsuke.github.*;
@@ -18,6 +19,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+
+import static com.winchesters.devopsify.service.technologies.github.readme.ReadMe.analyseReadMe;
 
 @Service
 @RequiredArgsConstructor
@@ -58,16 +61,16 @@ public class GithubRepositoryServiceImpl implements GithubRepositoryService {
     public ReadMeStatus getReadMeStatus(GHRepository repository) throws IOException {
         String readMeContent = getReadMe(repository);
         LOG.debug("ReadMe's number of lines : {}", readMeContent.lines().count());
-        return ReadMe.analyseReadMe(readMeContent, repository.getName());
+        return analyseReadMe(readMeContent, repository.getName());
     }
     public repositoryStatus analyseRepository(GHRepository repository) throws IOException {
         if (repository == null)
             throw new GithubRepositoryNotFoundException();
         if (repository.getLicense() == null)
             return repositoryStatus.LICENSE_MISSING;
-
-        for (var a : repository.getTreeRecursive(repository.getBranch(repository.getDefaultBranch()).getSHA1(),1).getTree())
-            LOG.debug("list {}",a.getPath());
+        Branch branch = new Branch(repository);
+        if (!branch.containsGitIgnore()) return repositoryStatus.GITIGNORE_MISSING;
+        if (!getReadMeStatus(repository).equals(ReadMeStatus.OKAY)) return repositoryStatus.README_PROBLEM;
         return repositoryStatus.OKAY;
     }
 
@@ -76,12 +79,12 @@ public class GithubRepositoryServiceImpl implements GithubRepositoryService {
         return null;
     }
 
+    // IGNORE
     public repositoryStatus test(String name) throws IOException {
         GitHub github = githubService.getGithub();
         GHRepository repository = github.getRepository("temp-devopsify/"+name);
         if (repository == null)
             throw new GithubRepositoryNotFoundException();
-
         return analyseRepository(repository);
 
     }
