@@ -1,6 +1,7 @@
 package com.winchesters.devopsify.enums;
 
 public enum ReadMeStatus {
+    MISSING("MISSING"),
     EMPTY("EMPTY"),
     SMALL("SMALL"),
     DOES_NOT_CONTAIN_TITLE("DOES NOT CONTAIN TITLE"),

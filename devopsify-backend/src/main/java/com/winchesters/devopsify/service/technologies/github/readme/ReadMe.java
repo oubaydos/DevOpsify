@@ -25,7 +25,8 @@ public class ReadMe {
     }
 
     private static ReadMeStatus readMeIsNotEmpty(String readMe) {
-        if (readMe == null || readMe.isEmpty()) return ReadMeStatus.EMPTY;
+        if (readMe == null) return ReadMeStatus.MISSING;
+        if ( readMe.isEmpty()) return ReadMeStatus.EMPTY;
         if (readMe.lines().count() < 5) return ReadMeStatus.SMALL; // TODO figure out a better number
         return ReadMeStatus.OKAY;
     }
