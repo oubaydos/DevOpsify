@@ -1,6 +1,6 @@
 package com.winchesters.devopsify.service.technologies.maven;
 
-import com.winchesters.devopsify.dto.TestResultDto;
+import com.winchesters.devopsify.dto.response.TestResultDto;
 import com.winchesters.devopsify.service.technologies.TechnologyService;
 import org.apache.maven.model.Dependency;
 import org.apache.maven.shared.invoker.InvocationResult;

@@ -1,4 +1,4 @@
-package com.winchesters.devopsify.dto;
+package com.winchesters.devopsify.dto.response;
 
 public record TestResultDto(
         int testsRun,

@@ -1,7 +1,7 @@
 package com.winchesters.devopsify.service.technologies.maven;
 
 
-import com.winchesters.devopsify.dto.TestResultDto;
+import com.winchesters.devopsify.dto.response.TestResultDto;
 import com.winchesters.devopsify.service.technologies.git.GitServiceImpl;
 import com.winchesters.devopsify.utils.PatternUtils;
 import org.apache.commons.io.output.ByteArrayOutputStream;
@@ -134,7 +134,7 @@ public class MavenServiceImpl implements MavenService {
         Pattern pattern = Pattern.compile("Tests run: \\d+, Failures: \\d+, Errors: \\d+, Skipped: \\d+");
         Matcher matcher = pattern.matcher(output);
         List<Integer> infos;
-        String testInfos ="";
+        String testInfos;
         int testsRun=0,failures=0,errors=0,skipped=0;
         while(matcher.find()){
             testInfos= matcher.group();

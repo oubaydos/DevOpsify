@@ -1,7 +1,7 @@
 package com.winchesters.devopsify.mapper;
 
-import com.winchesters.devopsify.dto.ProjectDto;
-import com.winchesters.devopsify.dto.UserResponseDto;
+import com.winchesters.devopsify.dto.request.ProjectDto;
+import com.winchesters.devopsify.dto.response.UserResponseDto;
 import com.winchesters.devopsify.model.entity.Project;
 import com.winchesters.devopsify.model.entity.User;
 

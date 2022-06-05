@@ -1,7 +1,7 @@
 package com.winchesters.devopsify.controller.user;
 
 import com.winchesters.devopsify.controller.GeneralControllerAdviceImpl;
-import com.winchesters.devopsify.dto.ErrorResponseDto;
+import com.winchesters.devopsify.dto.error.ErrorResponseDto;
 import com.winchesters.devopsify.exception.user.InvalidEmailException;
 import com.winchesters.devopsify.exception.user.InvalidUsernameException;
 import com.winchesters.devopsify.exception.user.UserNotAuthenticatedException;

@@ -1,8 +1,8 @@
 package com.winchesters.devopsify.service;
 
 import com.winchesters.devopsify.auth.AuthenticationFacade;
-import com.winchesters.devopsify.dto.SignUpFormDto;
-import com.winchesters.devopsify.dto.UserResponseDto;
+import com.winchesters.devopsify.dto.request.SignUpFormDto;
+import com.winchesters.devopsify.dto.response.UserResponseDto;
 import com.winchesters.devopsify.exception.UserCredentialsNotFoundException;
 import com.winchesters.devopsify.exception.user.InvalidEmailException;
 import com.winchesters.devopsify.exception.user.InvalidUsernameException;
@@ -13,7 +13,6 @@ import com.winchesters.devopsify.model.GithubCredentials;
 import com.winchesters.devopsify.model.entity.User;
 import com.winchesters.devopsify.repository.UserRepository;
 import com.winchesters.devopsify.security.PasswordConfig;
-import org.eclipse.jgit.api.Git;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 

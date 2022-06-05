@@ -1,7 +1,7 @@
 package com.winchesters.devopsify.controller.project;
 
 import com.winchesters.devopsify.controller.GeneralControllerAdviceImpl;
-import com.winchesters.devopsify.dto.ErrorResponseDto;
+import com.winchesters.devopsify.dto.error.ErrorResponseDto;
 import com.winchesters.devopsify.exception.project.ProjectNotFoundException;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;

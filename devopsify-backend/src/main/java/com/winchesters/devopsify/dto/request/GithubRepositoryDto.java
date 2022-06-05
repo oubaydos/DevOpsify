@@ -1,6 +1,7 @@
-package com.winchesters.devopsify.dto;
+package com.winchesters.devopsify.dto.request;
 
 
+import com.winchesters.devopsify.dto.request.CreateNewProjectWithInitDto;
 import org.kohsuke.github.GHRepository;
 
 import javax.validation.constraints.NotNull;

@@ -1,9 +1,9 @@
 package com.winchesters.devopsify.service;
 
-import com.winchesters.devopsify.dto.CreateNewProjectDto;
-import com.winchesters.devopsify.dto.CreateNewProjectWithInitDto;
-import com.winchesters.devopsify.dto.GithubRepositoryDto;
-import com.winchesters.devopsify.dto.ProjectDto;
+import com.winchesters.devopsify.dto.request.CreateNewProjectDto;
+import com.winchesters.devopsify.dto.request.CreateNewProjectWithInitDto;
+import com.winchesters.devopsify.dto.request.GithubRepositoryDto;
+import com.winchesters.devopsify.dto.request.ProjectDto;
 import com.winchesters.devopsify.exception.UserCredentialsNotFoundException;
 import com.winchesters.devopsify.exception.project.ProjectNotFoundException;
 import com.winchesters.devopsify.mapper.EntityToDtoMapper;

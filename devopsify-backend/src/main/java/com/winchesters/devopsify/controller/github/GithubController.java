@@ -1,6 +1,6 @@
 package com.winchesters.devopsify.controller.github;
 
-import com.winchesters.devopsify.dto.GithubRepositoryDto;
+import com.winchesters.devopsify.dto.request.GithubRepositoryDto;
 import com.winchesters.devopsify.model.GithubCredentials;
 import com.winchesters.devopsify.service.technologies.github.GithubRepositoryServiceImpl;
 import com.winchesters.devopsify.service.technologies.github.GithubServiceImpl;

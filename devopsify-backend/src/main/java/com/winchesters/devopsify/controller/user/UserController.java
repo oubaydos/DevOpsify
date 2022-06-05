@@ -1,7 +1,7 @@
 package com.winchesters.devopsify.controller.user;
 
-import com.winchesters.devopsify.dto.SignUpFormDto;
-import com.winchesters.devopsify.dto.UserResponseDto;
+import com.winchesters.devopsify.dto.request.SignUpFormDto;
+import com.winchesters.devopsify.dto.response.UserResponseDto;
 import com.winchesters.devopsify.model.entity.User;
 import com.winchesters.devopsify.service.UserService;
 import lombok.RequiredArgsConstructor;

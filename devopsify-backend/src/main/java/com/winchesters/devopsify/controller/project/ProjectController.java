@@ -1,8 +1,8 @@
 package com.winchesters.devopsify.controller.project;
 
-import com.winchesters.devopsify.dto.CreateNewProjectWithInitDto;
-import com.winchesters.devopsify.dto.CreateNewProjectDto;
-import com.winchesters.devopsify.dto.ProjectDto;
+import com.winchesters.devopsify.dto.request.CreateNewProjectWithInitDto;
+import com.winchesters.devopsify.dto.request.CreateNewProjectDto;
+import com.winchesters.devopsify.dto.request.ProjectDto;
 import com.winchesters.devopsify.model.AnalyseResults;
 import com.winchesters.devopsify.model.entity.Server;
 import com.winchesters.devopsify.service.ProjectService;

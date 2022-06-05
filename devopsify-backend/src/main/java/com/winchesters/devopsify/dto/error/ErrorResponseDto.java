@@ -1,4 +1,4 @@
-package com.winchesters.devopsify.dto;
+package com.winchesters.devopsify.dto.error;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.winchesters.devopsify.utils.ExceptionJsonFormatter;

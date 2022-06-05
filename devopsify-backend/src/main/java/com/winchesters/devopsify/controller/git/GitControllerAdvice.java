@@ -1,7 +1,7 @@
 package com.winchesters.devopsify.controller.git;
 
 import com.winchesters.devopsify.controller.project.ProjectControllerAdvice;
-import com.winchesters.devopsify.dto.ErrorResponseDto;
+import com.winchesters.devopsify.dto.error.ErrorResponseDto;
 import com.winchesters.devopsify.exception.git.GitAPIException;
 import com.winchesters.devopsify.exception.git.GitException;
 import com.winchesters.devopsify.exception.git.GitInternalException;

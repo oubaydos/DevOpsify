@@ -1,10 +1,8 @@
 package com.winchesters.devopsify.service.technologies.github;
 
-import com.winchesters.devopsify.dto.GithubRepositoryDto;
-import lombok.NonNull;
+import com.winchesters.devopsify.dto.request.GithubRepositoryDto;
 import org.kohsuke.github.GHRepository;
 
-import javax.validation.constraints.NotNull;
 import java.io.IOException;
 
 public interface GithubRepositoryService {

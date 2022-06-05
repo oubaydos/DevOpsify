@@ -1,6 +1,6 @@
 package com.winchesters.devopsify.controller;
 
-import com.winchesters.devopsify.dto.ErrorResponseDto;
+import com.winchesters.devopsify.dto.error.ErrorResponseDto;
 import com.winchesters.devopsify.exception.GeneralException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

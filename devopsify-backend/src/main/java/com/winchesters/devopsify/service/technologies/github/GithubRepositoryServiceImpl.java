@@ -1,6 +1,6 @@
 package com.winchesters.devopsify.service.technologies.github;
 
-import com.winchesters.devopsify.dto.GithubRepositoryDto;
+import com.winchesters.devopsify.dto.request.GithubRepositoryDto;
 import com.winchesters.devopsify.exception.github.PersonalAccessTokenPermissionException;
 import lombok.RequiredArgsConstructor;
 import org.kohsuke.github.GHRepository;
