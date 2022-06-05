@@ -1,5 +1,6 @@
 package com.winchesters.devopsify.service.technologies.maven;
 
+import com.winchesters.devopsify.dto.TestResultDto;
 import com.winchesters.devopsify.service.technologies.TechnologyService;
 import org.apache.maven.model.Dependency;
 import org.apache.maven.shared.invoker.InvocationResult;
@@ -15,4 +16,9 @@ public interface MavenService extends TechnologyService {
     InvocationResult build(String baseDirPath);
 
     InvocationResult build(String baseDirPath,String executablePath);
+
+    TestResultDto test(String baseDirPath, String mavenExecutablePath);
+
+    TestResultDto test(String baseDirPath);
+
 }
