@@ -60,12 +60,12 @@ public class GithubRepositoryServiceImpl implements GithubRepositoryService {
         return new String(bytes);
     }
 
-    public ReadMeStatus getReadMeStatus(GHRepository repository) throws IOException {
+    private ReadMeStatus getReadMeStatus(GHRepository repository) throws IOException {
         String readMeContent = getReadMe(repository);
         LOG.debug("ReadMe's number of lines : {}", readMeContent.lines().count());
         return analyseReadMe(readMeContent, repository.getName());
     }
-    public RepositoryStatus getRepositoryStatus(GHRepository repository) throws IOException {
+    private RepositoryStatus getRepositoryStatus(GHRepository repository) throws IOException {
         if (repository == null)
             throw new GithubRepositoryNotFoundException();
         if (repository.getLicense() == null)
@@ -76,7 +76,7 @@ public class GithubRepositoryServiceImpl implements GithubRepositoryService {
         return RepositoryStatus.OKAY;
     }
 
-    public GithubAnalyseResults analyseGithub(GHRepository repository) throws IOException {
+    private GithubAnalyseResults analyseGithub(GHRepository repository) throws IOException {
         return new GithubAnalyseResults(
                 repository.getName(),
                 getReadMeStatus(repository),
@@ -98,6 +98,7 @@ public class GithubRepositoryServiceImpl implements GithubRepositoryService {
 
     // IGNORE
     public GithubAnalyseResults test(String name) throws IOException {
+
         GitHub github = githubService.getGithub();
         GHRepository repository = github.getRepository("temp-devopsify/"+name);
         if (repository == null)
