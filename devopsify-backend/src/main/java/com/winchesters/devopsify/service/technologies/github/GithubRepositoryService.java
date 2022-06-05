@@ -7,7 +7,7 @@ import org.kohsuke.github.GHRepository;
 import javax.validation.constraints.NotNull;
 import java.io.IOException;
 
-public interface GithubRepository {
+public interface GithubRepositoryService {
     /**
      *  create a new repository in github
      * @param githubRepositoryDto an object containing name, owner, autoInit, licenseTemplate, gitIgnoreTemplate attributes

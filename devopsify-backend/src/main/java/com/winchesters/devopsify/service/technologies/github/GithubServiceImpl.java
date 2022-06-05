@@ -48,6 +48,7 @@ public class GithubServiceImpl implements GithubService {
             throw new PersonalAccessTokenPermissionException();
         }
         this.githubCredentials = githubCredentials;
+        this.github = tempGithub;
         userService.updateGithubCredentials(githubCredentials);
         return tempGithub;
     }
@@ -71,5 +72,6 @@ public class GithubServiceImpl implements GithubService {
 
         return false;
     }
+
 
 }

@@ -27,6 +27,8 @@ public class GithubControllerAdviceImpl implements GithubControllerAdvice{
     ) {
         return handleGithubException(HttpStatus.UNAUTHORIZED.value(), exception);
     }
+    // TODO
+    // check why isn't this method handling the associated exceptions
     @ExceptionHandler(HttpException.class)
     public ResponseEntity<ErrorResponseDto> handleException(
             HttpException exception

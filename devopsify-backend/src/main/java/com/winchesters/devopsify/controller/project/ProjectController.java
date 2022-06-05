@@ -1,15 +1,17 @@
 package com.winchesters.devopsify.controller.project;
 
-import com.winchesters.devopsify.dto.AnalyseResultsDto;
+import com.winchesters.devopsify.dto.CreateNewProjectWithInitDto;
 import com.winchesters.devopsify.dto.CreateNewProjectDto;
 import com.winchesters.devopsify.dto.ProjectDto;
 import com.winchesters.devopsify.model.AnalyseResults;
 import com.winchesters.devopsify.model.entity.Server;
 import com.winchesters.devopsify.service.ProjectService;
+import org.eclipse.jgit.api.errors.GitAPIException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -35,7 +37,10 @@ public class ProjectController {
     public ProjectDto createNewProject(@RequestBody CreateNewProjectDto createNewProjectDto){
         return projectService.createNewProject(createNewProjectDto);
     }
-
+    @PostMapping("/init")
+    public ProjectDto createNewProjectWithInit(@RequestBody CreateNewProjectWithInitDto createNewProjectWithInitDto) throws GitAPIException, IOException {
+        return projectService.createNewProjectWithInit(createNewProjectWithInitDto);
+    }
     @PostMapping("{projectId}/jenkins")
     public void updateJenkinsServer(@PathVariable Long projectId, @RequestBody Server jenkinsServer){
         projectService.updateJenkinsServer(projectId,jenkinsServer);

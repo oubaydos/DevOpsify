@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {createNewProject} from "../../api/githubApi"
+import {createNewProject} from "../../api/projectService"
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import licenseTemplates from "../../utils/licenseTemplates.json";

@@ -1,10 +1,9 @@
 import axios from "axios";
 import configData from "../config.json";
-import {getCookie, goto, reload} from "../utils/utils";
+import {getCookie, goto} from "../utils/utils";
 
 const ENDPOINT = configData.SERVER_URL+"/github";
 const CONNECT_ENDPOINT = ENDPOINT+"/connect";
-const CREATE_REPOSITORY_ENDPOINT = ENDPOINT+"/create/repository";
 
 export function connectToGithub(event, setSuccessful, setError) {
     console.log(event.currentTarget)
@@ -32,31 +31,4 @@ export function connectToGithub(event, setSuccessful, setError) {
         }
     );
 
-}
-export function createNewProject(formValues,setSuccess,setError) {
-
-    console.log(formValues)
-
-
-    axios.post(`${CREATE_REPOSITORY_ENDPOINT}`, formValues
-        , {
-            headers: {
-                "Authorization": getCookie('Authorization'),
-            }
-        }
-    ).then(
-        (res) => {
-
-            // setSuccessful(true);
-            console.log(res);
-            setSuccess(true);
-            setTimeout(reload, 1000);
-
-        }
-        ,
-        (err) => {
-            console.error(err);
-            setError(err);
-        }
-    );
 }

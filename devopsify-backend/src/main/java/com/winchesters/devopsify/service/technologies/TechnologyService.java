@@ -9,7 +9,6 @@ import java.io.IOException;
 public interface TechnologyService {
 
     String scriptDirectory = System.getProperty("user.dir").concat("/scripts/");
-    String homeDirectory = javax.swing.filechooser.FileSystemView.getFileSystemView().getHomeDirectory().toString();
     boolean installed();
 
     default boolean installed(String technology){

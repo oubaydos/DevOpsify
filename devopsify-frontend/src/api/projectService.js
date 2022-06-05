@@ -1,29 +1,14 @@
 import axios from "axios";
 import configData from "../config.json";
-import {reload} from "../utils/utils"
+import {getCookie, reload} from "../utils/utils"
 
-const ENDPOINT = configData.SERVER_URL + "/project";
-const CLONE_PROJECT_ENDPOINT = ENDPOINT + "/project";
+const endpoint = configData.SERVER_URL+"/project";
+const CREATE_PROJECT_ENDPOINT = endpoint + "/init";
 
 
-export function cloneProject(data,setSuccess,setError) {
+export function listProjects(setProjects){
 
-    axios.post(`${CLONE_PROJECT_ENDPOINT}`, data
-        , {
-            headers: {
-                "Authorization": `${localStorage.getItem("currentUser")}`
-            }
-        }
-    ).then(
-        (res) => {
-            setSuccess(true);
-        }
-    );
-}
-
-export function listProjects(setProjects) {
-
-    axios.get(`${ENDPOINT}`
+    axios.get(`${endpoint}`
         , {
             // headers: {
             //     "Authorization": `${localStorage.getItem("currentUser")}`
@@ -32,6 +17,31 @@ export function listProjects(setProjects) {
     ).then(
         (res) => {
             setProjects(res.data);
+        }
+    );
+}
+
+export function createNewProject(formValues,setSuccess,setError) {
+
+    console.log(formValues)
+
+
+    axios.post(`${CREATE_PROJECT_ENDPOINT}`, formValues
+        , {
+            headers: {
+                "Authorization": getCookie('Authorization'),
+            }
+        }
+    ).then(
+        (res) => {
+            console.log(res);
+            setSuccess(true);
+            setTimeout(reload, 1000);
+        }
+        ,
+        (err) => {
+            console.error(err);
+            setError(err);
         }
     );
 }
