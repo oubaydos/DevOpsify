@@ -61,7 +61,7 @@ public class ProjectService {
         GithubRepositoryDto githubRepositoryDto = new GithubRepositoryDto(createNewProjectWithInitDto);
         GHRepository ghRepository = githubRepositoryService.createRepository(githubRepositoryDto);
         String localPath = projectsDirectory() + "/" + createNewProjectWithInitDto.name();
-        gitService.clone(ghRepository.getHtmlUrl().toString(), localPath, userService.getGithubCredentials());
+        gitService.clone(userService.getGithubCredentials(),ghRepository.getHtmlUrl().toString(), localPath);
         Project project = new Project();
         project.setName(createNewProjectWithInitDto.name());
         project.setLocalRepoPath(localPath);
