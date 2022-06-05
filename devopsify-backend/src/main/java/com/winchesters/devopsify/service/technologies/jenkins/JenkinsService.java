@@ -4,6 +4,7 @@ import com.cdancy.jenkins.rest.JenkinsClient;
 import com.cdancy.jenkins.rest.domain.user.ApiTokenData;
 import com.winchesters.devopsify.exception.jenkins.JenkinsException;
 import com.winchesters.devopsify.model.JenkinsAnalyseResults;
+import com.winchesters.devopsify.model.entity.Project;
 import com.winchesters.devopsify.model.entity.Server;
 
 import java.io.File;
@@ -28,6 +29,6 @@ public interface JenkinsService {
     ApiTokenData createApiToken();
     void createPipeline();
 
-    JenkinsAnalyseResults analyseJenkins();
+    JenkinsAnalyseResults analyseJenkins(Project project);
 
 }

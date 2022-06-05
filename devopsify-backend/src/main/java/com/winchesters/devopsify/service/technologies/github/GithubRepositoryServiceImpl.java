@@ -6,6 +6,8 @@ import com.winchesters.devopsify.enums.ReadMeStatus;
 import com.winchesters.devopsify.exception.github.GithubRepositoryNotFoundException;
 import com.winchesters.devopsify.exception.github.PersonalAccessTokenPermissionException;
 import com.winchesters.devopsify.model.GithubAnalyseResults;
+import com.winchesters.devopsify.model.entity.Project;
+import com.winchesters.devopsify.service.UserService;
 import com.winchesters.devopsify.service.technologies.github.branch.Branch;
 import lombok.RequiredArgsConstructor;
 import org.kohsuke.github.*;
@@ -24,6 +26,7 @@ import static com.winchesters.devopsify.service.technologies.github.readme.ReadM
 @Transactional
 public class GithubRepositoryServiceImpl implements GithubRepositoryService {
     private final GithubServiceImpl githubService;
+    private final UserService userService;
 
     private static final Logger LOG = LoggerFactory.getLogger(GithubRepositoryServiceImpl.class);
 
@@ -83,11 +86,15 @@ public class GithubRepositoryServiceImpl implements GithubRepositoryService {
         );
     }
 
-    public GithubAnalyseResults analyseGithub() {
-        //TODO
-
-        return null;
+    public GithubAnalyseResults analyseGithub(Project project) throws IOException {
+        /*
+         * name = username/repo-name
+         */
+        String name = userService.getGithubCredentials().username() + "/" + project.getName();
+        GHRepository repository = githubService.getGithub().getRepository(name);
+        return analyseGithub(repository);
     }
+
 
     // IGNORE
     public GithubAnalyseResults test(String name) throws IOException {
@@ -95,6 +102,7 @@ public class GithubRepositoryServiceImpl implements GithubRepositoryService {
         GHRepository repository = github.getRepository("temp-devopsify/"+name);
         if (repository == null)
             throw new GithubRepositoryNotFoundException();
+
         return analyseGithub(repository);
 
     }

@@ -30,7 +30,7 @@ public class ProjectController {
     }
     @GetMapping("{projectId}")
     public ProjectDto getProject(@PathVariable Long projectId){
-        return projectService.getProject(projectId);
+        return projectService.getProjectDto(projectId);
     }
 
     @PostMapping
@@ -52,7 +52,7 @@ public class ProjectController {
     }
 
     @GetMapping("{projectId}/analyse")
-    public AnalyseResults analyse(@PathVariable Long projectId){
+    public AnalyseResults analyse(@PathVariable Long projectId) throws IOException {
         return projectService.analyse(projectId);
     }
 

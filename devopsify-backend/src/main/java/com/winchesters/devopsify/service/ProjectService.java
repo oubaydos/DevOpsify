@@ -50,11 +50,16 @@ public class ProjectService {
         return EntityToDtoMapper.ProjectToProjectDto(projectRepository.findAll());
     }
 
-    public ProjectDto getProject(Long projectId) {
+    public ProjectDto getProjectDto(Long projectId) {
         return EntityToDtoMapper.ProjectToProjectDto(
                 projectRepository.findById(projectId)
                         .orElseThrow(ProjectNotFoundException::new)
         );
+    }
+
+    public Project getProject(Long projectId) {
+        return projectRepository.findById(projectId)
+                .orElseThrow(ProjectNotFoundException::new);
     }
 
     public ProjectDto createNewProjectWithInit(CreateNewProjectWithInitDto createNewProjectWithInitDto) throws IOException, GitAPIException {
@@ -107,7 +112,7 @@ public class ProjectService {
         project.setNexusServer(nexusServer);
     }
 
-    public AnalyseResults analyse(Long projectId) {
+    public AnalyseResults analyse(Long projectId) throws IOException {
         User user = userService.getCurrentUser();
         GithubCredentials githubCredentials = user.getGithubCredentials();
 
@@ -123,9 +128,9 @@ public class ProjectService {
         gitService.syncLocalWithOriginMain(githubCredentials, project.getLocalRepoPath());
 
         AnalyseResults analyseResults = new AnalyseResults(
-                githubRepositoryService.analyseGithub(),
-                jenkinsService.analyseJenkins(),
-                nexusService.analyseNexus()
+                githubRepositoryService.analyseGithub(getProject(projectId)),
+                jenkinsService.analyseJenkins(getProject(projectId)),
+                nexusService.analyseNexus(getProject(projectId))
         );
 
         project.setAnalyseResults(analyseResults);

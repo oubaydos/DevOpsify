@@ -8,6 +8,7 @@ import com.cdancy.jenkins.rest.domain.user.ApiTokenData;
 import com.winchesters.devopsify.exception.jenkins.JenkinsException;
 import com.winchesters.devopsify.exception.jenkins.JenkinsServerException;
 import com.winchesters.devopsify.model.JenkinsAnalyseResults;
+import com.winchesters.devopsify.model.entity.Project;
 import com.winchesters.devopsify.model.entity.Server;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -114,7 +115,7 @@ public class JenkinsServiceImpl implements JenkinsService {
     }
 
     @Override
-    public JenkinsAnalyseResults analyseJenkins() {
+    public JenkinsAnalyseResults analyseJenkins(Project project) {
         //TODO
         return new JenkinsAnalyseResults();
     }
