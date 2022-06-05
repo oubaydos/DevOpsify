@@ -15,5 +15,12 @@ public interface GithubRepositoryService {
      * @return the created repository
      */
     GHRepository createRepository(GithubRepositoryDto githubRepositoryDto) throws IOException;
+
+    /**
+     * analyse github repository
+     * @param project the correspondent project
+     * @return a githubAnalyseResults that contains readMe/license/gitignore ... analysis
+     * @throws IOException if any problem while connecting to the github api
+     */
     GithubAnalyseResults analyseGithub(Project project) throws IOException;
 }
