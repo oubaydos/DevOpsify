@@ -1,6 +1,7 @@
 package com.winchesters.devopsify.service.technologies.github;
 
 import com.winchesters.devopsify.dto.request.GithubRepositoryDto;
+import com.winchesters.devopsify.enums.repositoryStatus;
 import com.winchesters.devopsify.enums.ReadMeStatus;
 import com.winchesters.devopsify.exception.github.GithubRepositoryNotFound;
 import com.winchesters.devopsify.exception.github.PersonalAccessTokenPermissionException;
@@ -57,5 +58,11 @@ public class GithubRepositoryServiceImpl implements GithubRepositoryService {
         String readMeContent = getReadMe(repository);
         LOG.debug("ReadMe's number of lines : {}", readMeContent.lines().count());
         return ReadMe.analyseReadMe(readMeContent, repository.getName());
+    }
+    public repositoryStatus analyseRepository(GHRepository repository){
+        if (repository == null)
+            throw new GithubRepositoryNotFound();
+        //TODO
+        return repositoryStatus.OKAY;
     }
 }
