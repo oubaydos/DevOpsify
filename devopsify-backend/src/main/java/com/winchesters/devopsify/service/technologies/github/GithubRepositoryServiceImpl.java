@@ -8,6 +8,7 @@ import com.winchesters.devopsify.exception.github.PersonalAccessTokenPermissionE
 import com.winchesters.devopsify.model.GithubAnalyseResults;
 import com.winchesters.devopsify.model.entity.Project;
 import com.winchesters.devopsify.service.UserService;
+import com.winchesters.devopsify.service.technologies.docker.repositorydocker.DockerRepositoryAnalyser;
 import com.winchesters.devopsify.service.technologies.github.branch.Branch;
 import lombok.RequiredArgsConstructor;
 import org.kohsuke.github.*;
@@ -17,6 +18,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.sql.Date;
+import java.time.Instant;
 import java.util.Optional;
 
 import static com.winchesters.devopsify.service.technologies.github.readme.ReadMe.analyseReadMe;
@@ -100,12 +103,15 @@ public class GithubRepositoryServiceImpl implements GithubRepositoryService {
     // IGNORE
     public GithubAnalyseResults test(String name) throws IOException {
 
+
         GitHub github = githubService.getGithub();
         GHRepository repository = github.getRepository("temp-devopsify/"+name);
         if (repository == null)
             throw new GithubRepositoryNotFoundException();
+        DockerRepositoryAnalyser dockerRepositoryAnalyser = new DockerRepositoryAnalyser(repository);
+        LOG.debug("number of docker files : {}",dockerRepositoryAnalyser.numberOfDockerComposeFiles());
+        return new GithubAnalyseResults("number of docker files : "+dockerRepositoryAnalyser.numberOfDockerComposeFiles(),ReadMeStatus.OKAY,RepositoryStatus.OKAY,1, Date.from(Instant.now()));
 
-        return analyseGithub(repository);
 
     }
 

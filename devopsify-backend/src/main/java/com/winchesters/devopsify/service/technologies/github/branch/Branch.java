@@ -1,6 +1,7 @@
 package com.winchesters.devopsify.service.technologies.github.branch;
 
 import com.winchesters.devopsify.exception.github.GithubRepositoryBranchNotFoundException;
+import org.apache.commons.io.FilenameUtils;
 import org.kohsuke.github.GHBranch;
 import org.kohsuke.github.GHRepository;
 import org.kohsuke.github.GHTreeEntry;
@@ -42,5 +43,14 @@ public class Branch {
 
     public boolean containsGitIgnore() throws IOException {
         return this.containsFile(GIT_IGNORE);
+    }
+    public int numberOfFile(String filename) throws IOException {
+        return (int) this
+                .listFilePaths()
+                .stream()
+                .filter(
+                        s -> FilenameUtils.getName(s).equals(filename)
+                )
+                .count();
     }
 }
