@@ -1,7 +1,7 @@
 package com.winchesters.devopsify.controller.github;
 
 import com.winchesters.devopsify.dto.request.GithubRepositoryDto;
-import com.winchesters.devopsify.enums.repositoryStatus;
+import com.winchesters.devopsify.model.GithubAnalyseResults;
 import com.winchesters.devopsify.model.GithubCredentials;
 import com.winchesters.devopsify.service.technologies.github.GithubRepositoryServiceImpl;
 import com.winchesters.devopsify.service.technologies.github.GithubServiceImpl;
@@ -38,7 +38,7 @@ public class GithubController {
         return githubService.getGithub().getMyself().getLogin();
     }
     @GetMapping("/test/{name}")
-    private repositoryStatus test(@PathVariable String name) throws IOException {
+    private GithubAnalyseResults test(@PathVariable String name) throws IOException {
          return githubRepository.test(name);
     }
 }
