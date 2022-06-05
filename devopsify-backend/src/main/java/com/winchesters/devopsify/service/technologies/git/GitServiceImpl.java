@@ -91,11 +91,6 @@ public class GitServiceImpl implements GitService {
         return localAndRemoteInSync(githubCredentials,localRepoPath,"origin","main");
     }
 
-    @Override
-    public GithubAnalyseResults analyseGithub() {
-        //TODO
-        return null;
-    }
 
     @Override
     public void pullOriginMain(GithubCredentials credentials, String path) throws GitException {

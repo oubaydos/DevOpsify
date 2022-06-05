@@ -59,10 +59,12 @@ public class GithubRepositoryServiceImpl implements GithubRepositoryService {
         LOG.debug("ReadMe's number of lines : {}", readMeContent.lines().count());
         return ReadMe.analyseReadMe(readMeContent, repository.getName());
     }
-    public repositoryStatus analyseRepository(GHRepository repository){
+    public repositoryStatus analyseRepository(GHRepository repository) throws IOException {
         if (repository == null)
             throw new GithubRepositoryNotFound();
-        //TODO
+        if (repository.getLicense() == null)
+            return repositoryStatus.LICENSE_MISSING;
+//        LOG.debug("license : {}",repository.getLicenseContent().read());
         return repositoryStatus.OKAY;
     }
 }

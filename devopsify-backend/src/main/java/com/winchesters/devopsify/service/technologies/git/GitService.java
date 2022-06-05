@@ -13,9 +13,6 @@ public interface GitService extends TechnologyService {
 
     void initializeRepository(String path) throws GitException;
 
-
-    GithubAnalyseResults analyseGithub();
-
     void pullOriginMain(GithubCredentials credentials,String path) throws GitException;
 
     void pull(GithubCredentials credentials,String path, String remoteRepoName, String remoteBranchName) throws GitException;
