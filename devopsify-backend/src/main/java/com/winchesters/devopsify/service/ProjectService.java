@@ -14,7 +14,7 @@ import com.winchesters.devopsify.model.entity.Server;
 import com.winchesters.devopsify.model.entity.User;
 import com.winchesters.devopsify.repository.ProjectRepository;
 import com.winchesters.devopsify.service.technologies.git.GitService;
-import com.winchesters.devopsify.service.technologies.github.GithubRepositoryServiceServiceImpl;
+import com.winchesters.devopsify.service.technologies.github.GithubRepositoryServiceImpl;
 import com.winchesters.devopsify.service.technologies.jenkins.JenkinsService;
 import com.winchesters.devopsify.service.technologies.nexus.NexusService;
 import lombok.RequiredArgsConstructor;
@@ -36,7 +36,7 @@ public class ProjectService {
     private final ProjectRepository projectRepository;
     private final JenkinsService jenkinsService;
     private final GitService gitService;
-    private final GithubRepositoryServiceServiceImpl githubRepositoryService;
+    private final GithubRepositoryServiceImpl githubRepositoryService;
     private final NexusService nexusService;
 
     private final UserService userService;

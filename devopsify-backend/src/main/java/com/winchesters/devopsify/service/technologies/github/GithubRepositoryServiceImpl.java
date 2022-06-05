@@ -14,7 +14,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 @Transactional
-public class GithubRepositoryServiceServiceImpl implements GithubRepositoryService {
+public class GithubRepositoryServiceImpl implements GithubRepositoryService {
     private final GithubServiceImpl githubService;
 
     @Override
