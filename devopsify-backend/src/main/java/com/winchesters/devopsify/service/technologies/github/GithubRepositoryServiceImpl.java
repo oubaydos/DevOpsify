@@ -90,6 +90,7 @@ public class GithubRepositoryServiceImpl implements GithubRepositoryService {
         /*
          * name = username/repo-name
          */
+        // TODO : this approach of getting the username will work only if i am the owner of the repository, if not, i must find a new method
         String name = userService.getGithubCredentials().username() + "/" + project.getName();
         GHRepository repository = githubService.getGithub().getRepository(name);
         return analyseGithub(repository);
