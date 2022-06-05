@@ -123,7 +123,7 @@ public class ProjectService {
         gitService.syncLocalWithOriginMain(githubCredentials, project.getLocalRepoPath());
 
         AnalyseResults analyseResults = new AnalyseResults(
-                gitService.analyseGithub(),
+                githubRepositoryService.analyseGithub(),
                 jenkinsService.analyseJenkins(),
                 nexusService.analyseNexus()
         );

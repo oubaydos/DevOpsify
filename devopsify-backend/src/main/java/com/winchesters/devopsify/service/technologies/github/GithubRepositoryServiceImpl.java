@@ -3,19 +3,20 @@ package com.winchesters.devopsify.service.technologies.github;
 import com.winchesters.devopsify.dto.request.GithubRepositoryDto;
 import com.winchesters.devopsify.enums.repositoryStatus;
 import com.winchesters.devopsify.enums.ReadMeStatus;
-import com.winchesters.devopsify.exception.github.GithubRepositoryNotFound;
+import com.winchesters.devopsify.exception.github.GithubRepositoryBranchNotFoundException;
+import com.winchesters.devopsify.exception.github.GithubRepositoryNotFoundException;
 import com.winchesters.devopsify.exception.github.PersonalAccessTokenPermissionException;
+import com.winchesters.devopsify.model.GithubAnalyseResults;
 import com.winchesters.devopsify.service.technologies.github.readme.ReadMe;
 import lombok.RequiredArgsConstructor;
-import org.kohsuke.github.GHContent;
-import org.kohsuke.github.GHRepository;
-import org.kohsuke.github.GitHub;
+import org.kohsuke.github.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -44,7 +45,7 @@ public class GithubRepositoryServiceImpl implements GithubRepositoryService {
 
     private String getReadMe(GHRepository repository) throws IOException {
         if (repository == null)
-            throw new GithubRepositoryNotFound();
+            throw new GithubRepositoryNotFoundException();
         GHContent inputStream = repository.getReadme();
         if (inputStream.getSize() == 0) {
             return "";
@@ -61,10 +62,28 @@ public class GithubRepositoryServiceImpl implements GithubRepositoryService {
     }
     public repositoryStatus analyseRepository(GHRepository repository) throws IOException {
         if (repository == null)
-            throw new GithubRepositoryNotFound();
+            throw new GithubRepositoryNotFoundException();
         if (repository.getLicense() == null)
             return repositoryStatus.LICENSE_MISSING;
-//        LOG.debug("license : {}",repository.getLicenseContent().read());
+
+        for (var a : repository.getTreeRecursive(repository.getBranch(repository.getDefaultBranch()).getSHA1(),1).getTree())
+            LOG.debug("list {}",a.getPath());
         return repositoryStatus.OKAY;
     }
+
+    public GithubAnalyseResults analyseGithub() {
+        //TODO
+        return null;
+    }
+
+    public repositoryStatus test(String name) throws IOException {
+        GitHub github = githubService.getGithub();
+        GHRepository repository = github.getRepository("temp-devopsify/"+name);
+        if (repository == null)
+            throw new GithubRepositoryNotFoundException();
+
+        return analyseRepository(repository);
+
+    }
+
 }
