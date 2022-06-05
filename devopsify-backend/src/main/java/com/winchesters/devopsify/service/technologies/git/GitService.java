@@ -20,7 +20,7 @@ public interface GitService extends TechnologyService {
 
     void pull(GithubCredentials credentials,String path, String remoteRepoName, String remoteBranchName) throws GitException;
 
-    void clone(String remoteUrl, String localPath, GithubCredentials credentials) throws GitException, IOException, GitAPIException;
+    void clone( GithubCredentials credentials,String remoteUrl, String localPath) throws GitException, IOException, GitAPIException;
 
     Repository getRepository(String path) throws IOException;
 

@@ -46,7 +46,7 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilter(new JwtUsernameAndPasswordAuthenticationFilter(authenticationManager(), jwtConfig))
                 .addFilterAfter(new JwtTokenVerifier(jwtConfig),JwtUsernameAndPasswordAuthenticationFilter.class)
                 .authorizeRequests()
-                .antMatchers("**").permitAll()
+                .antMatchers("api/v1/login","api/v1/user/signup").permitAll()
                 .anyRequest()
                 .authenticated()
         ;
@@ -92,11 +92,6 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
        source.registerCorsConfiguration("/**", configuration);
        return source;
-       /***
-        * TODO : @HamzaBenyazid
-        * it seems that we need a customized exception for
-        * authorization header not found
-        */
    }
 
 }

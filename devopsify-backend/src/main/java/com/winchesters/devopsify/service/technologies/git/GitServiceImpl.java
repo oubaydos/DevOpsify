@@ -137,7 +137,7 @@ public class GitServiceImpl implements GitService {
     }
 
     @Override
-    public void clone(String remoteUrl, String localPath, GithubCredentials credentials) {
+    public void clone(GithubCredentials credentials,String remoteUrl, String localPath) {
         final File localPathFile = new File(localPath);
         try {
             Git.cloneRepository()
