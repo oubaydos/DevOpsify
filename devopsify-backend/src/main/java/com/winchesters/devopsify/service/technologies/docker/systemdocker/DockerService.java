@@ -1,4 +1,4 @@
-package com.winchesters.devopsify.service.technologies.docker;
+package com.winchesters.devopsify.service.technologies.docker.systemdocker;
 
 import com.winchesters.devopsify.service.technologies.TechnologyService;
 

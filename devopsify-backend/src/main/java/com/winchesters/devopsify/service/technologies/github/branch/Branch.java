@@ -11,8 +11,8 @@ import java.util.List;
 import java.util.Optional;
 
 public class Branch {
-    private static final String DEFAULT_BRANCH_NAME = "main";
-    private static final String GIT_IGNORE = ".gitignore";
+    public static final String DEFAULT_BRANCH_NAME = "main";
+    public static final String GIT_IGNORE = ".gitignore";
     private String branchName = DEFAULT_BRANCH_NAME;
     private GHRepository repository;
 
