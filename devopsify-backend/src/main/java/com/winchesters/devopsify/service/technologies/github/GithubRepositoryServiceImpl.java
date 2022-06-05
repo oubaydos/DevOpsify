@@ -54,6 +54,7 @@ public class GithubRepositoryServiceImpl implements GithubRepositoryService {
             return "";
         }
         byte[] bytes = new byte[Math.toIntExact(inputStream.getSize())];
+        //noinspection ResultOfMethodCallIgnored
         inputStream.read().read(bytes);
         return new String(bytes);
     }
