@@ -1,24 +1,15 @@
 package com.winchesters.devopsify.service.technologies.docker.repositorydocker;
 
 import com.github.dockerjava.api.DockerClient;
-import com.github.dockerjava.api.async.ResultCallback;
-import com.github.dockerjava.api.command.BuildImageCmd;
-import com.github.dockerjava.api.command.CreateContainerResponse;
-import com.github.dockerjava.api.model.BuildResponseItem;
 import com.github.dockerjava.core.DefaultDockerClientConfig;
 import com.github.dockerjava.core.DockerClientConfig;
 import com.github.dockerjava.core.DockerClientImpl;
-import com.github.dockerjava.core.dockerfile.Dockerfile;
 import com.github.dockerjava.httpclient5.ApacheDockerHttpClient;
 import com.github.dockerjava.transport.DockerHttpClient;
-import org.apache.commons.io.FileUtils;
 
-import javax.print.Doc;
-import java.io.File;
 import java.time.Duration;
-import java.util.Set;
 
-import static org.hamcrest.Matchers.emptyString;
+import static com.winchesters.devopsify.service.technologies.docker.repositorydocker.DockerImage.buildImageFromDockerFileInBaseDirectory;
 
 public class DockerClientFactory {
     private static DockerClient dockerClient;
@@ -54,11 +45,19 @@ public class DockerClientFactory {
                 .dockerHost(dockerClientConfig.getDockerHost())
                 .sslConfig(dockerClientConfig.getSSLConfig())
                 .maxConnections(100)
-                .connectionTimeout(Duration.ofSeconds(2))
-                .responseTimeout(Duration.ofSeconds(2))
+                .connectionTimeout(Duration.ofSeconds(30))
+                .responseTimeout(Duration.ofSeconds(45))
                 .build();
     }
 
+    public static void main(String[] args) throws Exception {
+        System.out.println(
+                buildImageFromDockerFileInBaseDirectory(
+                        "C:/Users/oubay/OneDrive/Bureau/projects/DevOpsify/devopsify-backend/",
+                        "tempname:tag"
+                )
+        );
+    }
 
 
 }
