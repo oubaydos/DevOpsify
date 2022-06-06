@@ -58,8 +58,7 @@ public class DockerClientFactory {
 //                        "tempname:tag"
 //                )
 //        );
-        DataBaseDockerFile dataBaseDockerFile = new DataBaseDockerFile("postgres", "14", null, null);
-        System.out.println(System.getProperty("user.dir"));
+        DataBaseDockerFile dataBaseDockerFile = new DataBaseDockerFile("image", null, null, null);
         System.out.println(dataBaseDockerFile.getDockerfileContent());
     }
 
