@@ -1,5 +1,6 @@
 package com.winchesters.devopsify.service.technologies.maven;
 
+import com.winchesters.devopsify.dto.request.GenerateMavenProjectDto;
 import com.winchesters.devopsify.dto.response.TestResultDto;
 import com.winchesters.devopsify.service.technologies.TechnologyService;
 import org.apache.maven.model.Dependency;
@@ -21,4 +22,5 @@ public interface MavenService extends TechnologyService {
 
     TestResultDto test(String baseDirPath);
 
+    void generateMavenProject(GenerateMavenProjectDto dto, String baseDirPath);
 }
