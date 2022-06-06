@@ -6,6 +6,7 @@ import com.github.dockerjava.core.DockerClientConfig;
 import com.github.dockerjava.core.DockerClientImpl;
 import com.github.dockerjava.httpclient5.ApacheDockerHttpClient;
 import com.github.dockerjava.transport.DockerHttpClient;
+import com.winchesters.devopsify.service.technologies.docker.dockerfile.DataBaseDockerFile;
 
 import java.time.Duration;
 
@@ -51,12 +52,15 @@ public class DockerClientFactory {
     }
 
     public static void main(String[] args) throws Exception {
-        System.out.println(
-                buildImageFromDockerFileInBaseDirectory(
-                        "C:/Users/oubay/OneDrive/Bureau/projects/DevOpsify/devopsify-backend/",
-                        "tempname:tag"
-                )
-        );
+//        System.out.println(
+//                buildImageFromDockerFileInBaseDirectory(
+//                        "C:/Users/oubay/OneDrive/Bureau/projects/DevOpsify/devopsify-backend/",
+//                        "tempname:tag"
+//                )
+//        );
+        DataBaseDockerFile dataBaseDockerFile = new DataBaseDockerFile("postgres", "14", null, null);
+        System.out.println(System.getProperty("user.dir"));
+        System.out.println(dataBaseDockerFile.getDockerfileContent());
     }
 
 

@@ -1,0 +1,2 @@
+FROM db-name:db-version-db-os
+COPY db-init-queries-filename /docker-entrypoint-initdb.d/
