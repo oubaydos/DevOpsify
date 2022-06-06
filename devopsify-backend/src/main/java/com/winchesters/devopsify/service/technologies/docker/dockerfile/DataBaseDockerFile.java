@@ -11,7 +11,7 @@ public class DataBaseDockerFile implements DockerFileFactory {
     private String imageName = DEFAULT_IMAGE_NAME;
     private String imageVersion = DEFAULT_IMAGE_VERSION;
     private String imageBaseOS = DEFAULT_IMAGE_BASE_OS;
-    private String dbInitQueriesFilename;
+    private final String dbInitQueriesFilename;
 
     public DataBaseDockerFile(String imageName, String imageVersion, String imageBaseOS, String dbInitQueriesFilename) {
         if (imageName != null)
@@ -48,6 +48,6 @@ public class DataBaseDockerFile implements DockerFileFactory {
 
     @Override
     public File getDockerfileTemplate() {
-        return new File(System.getProperty("user.dir").replace("\\", "/") + "/src/main/resources/dockerfile-templates/database/Dockerfile-" + imageName);
+        return new File(System.getProperty("user.dir").replace("\\", "/") + "/src/main/resources/dockerfile-templates/database/DockerfileTemplate");
     }
 }
