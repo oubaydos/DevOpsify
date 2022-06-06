@@ -31,10 +31,12 @@ public class MavenServiceImpl implements MavenService {
     public static void main(String[] args) throws MavenInvocationException {
         MavenService mavenService = new MavenServiceImpl();
         GenerateMavenProjectDto dto = new GenerateMavenProjectDto(
-                "maven-archetype-quickstart",
+                "spring-boot-quick-start-archetype",
+                "com.github.supermanhub",
                 "com.winchesters",
                 "devopsify-maven",
-                "0.0.1-SNAPSHOT");
+                "0.0.1-SNAPSHOT"
+        );
 
         new MavenServiceImpl().generateMavenProject(dto, "/home/hamza/test");
 
@@ -149,6 +151,7 @@ public class MavenServiceImpl implements MavenService {
                     "archetype:generate",
                     String.format("-DgroupId=%s", dto.groupId()),
                     String.format("-DartifactId=%s", dto.artifactId()),
+                    String.format("-DarchetypeGroupId=%s", dto.archetypeGroupId()),
                     String.format("-DarchetypeArtifactId=%s", dto.archetypeArtifactId()),
                     String.format("-DinteractiveMode=%s", false)
             )
