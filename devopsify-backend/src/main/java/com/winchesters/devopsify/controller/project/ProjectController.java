@@ -2,10 +2,13 @@ package com.winchesters.devopsify.controller.project;
 
 import com.winchesters.devopsify.dto.request.CreateNewProjectWithInitDto;
 import com.winchesters.devopsify.dto.request.CreateNewProjectDto;
+import com.winchesters.devopsify.dto.request.GenerateMavenProjectDto;
 import com.winchesters.devopsify.dto.request.ProjectDto;
 import com.winchesters.devopsify.model.AnalyseResults;
 import com.winchesters.devopsify.model.entity.Server;
 import com.winchesters.devopsify.service.ProjectService;
+import org.apache.maven.shared.invoker.MavenInvocationException;
+import org.apache.maven.shared.utils.cli.CommandLineException;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,6 +57,12 @@ public class ProjectController {
     @GetMapping("{projectId}/analyse")
     public AnalyseResults analyse(@PathVariable Long projectId) throws IOException {
         return projectService.analyse(projectId);
+    }
+
+
+    @PostMapping("{projectId}/maven")
+    void generateMavenProject(@ModelAttribute GenerateMavenProjectDto dto, @PathVariable Long projectId){
+        projectService.generateMavenProject(dto,projectId);
     }
 
 }
