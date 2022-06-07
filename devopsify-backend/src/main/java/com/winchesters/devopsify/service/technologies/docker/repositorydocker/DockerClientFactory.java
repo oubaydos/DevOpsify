@@ -6,6 +6,7 @@ import com.github.dockerjava.core.DockerClientConfig;
 import com.github.dockerjava.core.DockerClientImpl;
 import com.github.dockerjava.httpclient5.ApacheDockerHttpClient;
 import com.github.dockerjava.transport.DockerHttpClient;
+import com.winchesters.devopsify.service.technologies.docker.dockerfile.BackendDockerFile;
 import com.winchesters.devopsify.service.technologies.docker.dockerfile.DataBaseDockerFile;
 
 import java.time.Duration;
@@ -58,8 +59,23 @@ public class DockerClientFactory {
 //                        "tempname:tag"
 //                )
 //        );
-        DataBaseDockerFile dataBaseDockerFile = new DataBaseDockerFile("image", null, null, null);
-        System.out.println(dataBaseDockerFile.getDockerfileContent());
+        BackendDockerFile backendDockerFile = new BackendDockerFile();
+
+        backendDockerFile.setBaseBuildImageName("buildImage");
+        backendDockerFile.setBaseBuildImageVersion("v1");
+        backendDockerFile.setBaseBuildJdkType("oracleJdk");
+
+        backendDockerFile.setJdkImageName("oracleJdk");
+        backendDockerFile.setJdkBaseOsName("ubuntu");
+        backendDockerFile.setJdkVersion("16");
+
+        backendDockerFile.setWorkdir("project");
+        backendDockerFile.setPort("700");
+
+        backendDockerFile.setJarName("HelloJar");
+
+        backendDockerFile.setBuildOnly(true);
+        System.out.println(backendDockerFile.getDockerfileContent());
     }
 
 
