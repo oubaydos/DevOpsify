@@ -1,6 +1,6 @@
 package com.winchesters.devopsify.enums;
 
-public enum DockerfileBackEndKeywords {
+public enum DockerfileBackEndKeywords implements DockerfileKeywords {
 
     BASE_BUILD_IMAGE_NAME("image-name", "maven"),
     BASE_BUILD_IMAGE_VERSION("image-version", "3.8.5"),
@@ -13,16 +13,21 @@ public enum DockerfileBackEndKeywords {
     WORKDIR("workdir", "workdir"),
     PORT("exposed-port", "8080"),
 
-    JAR_NAME("output-jar-name","output");
+    JAR_NAME("output-jar-name", "output");
 
     private final String keyword;
     private final String defaultValue;
 
+    @Override
     public String defaultValue() {
         return defaultValue;
     }
 
-    public final String keyword() { return this.keyword; }
+    @Override
+    public final String keyword() {
+        return this.keyword;
+    }
+
     DockerfileBackEndKeywords(String keyword, String defaultValue) {
         this.keyword = keyword;
         this.defaultValue = defaultValue;

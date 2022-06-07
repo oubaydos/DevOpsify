@@ -1,6 +1,6 @@
 package com.winchesters.devopsify.enums;
 
-public enum DockerfileDataBaseKeywords {
+public enum DockerfileDataBaseKeywords implements DockerfileKeywords{
     DATABASE_NAME("db-name", "postgres"),
     DATABASE_VERSION("db-version", "14"),
     BASE_OS("db-os", "alpine"),
@@ -9,10 +9,12 @@ public enum DockerfileDataBaseKeywords {
     private final String keyword;
     private final String defaultValue;
 
+    @Override
     public String defaultValue() {
         return defaultValue;
     }
 
+    @Override
     public final String keyword() {
         return this.keyword;
     }
