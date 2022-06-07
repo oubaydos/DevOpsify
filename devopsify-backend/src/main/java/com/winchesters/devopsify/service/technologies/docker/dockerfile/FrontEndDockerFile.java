@@ -2,7 +2,8 @@ package com.winchesters.devopsify.service.technologies.docker.dockerfile;
 
 import com.winchesters.devopsify.enums.DockerFileType;
 import com.winchesters.devopsify.utils.DockerfileUtils;
-import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 
 import java.io.File;
 import java.io.IOException;
@@ -10,19 +11,29 @@ import java.util.Map;
 
 import static com.winchesters.devopsify.enums.DockerfileFrontEndKeywords.*;
 
-@NoArgsConstructor
+@Builder(setterPrefix = "set")
+@AllArgsConstructor
 public class FrontEndDockerFile implements DockerFileFactory {
     // BUILD
+    @Builder.Default
     String nodeVersion = NODE_VERSION.defaultValue();
+    @Builder.Default
     String workdir = WORKDIR.defaultValue();
+    @Builder.Default
     String miniCssExtractPluginVersion = MINI_CSS_EXTRACT_PLUGIN_VERSION.defaultValue();
 
     // PRODUCTION
+    @Builder.Default
     String nginxVersion = NGINX_VERSION.defaultValue();
+    @Builder.Default
     String nginxBaseOs = NGINX_BASE_OS.defaultValue();
+    @Builder.Default
     String nginxConfigurationFileLocation = NGINX_CONFIGURATION_FILE_LOCATION.defaultValue();
+    @Builder.Default
     String productionPort = PRODUCTION_PORT.defaultValue();
+    @Builder.Default
     private boolean buildOnly = false;
+    @Builder.Default
     private boolean hasNginxConfigurationFile = false;
 
     @Override
@@ -66,39 +77,4 @@ public class FrontEndDockerFile implements DockerFileFactory {
         return getDockerfileTemplate(DockerFileType.FRONTEND);
     }
 
-    public void setNodeVersion(String nodeVersion) {
-        this.nodeVersion = nodeVersion;
-    }
-
-    public void setWorkdir(String workdir) {
-        this.workdir = workdir;
-    }
-
-    public void setMiniCssExtractPluginVersion(String miniCssExtractPluginVersion) {
-        this.miniCssExtractPluginVersion = miniCssExtractPluginVersion;
-    }
-
-    public void setNginxVersion(String nginxVersion) {
-        this.nginxVersion = nginxVersion;
-    }
-
-    public void setNginxBaseOs(String nginxBaseOs) {
-        this.nginxBaseOs = nginxBaseOs;
-    }
-
-    public void setNginxConfigurationFileLocation(String nginxConfigurationFileLocation) {
-        this.nginxConfigurationFileLocation = nginxConfigurationFileLocation;
-    }
-
-    public void setProductionPort(String productionPort) {
-        this.productionPort = productionPort;
-    }
-
-    public void setBuildOnly(boolean buildOnly) {
-        this.buildOnly = buildOnly;
-    }
-
-    public void setHasNginxConfigurationFile(boolean hasNginxConfigurationFile) {
-        this.hasNginxConfigurationFile = hasNginxConfigurationFile;
-    }
 }

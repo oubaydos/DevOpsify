@@ -2,7 +2,8 @@ package com.winchesters.devopsify.service.technologies.docker.dockerfile;
 
 import com.winchesters.devopsify.enums.DockerFileType;
 import com.winchesters.devopsify.utils.DockerfileUtils;
-import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 
 import java.io.File;
 import java.io.IOException;
@@ -10,23 +11,35 @@ import java.util.Map;
 
 import static com.winchesters.devopsify.enums.DockerfileBackEndKeywords.*;
 
-@NoArgsConstructor
+@Builder(setterPrefix = "set")
+@AllArgsConstructor
+
 public class BackendDockerFile implements DockerFileFactory {
 
+    @Builder.Default
     private String baseBuildImageName = BASE_BUILD_IMAGE_NAME.defaultValue();
+    @Builder.Default
     private String baseBuildImageVersion = BASE_BUILD_IMAGE_VERSION.defaultValue();
+    @Builder.Default
     private String baseBuildJdkType = BASE_BUILD_JDK_TYPE.defaultValue();
 
+    @Builder.Default
     private String jdkImageName = JDK_IMAGE_NAME.defaultValue();
+    @Builder.Default
     private String jdkVersion = JDK_VERSION.defaultValue();
+    @Builder.Default
     private String jdkBaseOsName = JDK_BASE_OS_NAME.defaultValue();
 
+    @Builder.Default
     private String workdir = WORKDIR.defaultValue();
+    @Builder.Default
     private String port = PORT.defaultValue();
 
+    @Builder.Default
     private String jarName = JAR_NAME.defaultValue();
 
-    private boolean buildOnly = false;
+    @Builder.Default
+    private Boolean buildOnly = false;
 
 
     @Override
@@ -68,43 +81,4 @@ public class BackendDockerFile implements DockerFileFactory {
         return getDockerfileTemplate(DockerFileType.BACKEND);
     }
 
-    public void setBaseBuildImageName(String baseBuildImageName) {
-        this.baseBuildImageName = baseBuildImageName;
-    }
-
-    public void setBaseBuildImageVersion(String baseBuildImageVersion) {
-        this.baseBuildImageVersion = baseBuildImageVersion;
-    }
-
-    public void setBaseBuildJdkType(String baseBuildJdkType) {
-        this.baseBuildJdkType = baseBuildJdkType;
-    }
-
-    public void setJdkImageName(String jdkImageName) {
-        this.jdkImageName = jdkImageName;
-    }
-
-    public void setJdkVersion(String jdkVersion) {
-        this.jdkVersion = jdkVersion;
-    }
-
-    public void setJdkBaseOsName(String jdkBaseOsName) {
-        this.jdkBaseOsName = jdkBaseOsName;
-    }
-
-    public void setWorkdir(String workdir) {
-        this.workdir = workdir;
-    }
-
-    public void setPort(String port) {
-        this.port = port;
-    }
-
-    public void setJarName(String jarName) {
-        this.jarName = jarName;
-    }
-
-    public void setBuildOnly(boolean buildOnly) {
-        this.buildOnly = buildOnly;
-    }
 }

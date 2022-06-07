@@ -60,7 +60,18 @@ public class DockerClientFactory {
 //                        "tempname:tag"
 //                )
 //        );
-//        BackendDockerFile backendDockerFile = new BackendDockerFile();
+        DataBaseDockerFile dataBaseDockerFile = DataBaseDockerFile
+                .builder()
+                .setImageBaseOS("ubuntu")
+                .setImageVersion("v5")
+                .setImageName("mysql")
+                .setDbInitQueriesFilename("hiu")
+                .build();
+        System.out.println(dataBaseDockerFile.getDockerfileContent());
+        /*
+         * backend dockerfile test
+         */
+//        BackendDockerFile.BackendDockerFileBuilder backendDockerFile = BackendDockerFile.builder();
 //
 //        backendDockerFile.setBaseBuildImageName("buildImage");
 //        backendDockerFile.setBaseBuildImageVersion("v1");
@@ -76,22 +87,25 @@ public class DockerClientFactory {
 //        backendDockerFile.setJarName("HelloJar");
 //
 //        backendDockerFile.setBuildOnly(true);
+//        System.out.println(backendDockerFile.build().getDockerfileContent());
+        /*
+         * frontend dockerfile test
+         */
+//        FrontEndDockerFile backendDockerFile = new FrontEndDockerFile();
+//
+//        backendDockerFile.setNodeVersion("v11");
+//        backendDockerFile.setWorkdir("workdir-devopsify");
+//        backendDockerFile.setMiniCssExtractPluginVersion("v5");
+//
+//        backendDockerFile.setNginxVersion("v6");
+//        backendDockerFile.setNginxBaseOs("ubuntu");
+//        backendDockerFile.setNginxConfigurationFileLocation("/home/nginx/nginx.cong");
+//        backendDockerFile.setProductionPort("900");
+//
+//        backendDockerFile.setBuildOnly(true);
+//        backendDockerFile.setHasNginxConfigurationFile(false);
+//
 //        System.out.println(backendDockerFile.getDockerfileContent());
-        FrontEndDockerFile backendDockerFile = new FrontEndDockerFile();
-
-        backendDockerFile.setNodeVersion("v11");
-        backendDockerFile.setWorkdir("workdir-devopsify");
-        backendDockerFile.setMiniCssExtractPluginVersion("v5");
-
-        backendDockerFile.setNginxVersion("v6");
-        backendDockerFile.setNginxBaseOs("ubuntu");
-        backendDockerFile.setNginxConfigurationFileLocation("/home/nginx/nginx.cong");
-        backendDockerFile.setProductionPort("900");
-
-        backendDockerFile.setBuildOnly(true);
-        backendDockerFile.setHasNginxConfigurationFile(false);
-
-        System.out.println(backendDockerFile.getDockerfileContent());
     }
 
 

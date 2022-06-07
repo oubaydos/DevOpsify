@@ -2,6 +2,8 @@ package com.winchesters.devopsify.service.technologies.docker.dockerfile;
 
 import com.winchesters.devopsify.enums.DockerFileType;
 import com.winchesters.devopsify.utils.DockerfileUtils;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.NoArgsConstructor;
 
 import java.io.File;
@@ -10,10 +12,14 @@ import java.util.Map;
 
 import static com.winchesters.devopsify.enums.DockerfileDataBaseKeywords.*;
 
-@NoArgsConstructor
+@Builder(setterPrefix = "set")
+@AllArgsConstructor
 public class DataBaseDockerFile implements DockerFileFactory {
+    @Builder.Default
     private String imageName = DATABASE_NAME.defaultValue();
+    @Builder.Default
     private String imageVersion = DATABASE_VERSION.defaultValue();
+    @Builder.Default
     private String imageBaseOS = BASE_OS.defaultValue();
     private String dbInitQueriesFilename;
 
@@ -55,19 +61,4 @@ public class DataBaseDockerFile implements DockerFileFactory {
         return getDockerfileTemplate(DockerFileType.DATABASE);
     }
 
-    public void setImageName(String imageName) {
-        this.imageName = imageName;
-    }
-
-    public void setImageVersion(String imageVersion) {
-        this.imageVersion = imageVersion;
-    }
-
-    public void setImageBaseOS(String imageBaseOS) {
-        this.imageBaseOS = imageBaseOS;
-    }
-
-    public void setDbInitQueriesFilename(String dbInitQueriesFilename) {
-        this.dbInitQueriesFilename = dbInitQueriesFilename;
-    }
 }
