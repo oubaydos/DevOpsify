@@ -12,7 +12,7 @@ public class IOUtils {
     /***
      * this will cause issues because of anti-slash vs slash
      */
-    private static String dockerfileTemplatesBaseDirectory = System.getProperty("user.dir") + "/src/main/resources/dockerfile-templates/";
+    private static String dockerfileTemplatesBaseDirectory = System.getProperty("user.dir") + "/src/main/resources/project-templates/dockerfile-templates/";
     private static String projectsDirectory = javax.swing.filechooser.FileSystemView.getFileSystemView().getHomeDirectory().toString()+"\\devopsify";
     public static String InputStreamToString(InputStream inputStream) throws IOException {
         BufferedReader stdInput
