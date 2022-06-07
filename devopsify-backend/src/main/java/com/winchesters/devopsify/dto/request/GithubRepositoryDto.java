@@ -1,7 +1,8 @@
 package com.winchesters.devopsify.dto.request;
 
 
-import com.winchesters.devopsify.dto.request.CreateNewProjectWithInitDto;
+import com.winchesters.devopsify.dto.request.project.CreateNewProjectGeneralDto;
+import com.winchesters.devopsify.dto.request.project.CreateNewProjectGithubDto;
 import org.kohsuke.github.GHRepository;
 
 import javax.validation.constraints.NotNull;
@@ -35,16 +36,16 @@ public record GithubRepositoryDto(@NotNull String name,
         this.visibility = visibility;
         this.private_ = private_;
     }
-    public GithubRepositoryDto(CreateNewProjectWithInitDto newProjectWithInitDto) {
+    public GithubRepositoryDto(CreateNewProjectGeneralDto generalDto, CreateNewProjectGithubDto githubDto) {
         this(
-                newProjectWithInitDto.name(),
-                newProjectWithInitDto.autoInit(),
-                newProjectWithInitDto.licenseTemplate(),
-                newProjectWithInitDto.gitIgnoreTemplate(),
+                generalDto.name(),
+                githubDto.autoInit(),
+                githubDto.licenseTemplate(),
+                githubDto.gitIgnoreTemplate(),
                 null,
-                newProjectWithInitDto.description(),
+                generalDto.description(),
                 null,
-                newProjectWithInitDto.private_()
+                githubDto.private_()
         );
     }
 }

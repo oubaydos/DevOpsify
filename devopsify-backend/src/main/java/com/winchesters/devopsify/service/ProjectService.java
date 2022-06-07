@@ -1,6 +1,8 @@
 package com.winchesters.devopsify.service;
 
 import com.winchesters.devopsify.dto.request.*;
+import com.winchesters.devopsify.dto.request.project.CreateNewProjectDto;
+import com.winchesters.devopsify.dto.request.project.CreateNewProjectWithInitDto;
 import com.winchesters.devopsify.exception.UserCredentialsNotFoundException;
 import com.winchesters.devopsify.exception.project.ProjectNotFoundException;
 import com.winchesters.devopsify.mapper.EntityToDtoMapper;
@@ -62,13 +64,13 @@ public class ProjectService {
                 .orElseThrow(ProjectNotFoundException::new);
     }
 
-    public ProjectDto createNewProjectWithInit(CreateNewProjectWithInitDto createNewProjectWithInitDto) throws IOException, GitAPIException {
-        GithubRepositoryDto githubRepositoryDto = new GithubRepositoryDto(createNewProjectWithInitDto);
+    public ProjectDto createNewProjectWithInit(CreateNewProjectWithInitDto dto) throws IOException, GitAPIException {
+        GithubRepositoryDto githubRepositoryDto = new GithubRepositoryDto(dto.general(),dto.github());
         GHRepository ghRepository = githubRepositoryService.createRepository(githubRepositoryDto);
-        String localPath = projectsDirectory() + "/" + createNewProjectWithInitDto.name();
+        String localPath = projectsDirectory() + "/" + dto.general().name();
         gitService.clone(userService.getGithubCredentials(),ghRepository.getHtmlUrl().toString(), localPath);
         Project project = new Project();
-        project.setName(createNewProjectWithInitDto.name());
+        project.setName(dto.general().name());
         project.setLocalRepoPath(localPath);
         project.setRemoteRepoUrl(ghRepository.getHtmlUrl().toString());
         return EntityToDtoMapper.ProjectToProjectDto(projectRepository.save(project));

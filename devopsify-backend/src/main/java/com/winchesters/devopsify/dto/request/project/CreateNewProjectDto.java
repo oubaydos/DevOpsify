@@ -1,4 +1,4 @@
-package com.winchesters.devopsify.dto.request;
+package com.winchesters.devopsify.dto.request.project;
 
 public record CreateNewProjectDto (
     String name,
