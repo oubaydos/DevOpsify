@@ -7,6 +7,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 
+import static com.winchesters.devopsify.enums.DockerfileDataBaseKeywords.*;
+
 
 public class DataBaseDockerFile implements DockerFileFactory {
     private String imageName = DEFAULT_IMAGE_NAME;
@@ -38,14 +40,19 @@ public class DataBaseDockerFile implements DockerFileFactory {
         dockerfileUtils
                 .setDockerfileKeywordValue(
                         Map.of(
-                                "db-name", imageName,
-                                "db-version", imageVersion,
-                                "db-os", imageBaseOS
+                                DATABASE_NAME.value(), imageName,
+                                DATABASE_VERSION.value(), imageVersion,
+                                BASE_OS.value(), imageBaseOS
                         )
                 );
         if (dbInitQueriesFilename == null)
             dockerfileUtils.commentLine(2);
-        else dockerfileUtils.setDockerfileKeywordValue("db-init-queries-filename", dbInitQueriesFilename);
+        else
+            dockerfileUtils
+                    .setDockerfileKeywordValue(
+                            DATABASE_INIT_QUERIES_FILENAME.value(),
+                            dbInitQueriesFilename
+                    );
         return dockerfileUtils.getDockerfileContent();
     }
 
