@@ -3,7 +3,7 @@ import configData from "../config.json";
 import {goto} from "../utils/utils";
 
 
-export function login(event,setOpen,setCookie) {
+export function login(event,setOpen,setCookie, setSuccessful, setError) {
 
     const endpoint = configData.SERVER_URL+"/login";
 
@@ -28,13 +28,15 @@ export function login(event,setOpen,setCookie) {
         (res) => {
             setCookie("Authorization",res.headers["authorization"])
             setOpen(true);
+            setSuccessful(true);
             goto("/")
         }
         ,
         (err) => {
-            //TODO : handle error with customized stuff
-            alert("erreur lors de l'authentification, veuillez reentrer vos données, en cas de besoin contacter l'admin");
+            // alert("erreur lors de l'authentification, veuillez reentrer vos données, en cas de besoin contacter l'admin");
             console.error(err);
+            alert(err.response.data.exception.message)
+            setError(err);
         }
     );
 

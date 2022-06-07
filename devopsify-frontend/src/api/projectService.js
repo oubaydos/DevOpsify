@@ -10,9 +10,9 @@ export function listProjects(setProjects){
 
     axios.get(`${endpoint}`
         , {
-            // headers: {
-            //     "Authorization": `${localStorage.getItem("currentUser")}`
-            // }
+            headers: {
+                "Authorization": getCookie('Authorization'),
+            }
         }
     ).then(
         (res) => {

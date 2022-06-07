@@ -7,7 +7,6 @@ import {
   MenuItem,
   Select,
 } from "@mui/material";
-import getArchetypes from "../../api/mavenApi";
 
 const MavenForm = ({
   handleInputChange,
@@ -23,7 +22,7 @@ const MavenForm = ({
           label="Maven project template: "
           control={
             <Select
-              value={0}
+              defaultValue={0}
               size="small"
               labelId="maven-archetype-select-label"
               id="maven-archetype-select"
