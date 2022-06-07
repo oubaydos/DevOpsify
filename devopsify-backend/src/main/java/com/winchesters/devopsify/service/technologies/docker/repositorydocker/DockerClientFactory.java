@@ -8,6 +8,7 @@ import com.github.dockerjava.httpclient5.ApacheDockerHttpClient;
 import com.github.dockerjava.transport.DockerHttpClient;
 import com.winchesters.devopsify.service.technologies.docker.dockerfile.BackendDockerFile;
 import com.winchesters.devopsify.service.technologies.docker.dockerfile.DataBaseDockerFile;
+import com.winchesters.devopsify.service.technologies.docker.dockerfile.FrontEndDockerFile;
 
 import java.time.Duration;
 
@@ -59,22 +60,37 @@ public class DockerClientFactory {
 //                        "tempname:tag"
 //                )
 //        );
-        BackendDockerFile backendDockerFile = new BackendDockerFile();
+//        BackendDockerFile backendDockerFile = new BackendDockerFile();
+//
+//        backendDockerFile.setBaseBuildImageName("buildImage");
+//        backendDockerFile.setBaseBuildImageVersion("v1");
+//        backendDockerFile.setBaseBuildJdkType("oracleJdk");
+//
+//        backendDockerFile.setJdkImageName("oracleJdk");
+//        backendDockerFile.setJdkBaseOsName("ubuntu");
+//        backendDockerFile.setJdkVersion("16");
+//
+//        backendDockerFile.setWorkdir("project");
+//        backendDockerFile.setPort("700");
+//
+//        backendDockerFile.setJarName("HelloJar");
+//
+//        backendDockerFile.setBuildOnly(true);
+//        System.out.println(backendDockerFile.getDockerfileContent());
+        FrontEndDockerFile backendDockerFile = new FrontEndDockerFile();
 
-        backendDockerFile.setBaseBuildImageName("buildImage");
-        backendDockerFile.setBaseBuildImageVersion("v1");
-        backendDockerFile.setBaseBuildJdkType("oracleJdk");
+        backendDockerFile.setNodeVersion("v11");
+        backendDockerFile.setWorkdir("workdir-devopsify");
+        backendDockerFile.setMiniCssExtractPluginVersion("v5");
 
-        backendDockerFile.setJdkImageName("oracleJdk");
-        backendDockerFile.setJdkBaseOsName("ubuntu");
-        backendDockerFile.setJdkVersion("16");
-
-        backendDockerFile.setWorkdir("project");
-        backendDockerFile.setPort("700");
-
-        backendDockerFile.setJarName("HelloJar");
+        backendDockerFile.setNginxVersion("v6");
+        backendDockerFile.setNginxBaseOs("ubuntu");
+        backendDockerFile.setNginxConfigurationFileLocation("/home/nginx/nginx.cong");
+        backendDockerFile.setProductionPort("900");
 
         backendDockerFile.setBuildOnly(true);
+        backendDockerFile.setHasNginxConfigurationFile(false);
+
         System.out.println(backendDockerFile.getDockerfileContent());
     }
 
