@@ -36,8 +36,11 @@ public class DataBaseDockerFile implements DockerFileFactory {
                                 BASE_OS.keyword(), imageBaseOS
                         )
                 );
-        if (dbInitQueriesFilename == null)
-            dockerfileUtils.commentLine(2);
+        if (dbInitQueriesFilename == null){
+            int dbInitQueriesStatementLineNumber = dockerfileUtils.getLineContaining(DATABASE_INIT_QUERIES_FILENAME.keyword()).get(0);
+            dockerfileUtils.commentLine(dbInitQueriesStatementLineNumber);
+        }
+
         else
             dockerfileUtils
                     .setDockerfileKeywordValue(
