@@ -1,6 +1,7 @@
 package com.winchesters.devopsify.utils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.winchesters.devopsify.exception.GeneralException;
 import com.winchesters.devopsify.exception.github.GithubException;
@@ -23,20 +24,32 @@ public record ExceptionJsonFormatter(String code, String message) {
         Map<String, Object> map = mapper.readValue(exception.getLocalizedMessage(), Map.class);
         System.err.println(map.values());
         StringBuilder message = new StringBuilder();
-        if (exception.getResponseMessage() != null){
+        if (exception.getResponseMessage() != null) {
             message.append(exception.getResponseMessage());
             message.append(" : ");
         }
         message.append(Optional.ofNullable(map.get("message")).orElse(""));
         message.append(" : ");
         List<Map<String, String>> errors = (List<Map<String, String>>) Optional.ofNullable(map.get("errors")).orElse(null);
-        if (errors != null && errors.size()>0){
-            for (Map<String, String> error : errors ){
+        if (errors != null && errors.size() > 0) {
+            for (Map<String, String> error : errors) {
                 if (error == null) continue;
                 message.append(Optional.ofNullable(error.get("message")).orElse(""));
                 message.append("\n");
             }
         }
         return new GithubException(message.toString());
+    }
+
+    public static Exception dockerExceptionsToCustomizedExceptions(Exception e) throws JsonProcessingException {
+        //TODO - priority 3/5
+        ObjectMapper mapper = new ObjectMapper();
+        Map<String, Object> result = mapper
+                .readValue(
+                        e.getMessage().substring(e.getMessage().indexOf(": ") + 2),
+                        new TypeReference<>() {
+                        }
+                );
+        return null;
     }
 }
