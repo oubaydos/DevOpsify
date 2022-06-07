@@ -1,2 +1,4 @@
+# base image
 FROM db-name:db-version-db-os
+# this line is used to serve initializing script to the database
 COPY db-init-queries-filename /docker-entrypoint-initdb.d/

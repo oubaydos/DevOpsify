@@ -1,0 +1,14 @@
+# base image should be node
+FROM node:latest
+# creating and moving to the working directory
+WORKDIR /app
+# copying package jsons
+COPY package.json ./
+COPY package-lock.json ./
+# installing dependencies
+RUN npm install --silent
+# moving project files
+COPY . .
+# running npm start -- i guess this should be changed
+CMD ["npm", "start"]
+## this dockerfile runs directly react and is not suitable for production as it does no build
