@@ -10,11 +10,27 @@ import Error from "../shared/Error";
 import Success from "../shared/Success";
 import { createNewProject } from "../../api/projectService";
 
+const styles = {
+  labeled: {
+    marginLeft: 20,
+  },
+  formItem: {
+    marginBottom: 10,
+    marginTop: 10,
+  },
+};
 
 const CreateNewProjectPage = () => {
   const [current, setCurrent] = React.useState(0);
 
-  const [formValues, setFormValues] = React.useState({});
+  const [formValues, setFormValues] = React.useState({
+    general: {},
+    github: {},
+    maven: {},
+    docker: {},
+    jenkins: {},
+    nexus: {},
+  });
 
   const [successful, setSuccessful] = React.useState(false);
 
@@ -28,7 +44,7 @@ const CreateNewProjectPage = () => {
 
   const handleCheckboxChange = (e) => {
     const { name, checked } = e.target;
-    const currentFormPart = Object.keys(parts)[current];
+    const currentFormPart = Object.keys(parts)[current].toLowerCase();
     let values = formValues[currentFormPart];
     values = { ...values, [name]: checked };
 
@@ -41,7 +57,7 @@ const CreateNewProjectPage = () => {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
 
-    const currentFormPart = Object.keys(parts)[current];
+    const currentFormPart = Object.keys(parts)[current].toLowerCase();
 
     let values = formValues[currentFormPart];
 
@@ -68,6 +84,8 @@ const CreateNewProjectPage = () => {
   const formProperties = {
     handleCheckboxChange: handleCheckboxChange,
     handleInputChange: handleInputChange,
+    formValues: formValues,
+    styles: styles,
   };
 
   const parts = {
@@ -80,54 +98,92 @@ const CreateNewProjectPage = () => {
   };
 
   return (
-    <Box
-      sx={{
-        maxWidth: "60%",
-        marginLeft: 40,
-        borderRadius: 5,
-        position: "relative",
-        backgroundColor: "white",
-      }}
-    >
+    <Box>
+      <Typography
+        variant="h5"
+        noWrap
+        component="div"
+        sx={{ my: 4 }}
+        fontWeight="550"
+      >
+      Create New Project
+      </Typography>
       <Box
         sx={{
-          my: 2,
-          py: 2,
+          maxWidth: "60%",
+          marginLeft: 40,
+          borderRadius: 5,
+          position: "relative",
+          backgroundColor: "white",
+          boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
         }}
       >
-        <Grid container>
-          {Object.keys(parts).map((name, index) => (
-            <Grid item xs={2}>
-              <Typography
-                variant="h7"
-                sx={{ py: 1, px: 2, borderRadius: 10 }}
-                style={
-                  current === index
-                    ? { backgroundColor: "grey", color: "white" }
-                    : {}
-                }
-              >
-                {name}
-              </Typography>
-            </Grid>
-          ))}
-        </Grid>
-      </Box>
-      <Box>
-        <Container
+        <Box
           sx={{
-            height: 250,
-            my: 4,
+            my: 2,
+            py: 2,
           }}
         >
-          {Object.values(parts)[current]}
-        </Container>
-        {current > 0 && (
+          <Grid container>
+            {Object.keys(parts).map((name, index) => (
+              <Grid item xs={2}>
+                <Typography
+                  variant="h7"
+                  sx={{ py: 1, px: 2, borderRadius: 10 }}
+                  style={
+                    current === index
+                      ? { backgroundColor: "grey", color: "white" }
+                      : {}
+                  }
+                >
+                  {name}
+                </Typography>
+              </Grid>
+            ))}
+          </Grid>
+        </Box>
+        <Box>
+          <Container
+            sx={{
+              height: 250,
+              my: 4,
+            }}
+          >
+            <Grid
+              container
+              direction="column"
+              alignItems="center"
+              justify="center"
+              spacing={0}
+            >
+              {Object.values(parts)[current]}
+            </Grid>
+          </Container>
+          {current > 0 && (
+            <Button
+              variant="inline"
+              sx={{
+                position: "absolute",
+                left: 0,
+                bottom: 0,
+                m: 3,
+                backgroundColor: "green",
+                color: "white",
+                ":hover": {
+                  //bgcolor: 'primary.main', // theme.palette.primary.main
+                  color: "black",
+                },
+              }}
+              onClick={handleBackClick}
+            >
+              back
+            </Button>
+          )}
           <Button
             variant="inline"
             sx={{
               position: "absolute",
-              left: 0,
+              right: 0,
               bottom: 0,
               m: 3,
               backgroundColor: "green",
@@ -137,34 +193,16 @@ const CreateNewProjectPage = () => {
                 color: "black",
               },
             }}
-            onClick={handleBackClick}
+            onClick={handleOnButtonClick}
           >
-            back
+            {current != Object.values(parts).length - 1 ? "next" : "finish"}
           </Button>
-        )}
-        <Button
-          variant="inline"
-          sx={{
-            position: "absolute",
-            right: 0,
-            bottom: 0,
-            m: 3,
-            backgroundColor: "green",
-            color: "white",
-            ":hover": {
-              //bgcolor: 'primary.main', // theme.palette.primary.main
-              color: "black",
-            },
-          }}
-          onClick={handleOnButtonClick}
-        >
-          {current != Object.values(parts).length - 1 ? "next" : "finish"}
-        </Button>
+        </Box>
+        <Grid container>
+          <Grid item>{successful && error === false && <Success />} </Grid>
+          <Grid item>{error !== false && <Error error={error} />} </Grid>
+        </Grid>
       </Box>
-      <Grid container>
-        <Grid item>{successful && error === false && <Success />} </Grid>
-        <Grid item>{error !== false && <Error error={error} />} </Grid>
-      </Grid>
     </Box>
   );
 };
