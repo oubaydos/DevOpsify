@@ -58,6 +58,6 @@ public class DataBaseDockerFile implements DockerFileFactory {
 
     @Override
     public File getDockerfileTemplate() {
-        return new File(System.getProperty("user.dir").replace("\\", "/") + "/src/main/resources/dockerfile-templates/DockerfileTemplate-database");
+        return getDockerfileTemplate(DockerFileType.DATABASE);
     }
 }
