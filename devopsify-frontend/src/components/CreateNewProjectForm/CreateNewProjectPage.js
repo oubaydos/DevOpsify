@@ -10,10 +10,14 @@ import Error from "../shared/Error";
 import Success from "../shared/Success";
 import { createNewProject } from "../../api/projectService";
 
+
 const CreateNewProjectPage = () => {
   const [current, setCurrent] = React.useState(0);
+
   const [formValues, setFormValues] = React.useState({});
+
   const [successful, setSuccessful] = React.useState(false);
+
   const [error, setError] = React.useState(false);
 
   const handleSubmit = (event) => {
@@ -24,19 +28,43 @@ const CreateNewProjectPage = () => {
 
   const handleCheckboxChange = (e) => {
     const { name, checked } = e.target;
+    const currentFormPart = Object.keys(parts)[current];
+    let values = formValues[currentFormPart];
+    values = { ...values, [name]: checked };
+
     setFormValues({
       ...formValues,
-      [name]: checked,
+      [currentFormPart]: values,
     });
   };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+
+    const currentFormPart = Object.keys(parts)[current];
+
+    let values = formValues[currentFormPart];
+
+    values = { ...values, [name]: value };
+
     setFormValues({
       ...formValues,
-      [name]: value,
+      [currentFormPart]: values,
     });
   };
+
+  const handleOnButtonClick = (e) => {
+    if (current != Object.keys(parts).length - 1) {
+      setCurrent(current + 1);
+    } else {
+      handleSubmit(e);
+    }
+  };
+
+  const handleBackClick = () => {
+    setCurrent(current - 1);
+  };
+
   const formProperties = {
     handleCheckboxChange: handleCheckboxChange,
     handleInputChange: handleInputChange,
@@ -50,18 +78,6 @@ const CreateNewProjectPage = () => {
     Jenkins: <JenkinsForm {...formProperties} />,
     Nexus: <NexusForm {...formProperties} />,
   };
-
-  const handleOnButtonClick = (e) => {
-    if (current != Object.keys(parts).length - 1) {
-      setCurrent(current + 1);
-    } else {
-      handleSubmit(e);
-    }
-  };
-
-  const handleBackClick = ()=>{
-    setCurrent(current-1);
-  }
 
   return (
     <Box
@@ -111,14 +127,14 @@ const CreateNewProjectPage = () => {
             variant="inline"
             sx={{
               position: "absolute",
-              left:0,
+              left: 0,
               bottom: 0,
               m: 3,
               backgroundColor: "green",
               color: "white",
-              ':hover': {
+              ":hover": {
                 //bgcolor: 'primary.main', // theme.palette.primary.main
-                color: 'black',
+                color: "black",
               },
             }}
             onClick={handleBackClick}
@@ -135,9 +151,9 @@ const CreateNewProjectPage = () => {
             m: 3,
             backgroundColor: "green",
             color: "white",
-            ':hover': {
+            ":hover": {
               //bgcolor: 'primary.main', // theme.palette.primary.main
-              color: 'black',
+              color: "black",
             },
           }}
           onClick={handleOnButtonClick}
