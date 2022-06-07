@@ -8,9 +8,6 @@ import java.io.IOException;
 import static com.winchesters.devopsify.utils.IOUtils.dockerfileTemplatesBaseDirectory;
 
 public interface DockerFileFactory {
-    String DEFAULT_IMAGE_NAME = "SCRATCH";
-    String DEFAULT_IMAGE_VERSION = "latest";
-    String DEFAULT_IMAGE_BASE_OS = "alpine";
 
     void writeDockerfile();
 

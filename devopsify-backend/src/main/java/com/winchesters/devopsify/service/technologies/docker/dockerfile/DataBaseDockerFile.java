@@ -11,9 +11,9 @@ import static com.winchesters.devopsify.enums.DockerfileDataBaseKeywords.*;
 
 
 public class DataBaseDockerFile implements DockerFileFactory {
-    private String imageName = DEFAULT_IMAGE_NAME;
-    private String imageVersion = DEFAULT_IMAGE_VERSION;
-    private String imageBaseOS = DEFAULT_IMAGE_BASE_OS;
+    private String imageName = DATABASE_NAME.defaultValue();
+    private String imageVersion = DATABASE_VERSION.defaultValue();
+    private String imageBaseOS = BASE_OS.defaultValue();
 
     DockerFileType dockerFileType = DockerFileType.DATABASE;
     private final String dbInitQueriesFilename;
@@ -40,9 +40,9 @@ public class DataBaseDockerFile implements DockerFileFactory {
         dockerfileUtils
                 .setDockerfileKeywordValue(
                         Map.of(
-                                DATABASE_NAME.value(), imageName,
-                                DATABASE_VERSION.value(), imageVersion,
-                                BASE_OS.value(), imageBaseOS
+                                DATABASE_NAME.keyword(), imageName,
+                                DATABASE_VERSION.keyword(), imageVersion,
+                                BASE_OS.keyword(), imageBaseOS
                         )
                 );
         if (dbInitQueriesFilename == null)
@@ -50,7 +50,7 @@ public class DataBaseDockerFile implements DockerFileFactory {
         else
             dockerfileUtils
                     .setDockerfileKeywordValue(
-                            DATABASE_INIT_QUERIES_FILENAME.value(),
+                            DATABASE_INIT_QUERIES_FILENAME.keyword(),
                             dbInitQueriesFilename
                     );
         return dockerfileUtils.getDockerfileContent();
