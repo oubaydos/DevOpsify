@@ -2,29 +2,28 @@ package com.winchesters.devopsify.service.technologies.docker.dockerfile;
 
 import com.winchesters.devopsify.enums.DockerFileType;
 import com.winchesters.devopsify.utils.DockerfileUtils;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 
+import static com.winchesters.devopsify.enums.DockerfileDataBaseKeywords.*;
 
+@Builder(setterPrefix = "set")
+@AllArgsConstructor
 public class DataBaseDockerFile implements DockerFileFactory {
-    private String imageName = DEFAULT_IMAGE_NAME;
-    private String imageVersion = DEFAULT_IMAGE_VERSION;
-    private String imageBaseOS = DEFAULT_IMAGE_BASE_OS;
+    @Builder.Default
+    private String imageName = DATABASE_NAME.defaultValue();
+    @Builder.Default
+    private String imageVersion = DATABASE_VERSION.defaultValue();
+    @Builder.Default
+    private String imageBaseOS = BASE_OS.defaultValue();
+    private String dbInitQueriesFilename;
 
-    DockerFileType dockerFileType = DockerFileType.DATABASE;
-    private final String dbInitQueriesFilename;
 
-    public DataBaseDockerFile(String imageName, String imageVersion, String imageBaseOS, String dbInitQueriesFilename) {
-        if (imageName != null)
-            this.imageName = imageName;
-        if (imageVersion != null)
-            this.imageVersion = imageVersion;
-        if (imageBaseOS != null)
-            this.imageBaseOS = imageBaseOS;
-        this.dbInitQueriesFilename = dbInitQueriesFilename;
-    }
 
     @Override
     public void writeDockerfile() {
@@ -38,19 +37,28 @@ public class DataBaseDockerFile implements DockerFileFactory {
         dockerfileUtils
                 .setDockerfileKeywordValue(
                         Map.of(
-                                "db-name", imageName,
-                                "db-version", imageVersion,
-                                "db-os", imageBaseOS
+                                DATABASE_NAME.keyword(), imageName,
+                                DATABASE_VERSION.keyword(), imageVersion,
+                                BASE_OS.keyword(), imageBaseOS
                         )
                 );
-        if (dbInitQueriesFilename == null)
-            dockerfileUtils.commentLine(2);
-        else dockerfileUtils.setDockerfileKeywordValue("db-init-queries-filename", dbInitQueriesFilename);
+        if (dbInitQueriesFilename == null){
+            int dbInitQueriesStatementLineNumber = dockerfileUtils.getLineContaining(DATABASE_INIT_QUERIES_FILENAME.keyword()).get(0);
+            dockerfileUtils.commentLine(dbInitQueriesStatementLineNumber);
+        }
+
+        else
+            dockerfileUtils
+                    .setDockerfileKeywordValue(
+                            DATABASE_INIT_QUERIES_FILENAME.keyword(),
+                            dbInitQueriesFilename
+                    );
         return dockerfileUtils.getDockerfileContent();
     }
 
     @Override
     public File getDockerfileTemplate() {
-        return new File(System.getProperty("user.dir").replace("\\", "/") + "/src/main/resources/dockerfile-templates/DockerfileTemplate-database");
+        return getDockerfileTemplate(DockerFileType.DATABASE);
     }
+
 }
