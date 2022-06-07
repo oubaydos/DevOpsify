@@ -9,6 +9,7 @@ import NexusForm from "./NexusForm";
 import Error from "../shared/Error";
 import Success from "../shared/Success";
 import { createNewProject } from "../../api/projectService";
+import getArchetypes from "../../api/mavenApi";
 
 const styles = {
   labeled: {
@@ -35,6 +36,12 @@ const CreateNewProjectPage = () => {
   const [successful, setSuccessful] = React.useState(false);
 
   const [error, setError] = React.useState(false);
+
+  const [archetypes, setArchetypes] = React.useState([]);
+
+  React.useEffect(() => {
+    getArchetypes(setArchetypes);
+  }, []);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -81,6 +88,26 @@ const CreateNewProjectPage = () => {
     setCurrent(current - 1);
   };
 
+  const handleMavenArchetypeChange = (e) => {
+    const { value } = e.target;
+
+    const currentFormPart = "maven";
+
+    const groupId = archetypes[value].groupId;
+
+    const artifactId = archetypes[value].artifactId;
+
+    let values = formValues[currentFormPart];
+
+    values = { ...values, groupId: groupId, artifactId: artifactId };
+
+    setFormValues({
+      ...formValues,
+      [currentFormPart]: values,
+    });
+    console.log(formValues);
+  };
+
   const formProperties = {
     handleCheckboxChange: handleCheckboxChange,
     handleInputChange: handleInputChange,
@@ -91,7 +118,13 @@ const CreateNewProjectPage = () => {
   const parts = {
     General: <GeneralForm {...formProperties} />,
     Github: <GithubForm {...formProperties} />,
-    Maven: <MavenForm {...formProperties} />,
+    Maven: (
+      <MavenForm
+        {...formProperties}
+        handleMavenArchetypeChange={handleMavenArchetypeChange}
+        archetypes={archetypes}
+      />
+    ),
     Docker: <DockerForm {...formProperties} />,
     Jenkins: <JenkinsForm {...formProperties} />,
     Nexus: <NexusForm {...formProperties} />,
@@ -106,7 +139,7 @@ const CreateNewProjectPage = () => {
         sx={{ my: 4 }}
         fontWeight="550"
       >
-      Create New Project
+        Create New Project
       </Typography>
       <Box
         sx={{

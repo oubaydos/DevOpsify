@@ -11,19 +11,11 @@ import getArchetypes from "../../api/mavenApi";
 
 const MavenForm = ({
   handleInputChange,
-  handleCheckboxChange,
+  handleMavenArchetypeChange,
+  archetypes,
   formValues,
   styles,
 }) => {
-
-  const [archetypes,setArchetypes] = React.useState([]);
-  React.useEffect(() => {
-    console.log("hiiiiiiii")
-    getArchetypes(setArchetypes);
-    console.log("hellooo")
-
-  }, []);
-
   return (
     <Box>
       <Grid item style={styles.formItem}>
@@ -36,10 +28,10 @@ const MavenForm = ({
               labelId="maven-archetype-select-label"
               id="maven-archetype-select"
               style={{ width: "300px" }}
-              sx={{mx:2}}
+              sx={{ mx: 2 }}
               name="maven-archetype"
               required
-              onChange={handleInputChange}
+              onChange={handleMavenArchetypeChange}
             >
               {archetypes.map((v, index) => (
                 <MenuItem value={index}>{v.description}</MenuItem>
@@ -54,16 +46,16 @@ const MavenForm = ({
           label="Project group id: "
           control={
             <TextField
-            name="groupId"
-            style={styles.labeled}
-            required
-            color="secondary"
-            size="small"
-            label={"groupId"}
-            onChange={handleInputChange}
-            value={formValues.general.name}
-            defaultValue={"com.example"}
-          />
+              name="groupId"
+              style={styles.labeled}
+              required
+              color="secondary"
+              size="small"
+              label={"groupId"}
+              onChange={handleInputChange}
+              value={formValues.general.name}
+              defaultValue={"com.example"}
+            />
           }
           labelPlacement="start"
         />
@@ -73,16 +65,16 @@ const MavenForm = ({
           label="Project artifact id: "
           control={
             <TextField
-            name="artifact id"
-            style={styles.labeled}
-            required
-            color="secondary"
-            size="small"
-            label={"artifactId"}
-            onChange={handleInputChange}
-            value={formValues.general.name}
-            defaultValue={"example"}
-          />
+              name="artifact id"
+              style={styles.labeled}
+              required
+              color="secondary"
+              size="small"
+              label={"artifactId"}
+              onChange={handleInputChange}
+              value={formValues.general.name}
+              defaultValue={"example"}
+            />
           }
           labelPlacement="start"
         />
