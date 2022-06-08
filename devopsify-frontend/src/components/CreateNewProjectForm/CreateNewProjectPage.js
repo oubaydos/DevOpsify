@@ -202,7 +202,6 @@ const CreateNewProjectPage = () => {
         <Box>
           <Container
             sx={{
-              minHeight: 250,
               marginTop: 2,
               marginBottom: 10,
             }}

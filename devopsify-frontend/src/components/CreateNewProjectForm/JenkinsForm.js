@@ -91,7 +91,7 @@ const JenkinsForm = ({
             >
               Test Connection
             </Button>
-            <Typography sx={{ mt: 3, mb: 2 }}>connection status</Typography>
+            <Typography sx={{ mt: 3, mb: 2 }}>TODO :connection status</Typography>
           </Box>
         </Grid>
       </Grid>
