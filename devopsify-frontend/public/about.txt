@@ -1,0 +1,6 @@
+This favicon was generated using the following font:
+
+- Font Title: Akaya Telivigala
+- Font Author: Copyright 2015 The Akaya Telivigala Project Authors (https://github.com/vaishnavimurthy/Akaya-Telivigala)
+- Font Source: http://fonts.gstatic.com/s/akayatelivigala/v22/lJwc-oo_iG9wXqU3rCTD395tp0uifdLdsIH0YH8.ttf
+- Font License: SIL Open Font License, 1.1 (http://scripts.sil.org/OFL))

@@ -53,7 +53,6 @@ const MavenForm = ({
               label={"groupId"}
               onChange={handleInputChange}
               value={formValues.maven.groupId}
-              defaultValue={"com.example"}
             />
           }
           labelPlacement="start"
@@ -72,7 +71,6 @@ const MavenForm = ({
               label={"artifactId"}
               onChange={handleInputChange}
               value={formValues.maven.artifactId}
-              defaultValue={"example"}
             />
           }
           labelPlacement="start"
@@ -91,7 +89,6 @@ const MavenForm = ({
               label={"version"}
               onChange={handleInputChange}
               value={formValues.maven.version}
-              defaultValue={"0.0.1-SNAPSHOT"}
             />
           }
           labelPlacement="start"

@@ -24,20 +24,31 @@ const styles = {
 const CreateNewProjectPage = () => {
   const [current, setCurrent] = React.useState(0);
 
-  const [formValues, setFormValues] = React.useState({
-    general: {},
-    github: {},
-    maven: {},
-    docker: {},
-    jenkins: {},
-    nexus: {},
-  });
+
 
   const [successful, setSuccessful] = React.useState(false);
 
   const [error, setError] = React.useState(false);
 
   const [archetypes, setArchetypes] = React.useState([]);
+
+  const [formValues, setFormValues] = React.useState({
+    general: {},
+    github: {
+      autoInit: true,
+      private_: true
+    },
+    maven: {
+      archetypeArtifactId : "maven-archetype-quickstart",
+      archetypeGroupId : "org.apache.maven.archetypes",
+      artifactId : "example",
+      groupId : "com.example",
+      version : "0.0.1-SNAPSHOT",
+    },
+    docker: {},
+    jenkins: {},
+    nexus: {},
+  });
 
   React.useEffect(() => {
     getArchetypes(setArchetypes);
@@ -89,17 +100,18 @@ const CreateNewProjectPage = () => {
   };
 
   const handleMavenArchetypeChange = (e) => {
+
     const { value } = e.target;
 
     const currentFormPart = "maven";
 
-    const groupId = archetypes[value].groupId;
+    const archetypeGroupId = archetypes[value].groupId;
 
-    const artifactId = archetypes[value].artifactId;
+    const archetypeArtifactId = archetypes[value].artifactId;
 
     let values = formValues[currentFormPart];
 
-    values = { ...values, groupId: groupId, artifactId: artifactId };
+    values = { ...values, archetypeGroupId: archetypeGroupId, archetypeArtifactId: archetypeArtifactId };
 
     setFormValues({
       ...formValues,
