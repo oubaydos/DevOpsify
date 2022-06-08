@@ -65,14 +65,29 @@ public class ProjectService {
     }
 
     public ProjectDto createNewProjectWithInit(CreateNewProjectWithInitDto dto) throws IOException, GitAPIException {
+
+        String localPath = projectsDirectory() + "/" + dto.general().name();
+
+        //github
         GithubRepositoryDto githubRepositoryDto = new GithubRepositoryDto(dto.general(),dto.github());
         GHRepository ghRepository = githubRepositoryService.createRepository(githubRepositoryDto);
-        String localPath = projectsDirectory() + "/" + dto.general().name();
+
+        //git
         gitService.clone(userService.getGithubCredentials(),ghRepository.getHtmlUrl().toString(), localPath);
+
+        //maven
+        mavenService.generateMavenProject(dto.maven(),localPath);
+
+        //TODO : docker
+        //TODO : jenkins
+        //TODO : nexus
+
+        //saving project in database
         Project project = new Project();
         project.setName(dto.general().name());
         project.setLocalRepoPath(localPath);
         project.setRemoteRepoUrl(ghRepository.getHtmlUrl().toString());
+
         return EntityToDtoMapper.ProjectToProjectDto(projectRepository.save(project));
     }
 

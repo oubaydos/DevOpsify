@@ -153,7 +153,8 @@ public class MavenServiceImpl implements MavenService {
                     String.format("-DartifactId=%s", dto.artifactId()),
                     String.format("-DarchetypeGroupId=%s", dto.archetypeGroupId()),
                     String.format("-DarchetypeArtifactId=%s", dto.archetypeArtifactId()),
-                    String.format("-DinteractiveMode=%s", false)
+                    String.format("-DinteractiveMode=%s", false),
+                    String.format("-Dversion=%s", dto.version())
             )
                     .directory(new File(baseDirPath))
                     .inheritIO()

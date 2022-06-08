@@ -1,10 +1,13 @@
 package com.winchesters.devopsify.dto.request.project;
 
+import com.winchesters.devopsify.dto.request.GenerateMavenProjectDto;
+
 public record CreateNewProjectWithInitDto(
 
         CreateNewProjectGeneralDto general,
         CreateNewProjectGithubDto github,
-        CreateNewProjectMavenDto maven,
+        GenerateMavenProjectDto maven,
+
         CreateNewProjectDockerDto docker,
         CreateNewProjectJenkinsDto jenkins,
         CreateNewProjectNexusDto nexus

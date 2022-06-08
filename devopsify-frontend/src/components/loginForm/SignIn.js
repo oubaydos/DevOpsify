@@ -17,14 +17,19 @@ import {
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { login } from "../../api/authService";
 import { useCookies } from "react-cookie";
+import Success from "../shared/Success";
+import Error from "../shared/Error";
+import {useState} from "react";
 
 export default function SignIn() {
   const [open, setOpen] = React.useState(false);
   const [, setCookie] = useCookies(["Authorization"]);
+  const [successful, setSuccessful] = useState(false);
+  const [error, setError] = useState(false);
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    login(event, setOpen,setCookie);
+    login(event, setOpen,setCookie, setSuccessful, setError);
 
   };
 
@@ -94,7 +99,18 @@ export default function SignIn() {
                 {"SignUp"}
               </Link>
             </Grid>
+            <Grid>
+              {(successful && error === false) && (
+                  <Success/>
+              )}{" "}
+            </Grid>
+            <Grid>
+              {error !== false && (
+                  <Error error={error}/>
+              )}{" "}
+            </Grid>
           </Grid>
+
         </Box>
       </Box>{" "}
     </Container>

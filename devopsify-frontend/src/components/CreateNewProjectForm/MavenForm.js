@@ -7,7 +7,6 @@ import {
   MenuItem,
   Select,
 } from "@mui/material";
-import getArchetypes from "../../api/mavenApi";
 
 const MavenForm = ({
   handleInputChange,
