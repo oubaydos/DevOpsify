@@ -23,7 +23,7 @@ const MavenForm = ({
           label="Maven project template: "
           control={
             <Select
-              value={0}
+              defaultValue={0}
               size="small"
               labelId="maven-archetype-select-label"
               id="maven-archetype-select"
@@ -53,7 +53,7 @@ const MavenForm = ({
               size="small"
               label={"groupId"}
               onChange={handleInputChange}
-              value={formValues.general.name}
+              value={formValues.maven.groupId}
               defaultValue={"com.example"}
             />
           }
@@ -72,8 +72,27 @@ const MavenForm = ({
               size="small"
               label={"artifactId"}
               onChange={handleInputChange}
-              value={formValues.general.name}
+              value={formValues.maven.artifactId}
               defaultValue={"example"}
+            />
+          }
+          labelPlacement="start"
+        />
+      </Grid>
+      <Grid item style={styles.formItem}>
+        <FormControlLabel
+          label="Version "
+          control={
+            <TextField
+              name="version"
+              style={styles.labeled}
+              required
+              color="secondary"
+              size="small"
+              label={"version"}
+              onChange={handleInputChange}
+              value={formValues.maven.version}
+              defaultValue={"0.0.1-SNAPSHOT"}
             />
           }
           labelPlacement="start"

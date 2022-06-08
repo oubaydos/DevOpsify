@@ -34,12 +34,15 @@ const AdminRoutes = () =>
   ]);
 const GuestRoutes = () =>
   useRoutes([
+    { path: "/project/create", element: <SignIn /> },
+    { path: "/project", element: <SignIn /> },
+    { path: "/github", element: <SignIn /> },
+    { path: "/jenkins", element: <SignIn /> },
+    { path: "/", element: <SignIn /> },
+    { path: "/project/:id", element: <SignIn /> },
     { path: "/", element: <SignIn /> },
     { path: "/login", element: <SignIn /> },
     { path: "/signup", element: <SignUp /> },
-    { path: "/project/create", element: <SignIn /> },
-    { path: "/jenkins", element: <SignIn /> },
-    { path: "/github", element: <SignIn /> },
   ]);
 
 const getRoutes = (role) => {
