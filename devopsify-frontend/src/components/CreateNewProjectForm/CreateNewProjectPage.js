@@ -24,8 +24,6 @@ const styles = {
 const CreateNewProjectPage = () => {
   const [current, setCurrent] = React.useState(0);
 
-
-
   const [successful, setSuccessful] = React.useState(false);
 
   const [error, setError] = React.useState(false);
@@ -36,16 +34,26 @@ const CreateNewProjectPage = () => {
     general: {},
     github: {
       autoInit: true,
-      private_: true
+      private_: true,
     },
     maven: {
-      archetypeArtifactId : "maven-archetype-quickstart",
-      archetypeGroupId : "org.apache.maven.archetypes",
-      artifactId : "example",
-      groupId : "com.example",
-      version : "0.0.1-SNAPSHOT",
+      archetypeArtifactId: "maven-archetype-quickstart",
+      archetypeGroupId: "org.apache.maven.archetypes",
+      artifactId: "example",
+      groupId: "com.example",
+      version: "0.0.1-SNAPSHOT",
     },
-    docker: {},
+    docker: {
+      dockerizeBackend: false,
+      dockerBackend: {},
+      dockerizeDB: false,
+      dockerDB: {
+        imageName: "",
+        imageVersion: "",
+        imageBaseOS: "",
+        dbInitQueriesFilename: "",
+      },
+    },
     jenkins: {},
     nexus: {},
   });
@@ -100,7 +108,6 @@ const CreateNewProjectPage = () => {
   };
 
   const handleMavenArchetypeChange = (e) => {
-
     const { value } = e.target;
 
     const currentFormPart = "maven";
@@ -111,7 +118,11 @@ const CreateNewProjectPage = () => {
 
     let values = formValues[currentFormPart];
 
-    values = { ...values, archetypeGroupId: archetypeGroupId, archetypeArtifactId: archetypeArtifactId };
+    values = {
+      ...values,
+      archetypeGroupId: archetypeGroupId,
+      archetypeArtifactId: archetypeArtifactId,
+    };
 
     setFormValues({
       ...formValues,
@@ -124,6 +135,8 @@ const CreateNewProjectPage = () => {
     handleCheckboxChange: handleCheckboxChange,
     handleInputChange: handleInputChange,
     formValues: formValues,
+    setFormValues,
+    setFormValues,
     styles: styles,
   };
 
@@ -165,7 +178,6 @@ const CreateNewProjectPage = () => {
       >
         <Box
           sx={{
-            my: 2,
             py: 2,
           }}
         >
@@ -190,8 +202,9 @@ const CreateNewProjectPage = () => {
         <Box>
           <Container
             sx={{
-              height: 250,
-              my: 4,
+              minHeight: 250,
+              marginTop: 2,
+              marginBottom: 10,
             }}
           >
             <Grid

@@ -4,7 +4,7 @@ public enum DockerfileDataBaseKeywords implements DockerfileKeywords{
     DATABASE_NAME("db-name", "postgres"),
     DATABASE_VERSION("db-version", "14"),
     BASE_OS("db-os", "alpine"),
-    DATABASE_INIT_QUERIES_FILENAME("db-init-queries-filename", null);
+    DATABASE_INIT_QUERIES_FILENAME("db-init-queries-filename", "");
 
     private final String keyword;
     private final String defaultValue;

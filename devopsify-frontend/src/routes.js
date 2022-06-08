@@ -34,7 +34,7 @@ const AdminRoutes = () =>
   ]);
 const GuestRoutes = () =>
   useRoutes([
-    { path: "/project/create", element: <SignIn /> },
+    { path: "/project/create", element: <CreateNewProjectPage /> },
     { path: "/project", element: <SignIn /> },
     { path: "/github", element: <SignIn /> },
     { path: "/jenkins", element: <SignIn /> },
