@@ -68,6 +68,7 @@ public class DockerClientFactory {
                 .setDbInitQueriesFilename("hiu")
                 .build();
         System.out.println(dataBaseDockerFile.getDockerfileContent());
+        dataBaseDockerFile.writeDockerfile("./Dockerfile-helloworld");
         /*
          * backend dockerfile test
          */

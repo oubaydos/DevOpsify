@@ -15,9 +15,9 @@ public abstract class DockerFile {
     /**
      * @param path full path -- filename included
      */
-    final void writeDockerfile(String path) throws IOException {
-        File outputFile = new File("path");
-        FileUtils.writeStringToFile(outputFile, path, StandardCharsets.UTF_8);
+    public final void writeDockerfile(String path) throws IOException {
+        File outputFile = new File(path);
+        FileUtils.writeStringToFile(outputFile, this.getDockerfileContent(), StandardCharsets.UTF_8);
     }
 
     abstract String getDockerfileContent() throws IOException;
