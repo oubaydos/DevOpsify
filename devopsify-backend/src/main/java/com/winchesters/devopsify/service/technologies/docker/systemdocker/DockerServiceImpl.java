@@ -6,6 +6,7 @@ import com.winchesters.devopsify.service.technologies.docker.dockerfile.BackendD
 import com.winchesters.devopsify.service.technologies.docker.dockerfile.DataBaseDockerFile;
 import com.winchesters.devopsify.service.technologies.docker.dockerfile.DockerFile;
 import com.winchesters.devopsify.utils.DockerfileUtils;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -13,7 +14,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 @Service
+@RequiredArgsConstructor
 public class DockerServiceImpl implements DockerService {
+
 
     public static void main(String[] args){
 //        DockerService dockerService = new DockerServiceImpl();

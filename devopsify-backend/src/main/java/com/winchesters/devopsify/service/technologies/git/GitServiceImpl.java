@@ -3,7 +3,6 @@ package com.winchesters.devopsify.service.technologies.git;
 import com.winchesters.devopsify.exception.git.GitException;
 import com.winchesters.devopsify.exception.git.GitInternalException;
 import com.winchesters.devopsify.exception.git.GitNotInstalledException;
-import com.winchesters.devopsify.model.GithubAnalyseResults;
 import com.winchesters.devopsify.model.GithubCredentials;
 import lombok.RequiredArgsConstructor;
 import org.eclipse.jgit.api.*;
