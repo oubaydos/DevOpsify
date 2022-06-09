@@ -41,7 +41,7 @@ public class AppConfig {
                     "oubaydos",
                     "oubaydos@gmail.com",
                     passwordEncoder.encode(password),
-                    ApplicationUserRole.CONTRIBUTOR,
+                    ApplicationUserRole.ADMIN,
                     new GithubCredentials(
                             "temp-devopsify",
                             "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"
