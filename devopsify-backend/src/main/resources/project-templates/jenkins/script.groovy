@@ -29,5 +29,8 @@ def incrementMajorVersion(){
 def test(){
     sh 'mvn test'
 }
-
+def buildImage(){
+    echo "${IMAGE_TAG}"
+    sh "docker build -t oubaydos/temp:${IMAGE_TAG} ."
+}
 return this

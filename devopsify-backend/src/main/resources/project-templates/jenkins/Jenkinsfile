@@ -43,5 +43,14 @@ pipeline{
               }
             }
         }
+        stage("build docker-image"){
+            steps{
+              script{
+                // test are included here
+                  echo "building the docker image ${IMAGE_TAG}"
+                  gv.buildImage()
+              }
+            }
+        }
     }
 }
