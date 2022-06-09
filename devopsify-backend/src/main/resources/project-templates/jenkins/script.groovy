@@ -26,3 +26,8 @@ def incrementMajorVersion(){
     env.IMAGE_TAG = "$version-$BUILD_NUMBER"
     echo "the new version is : ${version}"
 }
+def test(){
+    sh 'mvn test'
+}
+
+return this

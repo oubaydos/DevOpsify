@@ -32,5 +32,13 @@ pipeline{
                 }
             }
         }
+        stage("test"){
+            steps{
+              script{
+                  echo "testing"
+                  gv.test()
+              }
+            }
+        }
     }
 }
