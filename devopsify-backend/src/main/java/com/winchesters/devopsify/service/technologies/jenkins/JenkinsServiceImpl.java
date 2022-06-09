@@ -32,8 +32,8 @@ public class JenkinsServiceImpl implements JenkinsService {
 
         Server server = new Server(
                 "http://188.166.100.241:8080/",
-                "benyazidhamza",
-                "DoBh8E@?m5Mr4PeB"
+                "devopsify",
+                "devopsify"
         );
 
         jenkinsService.pingJenkinsServer(server);
