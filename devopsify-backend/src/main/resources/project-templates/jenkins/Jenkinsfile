@@ -26,7 +26,10 @@ pipeline{
                         gv.incrementMinorVersion()
                     } else if (gv.isStringFoundInLastCommit("major-update")){
                         gv.incrementMajorVersion()
-                    } else {
+                    } else if ((gv.isStringFoundInLastCommit("no-version-increment"))){
+                          echo 'skipping version incrementing'
+                      }
+                      else {
                         gv.incrementPatchVersion()
                     }
                 }
