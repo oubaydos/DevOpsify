@@ -1,5 +1,9 @@
 package com.winchesters.devopsify.utils;
 
+import com.winchesters.devopsify.dto.request.BackendDockerfileDto;
+import com.winchesters.devopsify.dto.request.DataBaseDockerfileDto;
+import com.winchesters.devopsify.service.technologies.docker.dockerfile.BackendDockerFile;
+import com.winchesters.devopsify.service.technologies.docker.dockerfile.DataBaseDockerFile;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -10,11 +14,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static java.util.stream.Collectors.toCollection;
-import static java.util.stream.Collectors.toList;
 
 public class DockerfileUtils {
     private static final String COMMENT_CHARACTER = "#";
@@ -85,6 +87,30 @@ public class DockerfileUtils {
 
     public String getDockerfileContent() {
         return DockerfileContent;
+    }
+
+    public static BackendDockerFile backendDockerfileDtoToBackendDockerFile(BackendDockerfileDto dto){
+        return BackendDockerFile.builder()
+                .setBaseBuildImageName(dto.baseBuildImageName())
+                .setBaseBuildImageVersion(dto.baseBuildImageVersion())
+                .setBaseBuildJdkType(dto.baseBuildJdkType())
+                .setBuildOnly(dto.buildOnly())
+                .setJarName(dto.jarName())
+                .setJdkBaseOsName(dto.jdkBaseOsName())
+                .setJdkImageName(dto.jdkImageName())
+                .setJdkVersion(dto.jdkVersion())
+                .setPort(dto.port())
+                .setWorkdir(dto.workdir())
+                .build();
+    }
+
+    public static DataBaseDockerFile dataBaseDockerfileDtoToDataBaseDockerFile(DataBaseDockerfileDto dto){
+        return DataBaseDockerFile.builder()
+                .setImageBaseOS(dto.imageBaseOS())
+                .setDbInitQueriesFilename(dto.dbInitQueriesFilename())
+                .setImageName(dto.imageName())
+                .setImageVersion(dto.imageVersion())
+                .build();
     }
 
 }

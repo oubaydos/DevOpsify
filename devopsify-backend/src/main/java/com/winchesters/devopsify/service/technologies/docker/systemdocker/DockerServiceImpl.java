@@ -4,6 +4,8 @@ import com.winchesters.devopsify.dto.request.BackendDockerfileDto;
 import com.winchesters.devopsify.dto.request.DataBaseDockerfileDto;
 import com.winchesters.devopsify.service.technologies.docker.dockerfile.BackendDockerFile;
 import com.winchesters.devopsify.service.technologies.docker.dockerfile.DataBaseDockerFile;
+import com.winchesters.devopsify.service.technologies.docker.dockerfile.DockerFileFactory;
+import com.winchesters.devopsify.utils.DockerfileUtils;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -58,6 +60,11 @@ public class DockerServiceImpl implements DockerService {
     }
 
     @Override
+    public void generateDockerfile(DockerFileFactory dockerfile, String path) {
+
+    }
+
+    @Override
     public void install() {
         installDocker();
         installDockerCompose();
@@ -65,31 +72,13 @@ public class DockerServiceImpl implements DockerService {
 
     @Override
     public byte[] viewDataBaseDockerfile(DataBaseDockerfileDto dto) throws IOException {
-        DataBaseDockerFile dataBaseDockerFile = DataBaseDockerFile.builder()
-                .setImageBaseOS(dto.imageBaseOS())
-                .setDbInitQueriesFilename(dto.dbInitQueriesFilename())
-                .setImageName(dto.imageName())
-                .setImageVersion(dto.imageVersion())
-                .build();
-
+        DataBaseDockerFile dataBaseDockerFile = DockerfileUtils.dataBaseDockerfileDtoToDataBaseDockerFile(dto);
         return dataBaseDockerFile.getDockerfileContent().getBytes();
     }
 
     @Override
     public byte[] viewBackendDockerfile(BackendDockerfileDto dto) throws IOException {
-        BackendDockerFile backendDockerFile = BackendDockerFile.builder()
-                .setBaseBuildImageName(dto.baseBuildImageName())
-                .setBaseBuildImageVersion(dto.baseBuildImageVersion())
-                .setBaseBuildJdkType(dto.baseBuildJdkType())
-                .setBuildOnly(dto.buildOnly())
-                .setJarName(dto.jarName())
-                .setJdkBaseOsName(dto.jdkBaseOsName())
-                .setJdkImageName(dto.jdkImageName())
-                .setJdkVersion(dto.jdkVersion())
-                .setPort(dto.port())
-                .setWorkdir(dto.workdir())
-                .build();
-
+        BackendDockerFile backendDockerFile = DockerfileUtils.backendDockerfileDtoToBackendDockerFile(dto);
         return backendDockerFile.getDockerfileContent().getBytes();
     }
 

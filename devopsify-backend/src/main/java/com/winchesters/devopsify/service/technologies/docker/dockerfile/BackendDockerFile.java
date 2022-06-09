@@ -44,7 +44,6 @@ public class BackendDockerFile implements DockerFileFactory {
 
     @Override
     public void writeDockerfile() {
-
     }
 
     @Override

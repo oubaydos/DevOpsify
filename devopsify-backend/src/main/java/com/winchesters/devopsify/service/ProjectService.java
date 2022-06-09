@@ -79,6 +79,7 @@ public class ProjectService {
         mavenService.generateMavenProject(dto.maven(),localPath);
 
         //TODO : docker
+
         //TODO : jenkins
         //TODO : nexus
 
