@@ -1,8 +1,9 @@
 package com.winchesters.devopsify.service.technologies.github;
 
 import com.winchesters.devopsify.dto.request.GithubRepositoryDto;
-import com.winchesters.devopsify.enums.RepositoryStatus;
 import com.winchesters.devopsify.enums.ReadMeStatus;
+import com.winchesters.devopsify.enums.RepositoryStatus;
+import com.winchesters.devopsify.exception.github.GithubNotContainingLoginException;
 import com.winchesters.devopsify.exception.github.GithubRepositoryNotFoundException;
 import com.winchesters.devopsify.exception.github.PersonalAccessTokenPermissionException;
 import com.winchesters.devopsify.model.GithubAnalyseResults;
@@ -69,6 +70,7 @@ public class GithubRepositoryServiceImpl implements GithubRepositoryService {
         LOG.debug("ReadMe's number of lines : {}", readMeContent.lines().count());
         return analyseReadMe(readMeContent, repository.getName());
     }
+
     private RepositoryStatus getRepositoryStatus(GHRepository repository) throws IOException {
         if (repository == null)
             throw new GithubRepositoryNotFoundException();
@@ -106,14 +108,77 @@ public class GithubRepositoryServiceImpl implements GithubRepositoryService {
 
 
         GitHub github = githubService.getGithub();
-        GHRepository repository = github.getRepository("temp-devopsify/"+name);
+        GHRepository repository = github.getRepository("temp-devopsify/" + name);
         if (repository == null)
             throw new GithubRepositoryNotFoundException();
         DockerRepositoryAnalyser dockerRepositoryAnalyser = new DockerRepositoryAnalyser(repository);
-        LOG.debug("number of docker files : {}",dockerRepositoryAnalyser.numberOfDockerComposeFiles());
-        return new GithubAnalyseResults("number of docker files : "+dockerRepositoryAnalyser.numberOfDockerComposeFiles(),ReadMeStatus.OKAY,RepositoryStatus.OKAY,1, Date.from(Instant.now()));
+        LOG.debug("number of docker files : {}", dockerRepositoryAnalyser.numberOfDockerComposeFiles());
+        return new GithubAnalyseResults("number of docker files : " + dockerRepositoryAnalyser.numberOfDockerComposeFiles(), ReadMeStatus.OKAY, RepositoryStatus.OKAY, 1, Date.from(Instant.now()));
 
 
     }
 
+    /**
+     * deletes a github repository
+     *
+     * @param owner the repository owner's name
+     * @param name  the name of the repository
+     * @throws IOException when io exceptions
+     */
+    public void deleteGithubRepository(String owner, String name) throws IOException {
+        this.githubService.getGithub().getRepository(owner + "/" + name).delete();
+    }
+
+    /**
+     * @param name the name of the repository
+     * @throws IOException when io exceptions
+     * @deprecated please set the owner's name
+     */
+    @Deprecated
+    public void deleteGithubRepository(String name) throws IOException {
+        String username = getGithubUsername();
+        this.deleteGithubRepository(username, name);
+    }
+
+    /**
+     * @param username github username
+     * @throws IOException when io exceptions
+     */
+    public void deleteAllRepositories(String username) throws IOException {
+        for (GHRepository repository :
+                githubService
+                        .getGithub()
+                        .searchRepositories()
+                        .user(username)
+                        .list()
+                        .toList()
+        ) {
+            repository.delete();
+        }
+    }
+
+    /**
+     * @throws IOException when io exceptions
+     * @deprecated uses the username in github object that may not exist
+     */
+    @Deprecated
+    public void deleteAllRepositories() throws IOException {
+        GitHub gitHub = this.githubService.getGithub();
+        for (GHRepository repository :
+                gitHub
+                        .searchRepositories()
+                        .user(getGithubUsername())
+                        .list()
+                        .toList()
+        ) {
+            repository.delete();
+        }
+    }
+
+    private String getGithubUsername() throws IOException {
+        GHMyself myself = this.githubService.getGithub().getMyself();
+        if (myself == null || myself.getLogin() == null)
+            throw new GithubNotContainingLoginException();
+        return myself.getLogin();
+    }
 }

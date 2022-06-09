@@ -26,7 +26,10 @@ pipeline{
                         gv.incrementMinorVersion()
                     } else if (gv.isStringFoundInLastCommit("major-update")){
                         gv.incrementMajorVersion()
-                    } else {
+                    } else if ((gv.isStringFoundInLastCommit("no-version-increment"))){
+                          echo 'skipping version incrementing'
+                      }
+                      else {
                         gv.incrementPatchVersion()
                     }
                 }
@@ -37,6 +40,22 @@ pipeline{
               script{
                   echo "testing"
                   gv.test()
+              }
+            }
+        }
+        stage("build docker-image"){
+            steps{
+              script{
+                // test are included here
+                  echo "building the docker image ${IMAGE_TAG}"
+                  gv.buildImage()
+              }
+            }
+        }
+        stage("push docker-image"){
+            steps{
+              script{
+                  gv.pushImage()
               }
             }
         }

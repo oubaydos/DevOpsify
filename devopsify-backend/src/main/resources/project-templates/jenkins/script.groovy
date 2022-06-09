@@ -29,5 +29,16 @@ def incrementMajorVersion(){
 def test(){
     sh 'mvn test'
 }
-
+def buildImage(){
+    echo "${IMAGE_TAG}"
+    sh "docker build -t oubaydos/temp:${IMAGE_TAG} ."
+}
+def pushImage(){
+    echo "pushing the docker image"
+    // TODO pushed to nexus
+    withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]){
+        sh "echo $PASSWORD | docker login -u $USERNAME --password-stdin"
+        sh "docker push oubaydos/temp:$IMAGE_TAG"
+    }
+}
 return this
