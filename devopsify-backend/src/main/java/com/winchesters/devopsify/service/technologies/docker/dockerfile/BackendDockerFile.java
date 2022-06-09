@@ -14,7 +14,7 @@ import static com.winchesters.devopsify.enums.DockerfileBackEndKeywords.*;
 @Builder(setterPrefix = "set")
 @AllArgsConstructor
 
-public class BackendDockerFile implements DockerFileFactory {
+public class BackendDockerFile extends DockerFile {
 
     @Builder.Default
     private String baseBuildImageName = BASE_BUILD_IMAGE_NAME.defaultValue();
@@ -41,10 +41,6 @@ public class BackendDockerFile implements DockerFileFactory {
     @Builder.Default
     private Boolean buildOnly = false;
 
-
-    @Override
-    public void writeDockerfile() {
-    }
 
     @Override
     public String getDockerfileContent() throws IOException {

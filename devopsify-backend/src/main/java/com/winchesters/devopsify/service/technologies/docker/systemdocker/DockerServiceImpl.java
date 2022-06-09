@@ -4,7 +4,7 @@ import com.winchesters.devopsify.dto.request.BackendDockerfileDto;
 import com.winchesters.devopsify.dto.request.DataBaseDockerfileDto;
 import com.winchesters.devopsify.service.technologies.docker.dockerfile.BackendDockerFile;
 import com.winchesters.devopsify.service.technologies.docker.dockerfile.DataBaseDockerFile;
-import com.winchesters.devopsify.service.technologies.docker.dockerfile.DockerFileFactory;
+import com.winchesters.devopsify.service.technologies.docker.dockerfile.DockerFile;
 import com.winchesters.devopsify.utils.DockerfileUtils;
 import org.springframework.stereotype.Service;
 
@@ -60,7 +60,7 @@ public class DockerServiceImpl implements DockerService {
     }
 
     @Override
-    public void generateDockerfile(DockerFileFactory dockerfile, String path) {
+    public void generateDockerfile(DockerFile dockerfile, String path) {
 
     }
 

@@ -4,7 +4,6 @@ import com.winchesters.devopsify.enums.DockerFileType;
 import com.winchesters.devopsify.utils.DockerfileUtils;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.NoArgsConstructor;
 
 import java.io.File;
 import java.io.IOException;
@@ -14,7 +13,7 @@ import static com.winchesters.devopsify.enums.DockerfileDataBaseKeywords.*;
 
 @Builder(setterPrefix = "set")
 @AllArgsConstructor
-public class DataBaseDockerFile implements DockerFileFactory {
+public class DataBaseDockerFile extends DockerFile {
     @Builder.Default
     private String imageName = DATABASE_NAME.defaultValue();
     @Builder.Default
@@ -23,12 +22,6 @@ public class DataBaseDockerFile implements DockerFileFactory {
     private String imageBaseOS = BASE_OS.defaultValue();
     private String dbInitQueriesFilename;
 
-
-
-    @Override
-    public void writeDockerfile() {
-        //TODO
-    }
 
     @Override
     public String getDockerfileContent() throws IOException {

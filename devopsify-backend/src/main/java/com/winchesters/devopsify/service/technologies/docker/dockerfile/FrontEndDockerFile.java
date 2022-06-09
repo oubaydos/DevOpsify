@@ -13,7 +13,7 @@ import static com.winchesters.devopsify.enums.DockerfileFrontEndKeywords.*;
 
 @Builder(setterPrefix = "set")
 @AllArgsConstructor
-public class FrontEndDockerFile implements DockerFileFactory {
+public class FrontEndDockerFile extends DockerFile {
     // BUILD
     @Builder.Default
     String nodeVersion = NODE_VERSION.defaultValue();
@@ -36,10 +36,6 @@ public class FrontEndDockerFile implements DockerFileFactory {
     @Builder.Default
     private boolean hasNginxConfigurationFile = false;
 
-    @Override
-    public void writeDockerfile() {
-
-    }
 
     @Override
     public String getDockerfileContent() throws IOException {
