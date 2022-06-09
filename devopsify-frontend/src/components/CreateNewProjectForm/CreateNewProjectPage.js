@@ -10,6 +10,7 @@ import Error from "../shared/Error";
 import Success from "../shared/Success";
 import { createNewProject } from "../../api/projectService";
 import getArchetypes from "../../api/mavenApi";
+import DEFAULT_VALUES from "./FormDefaultValues.json"
 
 const styles = {
   labeled: {
@@ -30,37 +31,7 @@ const CreateNewProjectPage = () => {
 
   const [archetypes, setArchetypes] = React.useState([]);
 
-  const [formValues, setFormValues] = React.useState({
-    general: {},
-    github: {
-      autoInit: true,
-      private_: true,
-    },
-    maven: {
-      archetypeArtifactId: "maven-archetype-quickstart",
-      archetypeGroupId: "org.apache.maven.archetypes",
-      artifactId: "example",
-      groupId: "com.example",
-      version: "0.0.1-SNAPSHOT",
-    },
-    docker: {
-      dockerizeBackend: false,
-      dockerBackend: {},
-      dockerizeDB: false,
-      dockerDB: {
-        imageName: "",
-        imageVersion: "",
-        imageBaseOS: "",
-        dbInitQueriesFilename: "",
-      },
-    },
-    jenkins: {
-      url: "",
-      username: "",
-      password: "",
-    },
-    nexus: {},
-  });
+  const [formValues, setFormValues] = React.useState(DEFAULT_VALUES);
 
   React.useEffect(() => {
     getArchetypes(setArchetypes);
@@ -86,21 +57,13 @@ const CreateNewProjectPage = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-
     const currentFormPart = Object.keys(parts)[current].toLowerCase();
-
     let values = formValues[currentFormPart];
-
     values = { ...values, [name]: value };
-
-    
-
     setFormValues({
       ...formValues,
       [currentFormPart]: values,
     });
-
-    console.log(formValues);
   };
 
   const handleOnButtonClick = (e) => {

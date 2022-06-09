@@ -1,0 +1,31 @@
+{
+  "general": {},
+  "github": {
+    "autoInit": true,
+    "private_": true
+  },
+  "maven": {
+    "archetypeArtifactId": "maven-archetype-quickstart",
+    "archetypeGroupId": "org.apache.maven.archetypes",
+    "artifactId": "example",
+    "groupId": "com.example",
+    "version": "0.0.1-SNAPSHOT"
+  },
+  "docker": {
+    "dockerizeBackend": false,
+    "dockerBackend": {},
+    "dockerizeDB": false,
+    "dockerDB": {
+      "imageName": "",
+      "imageVersion": "",
+      "imageBaseOS": "",
+      "dbInitQueriesFilename": ""
+    }
+  },
+  "jenkins": {
+    "url": "",
+    "username": "",
+    "password": ""
+  },
+  "nexus": {}
+}
