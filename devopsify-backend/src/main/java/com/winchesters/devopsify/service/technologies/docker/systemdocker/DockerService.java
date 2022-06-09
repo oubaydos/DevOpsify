@@ -17,9 +17,8 @@ public interface DockerService extends TechnologyService {
     void installDockerCompose();
     void installDocker();
 
-    void generateDockerfile(DockerFile dockerfile, String path);
+    void generateDockerfile(DockerFile dockerfile, String path) throws IOException;
 
     byte[] viewDataBaseDockerfile(DataBaseDockerfileDto dto) throws IOException;
-
     byte[] viewBackendDockerfile(BackendDockerfileDto dto) throws IOException;
 }

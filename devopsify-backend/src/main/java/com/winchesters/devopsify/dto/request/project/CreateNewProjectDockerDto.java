@@ -5,8 +5,10 @@ import com.winchesters.devopsify.dto.request.DataBaseDockerfileDto;
 
 public record CreateNewProjectDockerDto(
         Boolean dockerizeBackend,
+        Boolean defaultDockerBackend,
         BackendDockerfileDto dockerBackend,
         Boolean dockerizeDB,
-        DataBaseDockerfileDto dockerDB
-) {
+        DataBaseDockerfileDto dockerDB,
+        Boolean defaultDockerDB
+        ) {
 }

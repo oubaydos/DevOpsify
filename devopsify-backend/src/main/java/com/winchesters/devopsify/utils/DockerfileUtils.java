@@ -90,7 +90,10 @@ public class DockerfileUtils {
         return DockerfileContent;
     }
 
-    public static BackendDockerFile backendDockerfileDtoToBackendDockerFile(BackendDockerfileDto dto){
+    public static BackendDockerFile backendDockerfileDtoToBackendDockerFile(BackendDockerfileDto dto,Boolean defaultDockerBackend){
+        if (defaultDockerBackend){
+            return BackendDockerFile.builder().build();
+        }
         return BackendDockerFile.builder()
                 .setBaseBuildImageName(dto.baseBuildImageName())
                 .setBaseBuildImageVersion(dto.baseBuildImageVersion())
@@ -105,7 +108,10 @@ public class DockerfileUtils {
                 .build();
     }
 
-    public static DockerFile dataBaseDockerfileDtoToDataBaseDockerFile(DataBaseDockerfileDto dto){
+    public static DockerFile dataBaseDockerfileDtoToDataBaseDockerFile(DataBaseDockerfileDto dto,Boolean defaultDockerDB){
+        if (defaultDockerDB){
+            return DataBaseDockerFile.builder().build();
+        }
         return DataBaseDockerFile.builder()
                 .setImageBaseOS(dto.imageBaseOS())
                 .setDbInitQueriesFilename(dto.dbInitQueriesFilename())

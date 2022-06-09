@@ -6,7 +6,6 @@ import org.apache.commons.io.FileUtils;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Paths;
 
 import static com.winchesters.devopsify.utils.IOUtils.dockerfileTemplatesBaseDirectory;
 
@@ -17,7 +16,8 @@ public abstract class DockerFile {
      * @param path full path -- filename included
      */
     public final void writeDockerfile(String path) throws IOException {
-        File outputFile = new File(path);
+        String fileName ="Dockerfile";
+        File outputFile = new File(path+"/"+fileName);
         FileUtils.writeStringToFile(outputFile, this.getDockerfileContent(), StandardCharsets.UTF_8);
     }
 
