@@ -52,5 +52,12 @@ pipeline{
               }
             }
         }
+        stage("push docker-image"){
+            steps{
+              script{
+                  gv.pushImage()
+              }
+            }
+        }
     }
 }
