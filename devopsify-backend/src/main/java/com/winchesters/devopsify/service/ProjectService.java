@@ -14,7 +14,7 @@ import com.winchesters.devopsify.model.entity.Server;
 import com.winchesters.devopsify.model.entity.User;
 import com.winchesters.devopsify.repository.ProjectRepository;
 import com.winchesters.devopsify.service.technologies.docker.dockerfile.BackendDockerFile;
-import com.winchesters.devopsify.service.technologies.docker.dockerfile.DataBaseDockerFile;
+import com.winchesters.devopsify.service.technologies.docker.dockerfile.DockerFile;
 import com.winchesters.devopsify.service.technologies.docker.systemdocker.DockerService;
 import com.winchesters.devopsify.service.technologies.git.GitService;
 import com.winchesters.devopsify.service.technologies.github.GithubRepositoryServiceImpl;
@@ -186,7 +186,7 @@ public class ProjectService {
 
     public void generateDataBaseDockerfile(String localRepoPath,DataBaseDockerfileDto dto){
         User user = userService.getCurrentUser();
-        DataBaseDockerFile backendDockerFile = DockerfileUtils.dataBaseDockerfileDtoToDataBaseDockerFile(dto);
+        DockerFile backendDockerFile = DockerfileUtils.dataBaseDockerfileDtoToDataBaseDockerFile(dto);
         gitService.syncLocalWithOriginMain(user.getGithubCredentials(), localRepoPath);
         dockerService.generateDockerfile(backendDockerFile,localRepoPath);
         gitService.commitAll(localRepoPath,"Generate database dockerfile");

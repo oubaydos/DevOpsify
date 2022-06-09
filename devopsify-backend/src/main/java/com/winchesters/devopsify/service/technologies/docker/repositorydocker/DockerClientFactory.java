@@ -6,13 +6,10 @@ import com.github.dockerjava.core.DockerClientConfig;
 import com.github.dockerjava.core.DockerClientImpl;
 import com.github.dockerjava.httpclient5.ApacheDockerHttpClient;
 import com.github.dockerjava.transport.DockerHttpClient;
-import com.winchesters.devopsify.service.technologies.docker.dockerfile.BackendDockerFile;
 import com.winchesters.devopsify.service.technologies.docker.dockerfile.DataBaseDockerFile;
-import com.winchesters.devopsify.service.technologies.docker.dockerfile.FrontEndDockerFile;
+import com.winchesters.devopsify.service.technologies.docker.dockerfile.DockerFile;
 
 import java.time.Duration;
-
-import static com.winchesters.devopsify.service.technologies.docker.repositorydocker.DockerImage.buildImageFromDockerFileInBaseDirectory;
 
 public class DockerClientFactory {
     private static DockerClient dockerClient;
@@ -60,15 +57,15 @@ public class DockerClientFactory {
 //                        "tempname:tag"
 //                )
 //        );
-        DataBaseDockerFile dataBaseDockerFile = DataBaseDockerFile
+        DockerFile dockerFile = DataBaseDockerFile
                 .builder()
                 .setImageBaseOS("ubuntu")
                 .setImageVersion("v5")
                 .setImageName("mysql")
                 .setDbInitQueriesFilename("hiu")
                 .build();
-        System.out.println(dataBaseDockerFile.getDockerfileContent());
-        dataBaseDockerFile.writeDockerfile("./Dockerfile-helloworld");
+        System.out.println(dockerFile.getDockerfileContent());
+        dockerFile.writeDockerfile("./Dockerfile-helloworld");
         /*
          * backend dockerfile test
          */

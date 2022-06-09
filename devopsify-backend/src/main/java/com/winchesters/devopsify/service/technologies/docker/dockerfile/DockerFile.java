@@ -13,6 +13,7 @@ import static com.winchesters.devopsify.utils.IOUtils.dockerfileTemplatesBaseDir
 public abstract class DockerFile {
 
     /**
+     * generates the dockerfile
      * @param path full path -- filename included
      */
     public final void writeDockerfile(String path) throws IOException {
@@ -20,11 +21,25 @@ public abstract class DockerFile {
         FileUtils.writeStringToFile(outputFile, this.getDockerfileContent(), StandardCharsets.UTF_8);
     }
 
-    abstract String getDockerfileContent() throws IOException;
+    /**
+     * generates the content of a dockerfile from a template
+     * @return a string containing the dockerfile content
+     * @throws IOException when io exception occurs
+     */
+    public abstract String getDockerfileContent() throws IOException;
 
-    abstract File getDockerfileTemplate();
+    /**
+     * reads the template dockerfile
+     * @return the dockerfile template
+     */
+    protected abstract File getDockerfileTemplate();
 
-    final File getDockerfileTemplate(DockerFileType dockerFileType) {
+    /**
+     * @param dockerFileType the type of the template -- db - maven - react ..
+     * reads the template dockerfile
+     * @return the dockerfile template
+     */
+    protected final File getDockerfileTemplate(DockerFileType dockerFileType) {
         return new File(dockerfileTemplatesBaseDirectory() + "DockerfileTemplate-" + dockerFileType.value());
     }
 }

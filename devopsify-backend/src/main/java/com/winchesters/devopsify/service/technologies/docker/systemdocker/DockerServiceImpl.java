@@ -3,7 +3,6 @@ package com.winchesters.devopsify.service.technologies.docker.systemdocker;
 import com.winchesters.devopsify.dto.request.BackendDockerfileDto;
 import com.winchesters.devopsify.dto.request.DataBaseDockerfileDto;
 import com.winchesters.devopsify.service.technologies.docker.dockerfile.BackendDockerFile;
-import com.winchesters.devopsify.service.technologies.docker.dockerfile.DataBaseDockerFile;
 import com.winchesters.devopsify.service.technologies.docker.dockerfile.DockerFile;
 import com.winchesters.devopsify.utils.DockerfileUtils;
 import lombok.RequiredArgsConstructor;
@@ -75,8 +74,8 @@ public class DockerServiceImpl implements DockerService {
 
     @Override
     public byte[] viewDataBaseDockerfile(DataBaseDockerfileDto dto) throws IOException {
-        DataBaseDockerFile dataBaseDockerFile = DockerfileUtils.dataBaseDockerfileDtoToDataBaseDockerFile(dto);
-        return dataBaseDockerFile.getDockerfileContent().getBytes();
+        DockerFile dockerFile = DockerfileUtils.dataBaseDockerfileDtoToDataBaseDockerFile(dto);
+        return dockerFile.getDockerfileContent().getBytes();
     }
 
     @Override

@@ -4,6 +4,7 @@ import com.winchesters.devopsify.dto.request.BackendDockerfileDto;
 import com.winchesters.devopsify.dto.request.DataBaseDockerfileDto;
 import com.winchesters.devopsify.service.technologies.docker.dockerfile.BackendDockerFile;
 import com.winchesters.devopsify.service.technologies.docker.dockerfile.DataBaseDockerFile;
+import com.winchesters.devopsify.service.technologies.docker.dockerfile.DockerFile;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -104,7 +105,7 @@ public class DockerfileUtils {
                 .build();
     }
 
-    public static DataBaseDockerFile dataBaseDockerfileDtoToDataBaseDockerFile(DataBaseDockerfileDto dto){
+    public static DockerFile dataBaseDockerfileDtoToDataBaseDockerFile(DataBaseDockerfileDto dto){
         return DataBaseDockerFile.builder()
                 .setImageBaseOS(dto.imageBaseOS())
                 .setDbInitQueriesFilename(dto.dbInitQueriesFilename())
