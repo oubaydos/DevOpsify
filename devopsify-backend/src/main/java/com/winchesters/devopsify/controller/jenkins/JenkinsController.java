@@ -4,10 +4,7 @@ package com.winchesters.devopsify.controller.jenkins;
 import com.winchesters.devopsify.model.entity.Server;
 import com.winchesters.devopsify.service.technologies.jenkins.JenkinsService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(path = "api/v1/jenkins")
@@ -16,7 +13,7 @@ public class JenkinsController {
 
     private final JenkinsService jenkinsService;
     @PostMapping
-    public void testConnection(@ModelAttribute Server server){
+    public void testConnection(@RequestBody Server server){
         jenkinsService.pingJenkinsServer(server);
     }
 }

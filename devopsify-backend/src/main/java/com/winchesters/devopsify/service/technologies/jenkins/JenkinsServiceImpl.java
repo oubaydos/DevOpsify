@@ -73,7 +73,7 @@ public class JenkinsServiceImpl implements JenkinsService {
     public void pingJenkinsServer(Server server) throws JenkinsException{
         JenkinsClient client = jenkinsClientFactory.getClient(server);
         SystemInfo systemInfo = client.api().systemApi().systemInfo();
-        LOG.info("pinging jenkins server...");
+        LOG.info("pinging jenkins server : "+ server);
         systemInfo.errors().forEach(error -> {
             LOG.info("pinging jenkins server failed");
             throw new JenkinsServerException(error.exceptionName(),error.exceptionName());
