@@ -12,6 +12,7 @@ export function updateJenkinsServer(projectId,server){
 
     axios.post(`${endpoint}`, server, {
         headers: {
+            'Authorization':getCookie('Authorization'),
             'Content-Type': 'application/json',
         }
     }).then(
@@ -22,6 +23,28 @@ export function updateJenkinsServer(projectId,server){
         (err) => {
             alert("error");
             console.error(err);
+        }
+    );
+}
+
+export function testConnection(server,setConnectionStatus){
+
+    console.log(server);
+    
+    const endpoint = configData.SERVER_URL+"/jenkins";
+
+    axios.post(`${endpoint}`, server, {
+        headers: {
+            'Authorization':getCookie('Authorization'),
+            'Content-Type': 'application/json',
+        }
+    }).then(
+        (res) => {
+            setConnectionStatus("success")
+        }
+        ,
+        (err) => {
+            setConnectionStatus("failed")
         }
     );
 }

@@ -8,13 +8,38 @@ import {
   Typography,
 } from "@mui/material";
 import jenkinsLogo from "../../res/images/logo-jenkins.png";
+import { testConnection } from "../../api/jenkinsApi";
 
 const JenkinsForm = ({
   handleInputChange,
   handleCheckboxChange,
   formValues,
+  setFormValues,
   styles,
 }) => {
+  const [connectionStatus, setConnectionStatus] = React.useState("");
+
+  const getStatus = () => {
+    let result = "";
+    switch (connectionStatus) {
+      case "success":
+        result = "success";
+        break;
+      case "failed":
+        result = "failed";
+        break;
+      case "connecting":
+        result = "connecting ...";
+        break;
+    }
+    return result;
+  };
+
+  const handleTestConncetionButtonClick = () => {
+    setConnectionStatus("connecting");
+    testConnection(formValues.jenkins,setConnectionStatus);
+  };
+
   return (
     <Box>
       <Grid item style={styles.formItem}>
@@ -82,16 +107,17 @@ const JenkinsForm = ({
           />
         </Grid>
         <Grid item style={styles.formItem}>
-          <Box sx={{ display: 'flex' }}>
+          <Box sx={{ display: "flex" }}>
             <Button
               type="submit"
               variant="contained"
               color="success"
               sx={{ mt: 3, mb: 2 }}
+              onClick={handleTestConncetionButtonClick}
             >
               Test Connection
             </Button>
-            <Typography sx={{ mt: 3, mb: 2 }}>TODO :connection status</Typography>
+            <Typography sx={{ mt: 3, mb: 2 }}>{getStatus()}</Typography>
           </Box>
         </Grid>
       </Grid>

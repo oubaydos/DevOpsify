@@ -36,10 +36,12 @@ public class JenkinsServiceImpl implements JenkinsService {
                 "DoBh8E@?m5Mr4PeB"
         );
 
-        jenkinsService.setJenkinsClient(server);
-        jenkinsService.pingJenkinsServer();
-        LOG.debug(jenkinsService.createApiToken().tokenName());
-        jenkinsService.createPipeline();
+        jenkinsService.pingJenkinsServer(server);
+
+//        jenkinsService.setJenkinsClient(server);
+//        jenkinsService.pingJenkinsServer();
+//        LOG.debug(jenkinsService.createApiToken().tokenName());
+//        jenkinsService.createPipeline();
     }
 
     @Override
@@ -59,6 +61,18 @@ public class JenkinsServiceImpl implements JenkinsService {
     public void pingJenkinsServer() throws JenkinsException{
 
         SystemInfo systemInfo = this.jenkinsClient.api().systemApi().systemInfo();
+        LOG.info("pinging jenkins server...");
+        systemInfo.errors().forEach(error -> {
+            LOG.info("pinging jenkins server failed");
+            throw new JenkinsServerException(error.exceptionName(),error.exceptionName());
+        });
+        LOG.info(String.format("jenkins version :%s",systemInfo.jenkinsVersion()));
+    }
+
+    @Override
+    public void pingJenkinsServer(Server server) throws JenkinsException{
+        JenkinsClient client = jenkinsClientFactory.getClient(server);
+        SystemInfo systemInfo = client.api().systemApi().systemInfo();
         LOG.info("pinging jenkins server...");
         systemInfo.errors().forEach(error -> {
             LOG.info("pinging jenkins server failed");

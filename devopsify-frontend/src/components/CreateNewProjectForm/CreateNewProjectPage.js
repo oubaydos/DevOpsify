@@ -54,7 +54,11 @@ const CreateNewProjectPage = () => {
         dbInitQueriesFilename: "",
       },
     },
-    jenkins: {},
+    jenkins: {
+      url: "",
+      username: "",
+      password: "",
+    },
     nexus: {},
   });
 
@@ -89,10 +93,14 @@ const CreateNewProjectPage = () => {
 
     values = { ...values, [name]: value };
 
+    
+
     setFormValues({
       ...formValues,
       [currentFormPart]: values,
     });
+
+    console.log(formValues);
   };
 
   const handleOnButtonClick = (e) => {
