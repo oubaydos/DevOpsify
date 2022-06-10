@@ -42,7 +42,7 @@ public class FrontEndDockerFile extends DockerFile {
         File DockerfileTemplate = getDockerfileTemplate();
         DockerfileUtils dockerfileUtils = new DockerfileUtils(DockerfileTemplate);
         dockerfileUtils
-                .setDockerfileKeywordValue(
+                .setFileKeywordValue(
                         Map.of(
                                 NODE_VERSION.keyword(), nodeVersion,
                                 WORKDIR.keyword(), workdir,
