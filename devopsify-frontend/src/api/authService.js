@@ -62,7 +62,8 @@ export function getAuthenticatedUser(authCookie,setCurrentUser){
         (res) => {
             setCurrentUser({
                 username : res.data["username"],
-                role : res.data["role"]
+                role : res.data["role"],
+                githubUsername : res.data["githubUsername"]
             })
         },
         (err)=>{
