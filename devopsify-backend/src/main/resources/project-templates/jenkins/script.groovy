@@ -41,4 +41,15 @@ def pushImage(){
         sh "docker push oubaydos/temp:$IMAGE_TAG"
     }
 }
+def deployImage() {
+    withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
+        sshagent(credentials: ['ec2-deployment-instance']) {
+            // TODO remove old container
+            sh "ssh -o StrictHostKeyChecking=no ubuntu@3.86.242.247 docker login -u $USERNAME -p $PASSWORD"
+            sh "ssh -o StrictHostKeyChecking=no ubuntu@3.86.242.247 docker rm -f myimage || true"
+            sh "ssh -o StrictHostKeyChecking=no ubuntu@3.86.242.247 docker run --name myimage -p 7070:8080 -d oubaydos/temp:$IMAGE_TAG"
+        }
+    }
+}
+
 return this
