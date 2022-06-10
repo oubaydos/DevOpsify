@@ -62,8 +62,8 @@ public class DockerServiceImpl implements DockerService {
     }
 
     @Override
-    public void generateDockerfile(DockerFile dockerfile, String path) {
-
+    public void generateDockerfile(DockerFile dockerfile, String path) throws IOException {
+        dockerfile.writeDockerfile(path);
     }
 
     @Override
@@ -74,13 +74,13 @@ public class DockerServiceImpl implements DockerService {
 
     @Override
     public byte[] viewDataBaseDockerfile(DataBaseDockerfileDto dto) throws IOException {
-        DockerFile dockerFile = DockerfileUtils.dataBaseDockerfileDtoToDataBaseDockerFile(dto);
+        DockerFile dockerFile = DockerfileUtils.dataBaseDockerfileDtoToDataBaseDockerFile(dto,false);
         return dockerFile.getDockerfileContent().getBytes();
     }
 
     @Override
     public byte[] viewBackendDockerfile(BackendDockerfileDto dto) throws IOException {
-        BackendDockerFile backendDockerFile = DockerfileUtils.backendDockerfileDtoToBackendDockerFile(dto);
+        BackendDockerFile backendDockerFile = DockerfileUtils.backendDockerfileDtoToBackendDockerFile(dto,false);
         return backendDockerFile.getDockerfileContent().getBytes();
     }
 

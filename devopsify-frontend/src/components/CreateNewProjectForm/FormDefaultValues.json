@@ -13,8 +13,10 @@
   },
   "docker": {
     "dockerizeBackend": false,
+    "defaultDockerBackend" :true,
     "dockerBackend": {},
     "dockerizeDB": false,
+    "defaultDockerDB":true,
     "dockerDB": {
       "imageName": "",
       "imageVersion": "",

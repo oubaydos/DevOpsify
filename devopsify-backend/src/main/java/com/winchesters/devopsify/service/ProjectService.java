@@ -1,6 +1,8 @@
 package com.winchesters.devopsify.service;
 
-import com.winchesters.devopsify.dto.request.*;
+import com.winchesters.devopsify.dto.request.GenerateMavenProjectDto;
+import com.winchesters.devopsify.dto.request.GithubRepositoryDto;
+import com.winchesters.devopsify.dto.request.ProjectDto;
 import com.winchesters.devopsify.dto.request.project.CreateNewProjectDockerDto;
 import com.winchesters.devopsify.dto.request.project.CreateNewProjectDto;
 import com.winchesters.devopsify.dto.request.project.CreateNewProjectWithInitDto;
@@ -13,7 +15,6 @@ import com.winchesters.devopsify.model.entity.Project;
 import com.winchesters.devopsify.model.entity.Server;
 import com.winchesters.devopsify.model.entity.User;
 import com.winchesters.devopsify.repository.ProjectRepository;
-import com.winchesters.devopsify.service.technologies.docker.dockerfile.BackendDockerFile;
 import com.winchesters.devopsify.service.technologies.docker.dockerfile.DockerFile;
 import com.winchesters.devopsify.service.technologies.docker.systemdocker.DockerService;
 import com.winchesters.devopsify.service.technologies.git.GitService;
@@ -21,7 +22,6 @@ import com.winchesters.devopsify.service.technologies.github.GithubRepositorySer
 import com.winchesters.devopsify.service.technologies.jenkins.JenkinsService;
 import com.winchesters.devopsify.service.technologies.maven.MavenService;
 import com.winchesters.devopsify.service.technologies.nexus.NexusService;
-import com.winchesters.devopsify.utils.DockerfileUtils;
 import lombok.RequiredArgsConstructor;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.kohsuke.github.GHRepository;
@@ -31,6 +31,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.IOException;
 import java.util.List;
 
+import static com.winchesters.devopsify.utils.DockerfileUtils.backendDockerfileDtoToBackendDockerFile;
+import static com.winchesters.devopsify.utils.DockerfileUtils.dataBaseDockerfileDtoToDataBaseDockerFile;
 import static com.winchesters.devopsify.utils.IOUtils.projectsDirectory;
 
 @Service
@@ -77,23 +79,32 @@ public class ProjectService {
         String localRepoPath = projectsDirectory() + "/" + dto.general().name();
 
         //github
-        GithubRepositoryDto githubRepositoryDto = new GithubRepositoryDto(dto.general(),dto.github());
+        GithubRepositoryDto githubRepositoryDto = new GithubRepositoryDto(dto.general(), dto.github());
         GHRepository ghRepository = githubRepositoryService.createRepository(githubRepositoryDto);
 
         //git
-        gitService.clone(userService.getGithubCredentials(),ghRepository.getHtmlUrl().toString(), localRepoPath);
+        gitService.clone(userService.getGithubCredentials(), ghRepository.getHtmlUrl().toString(), localRepoPath);
 
         //maven
-        mavenService.generateMavenProject(dto.maven(),localRepoPath);
+        mavenService.generateMavenProject(dto.maven(), localRepoPath);
 
-        //TODO : docker
+        //docker
         CreateNewProjectDockerDto dockerDto = dto.docker();
-        if(dockerDto.dockerizeBackend()){
-            generateBackendDockerfile(localRepoPath,dockerDto.dockerBackend());
+        if (dockerDto.dockerizeBackend()) {
+            generateDockerfile(
+                    localRepoPath,
+                    backendDockerfileDtoToBackendDockerFile(dockerDto.dockerBackend(),dockerDto.defaultDockerBackend()),
+                    "generate backend dockerfile"
+            );
         }
-        if(dockerDto.dockerizeDB()){
-            generateDataBaseDockerfile(localRepoPath,dockerDto.dockerDB());
+        if (dockerDto.dockerizeDB()) {
+            generateDockerfile(
+                    localRepoPath+"/db",
+                    dataBaseDockerfileDtoToDataBaseDockerFile(dockerDto.dockerDB(),dockerDto.defaultDockerDB()),
+                    "generate db dockerfile"
+            );
         }
+
         //TODO : jenkins
         //TODO : nexus
 
@@ -172,24 +183,16 @@ public class ProjectService {
 
     public void generateMavenProject(GenerateMavenProjectDto dto, Long projectId) {
         Project project = findProjectById(projectId);
-        mavenService.generateMavenProject(dto,project.getLocalRepoPath());
+        mavenService.generateMavenProject(dto, project.getLocalRepoPath());
     }
 
-    public void generateBackendDockerfile(String localRepoPath,BackendDockerfileDto dto){
+    public void generateDockerfile(String path,
+                                   DockerFile dockerfile,
+                                   String commitMsg) throws IOException {
         User user = userService.getCurrentUser();
-        BackendDockerFile backendDockerFile = DockerfileUtils.backendDockerfileDtoToBackendDockerFile(dto);
-        gitService.syncLocalWithOriginMain(user.getGithubCredentials(), localRepoPath);
-        dockerService.generateDockerfile(backendDockerFile,localRepoPath);
-        gitService.commitAll(localRepoPath,"Generate backend dockerfile");
-        gitService.pushOriginMain(user.getGithubCredentials(),localRepoPath);
-    }
-
-    public void generateDataBaseDockerfile(String localRepoPath,DataBaseDockerfileDto dto){
-        User user = userService.getCurrentUser();
-        DockerFile backendDockerFile = DockerfileUtils.dataBaseDockerfileDtoToDataBaseDockerFile(dto);
-        gitService.syncLocalWithOriginMain(user.getGithubCredentials(), localRepoPath);
-        dockerService.generateDockerfile(backendDockerFile,localRepoPath);
-        gitService.commitAll(localRepoPath,"Generate database dockerfile");
-        gitService.pushOriginMain(user.getGithubCredentials(),localRepoPath);
+        gitService.syncLocalWithOriginMain(user.getGithubCredentials(), path);
+        dockerService.generateDockerfile(dockerfile, path);
+        gitService.commitAll(path, commitMsg);
+        gitService.pushOriginMain(user.getGithubCredentials(), path);
     }
 }

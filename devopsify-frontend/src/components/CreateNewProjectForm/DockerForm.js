@@ -62,7 +62,7 @@ const DockerForm = ({
   const getFormControl = (arg, target) => {
     //target possible values : 'dockerBackend' for backend and 'dockerDB' for database
     let formControl;
-    console.log(formValues.docker[target][arg.name])
+    console.log(formValues.docker[target][arg.name]);
     switch (arg.type) {
       case "TextField":
         formControl = (
@@ -110,6 +110,21 @@ const DockerForm = ({
     getDockerfileDefaultValues(formValues, setFormValues);
   }, []);
 
+  const handleRadioChange = (e) => {
+    const { name } = e.target;
+    
+    let values = formValues.docker;
+
+    const newValue = !values[name];
+
+    values = { ...values, [name]: newValue };
+
+    setFormValues({
+      ...formValues,
+      docker: values,
+    });
+  };
+
   return (
     <Box>
       <Grid item style={styles.formItem}>
@@ -136,10 +151,8 @@ const DockerForm = ({
             row
             aria-labelledby="demo-radio-buttons-group-label"
             defaultValue={customBackendDockerfile ? "custom" : "default"}
-            name="radio-buttons-group"
-            onChange={() =>
-              setCustomBackendDockerfile(!customBackendDockerfile)
-            }
+            name="defaultDockerBackend"
+            onChange={handleRadioChange}
           >
             <FormControlLabel
               value="default"
@@ -182,8 +195,8 @@ const DockerForm = ({
             row
             aria-labelledby="demo-radio-buttons-group-label"
             defaultValue={customDBDockerfile ? "custom" : "default"}
-            name="radio-buttons-group"
-            onChange={() => setCustomDBDockerfile(!customDBDockerfile)}
+            name="defaultDockerDB"
+            onChange={handleRadioChange}
           >
             <FormControlLabel
               value="default"
