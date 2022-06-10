@@ -38,7 +38,8 @@ public class EntityToDtoMapper {
                 user.getUserId(),
                 user.getUsername(),
                 user.getEmail(),
-                user.getRole().name()
+                user.getRole().name(),
+                user.getGithubCredentials()!=null?user.getGithubCredentials().username():null
         );
     }
     public static List<UserResponseDto> userToUserResponseDto(Collection<User> users) {

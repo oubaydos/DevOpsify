@@ -13,7 +13,7 @@ public abstract class DockerFile {
 
     /**
      * generates the dockerfile
-     * @param path full path -- filename included
+     * @param path path of dockerfile
      */
     public final void writeDockerfile(String path) throws IOException {
         String fileName ="Dockerfile";
