@@ -41,4 +41,24 @@ def pushImage(){
         sh "docker push oubaydos/temp:$IMAGE_TAG"
     }
 }
+def deployImage() {
+    withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
+        sshagent(credentials: ['ec2-deployment-instance']) {
+            // TODO remove old container
+            sh "ssh -o StrictHostKeyChecking=no ubuntu@3.86.242.247 docker login -u $USERNAME -p $PASSWORD"
+            sh "ssh -o StrictHostKeyChecking=no ubuntu@3.86.242.247 docker rm -f myimage || true"
+            sh "ssh -o StrictHostKeyChecking=no ubuntu@3.86.242.247 docker run --name myimage -p 7070:8080 -d oubaydos/temp:$IMAGE_TAG"
+        }
+    }
+}
+def commitVersion(){
+    withCredentials([usernamePassword(credentialsId: 'githubWithToken', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]){
+        sh "git config user.name 'jenkins'"
+        sh "git config user.email 'jenkins@oubaydos.com'"
+        sh "git remote set-url origin https://${PASSWORD}@github.com/HamzaBenyazid/account-sharing-app"
+        sh "git add . "
+        sh "git commit -m 'update version'"
+        sh "git push origin HEAD:${BRANCH_NAME}"
+    }
+}
 return this
