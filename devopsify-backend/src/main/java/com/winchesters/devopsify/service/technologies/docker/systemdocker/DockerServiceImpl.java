@@ -63,7 +63,7 @@ public class DockerServiceImpl implements DockerService {
 
     @Override
     public void generateDockerfile(DockerFile dockerfile, String path) throws IOException {
-        dockerfile.writeDockerfile(path);
+        dockerfile.writeFile(path);
     }
 
     @Override
