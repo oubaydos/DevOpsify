@@ -33,7 +33,7 @@ public class DockerfileUtils extends FilesUtils {
     }
 
     public String getDockerfileContent() {
-        return fileContent;
+        return getFileContent();
     }
 
     public static BackendDockerFile backendDockerfileDtoToBackendDockerFile(BackendDockerfileDto dto, Boolean defaultDockerBackend) {
