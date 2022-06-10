@@ -1,6 +1,6 @@
 package com.winchesters.devopsify.enums;
 
-public interface DockerfileKeywords {
+public interface FileKeywords {
     String defaultValue();
     String keyword() ;
 }
