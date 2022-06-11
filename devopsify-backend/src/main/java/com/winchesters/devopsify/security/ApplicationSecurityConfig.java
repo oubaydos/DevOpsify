@@ -44,9 +44,9 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .addFilter(new JwtUsernameAndPasswordAuthenticationFilter(authenticationManager(), jwtConfig))
-                .addFilterAfter(new JwtTokenVerifier(jwtConfig),JwtUsernameAndPasswordAuthenticationFilter.class)
+                .addFilterAfter(new JwtTokenVerifier(jwtConfig), JwtUsernameAndPasswordAuthenticationFilter.class)
                 .authorizeRequests()
-                .antMatchers("api/v1/login","api/v1/user/signup").permitAll()
+                .antMatchers("/api/v1/user/signup","/api/v1/login").permitAll()
                 .anyRequest()
                 .authenticated()
         ;
@@ -58,7 +58,7 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public DaoAuthenticationProvider daoAuthenticationProvider(){
+    public DaoAuthenticationProvider daoAuthenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setPasswordEncoder(passwordEncoder);
         provider.setUserDetailsService(applicationUserService);
@@ -75,23 +75,23 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
         return loggingFilter;
     }
 
-   @Bean
-   public CorsConfigurationSource corsConfigurationSource() {
-       final CorsConfiguration configuration = new CorsConfiguration();
-       configuration.setAllowedOrigins(ImmutableList.of("http://localhost:3001","http://localhost:3000","http://localhost:3002"));
-       configuration.setAllowedMethods(ImmutableList.of("HEAD",
-               "GET", "POST", "PUT", "DELETE", "PATCH"));
-       // setAllowCredentials(true) is important, otherwise:
-       // The value of the 'Access-Control-Allow-Origin' header in the response must not be the wildcard '*' when the request's credentials mode is 'include'.
-       configuration.setAllowCredentials(true);
-       // setAllowedHeaders is important! Without it, OPTIONS preflight request
-       // will fail with 403 Invalid CORS request
-       configuration.setAllowedHeaders(ImmutableList.of("Authorization", "Cache-Control", "Content-Type","Personal-Access-Token"));
-       configuration.addExposedHeader("Authorization");
-       configuration.addExposedHeader("Personal-Access-Token");
-       final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-       source.registerCorsConfiguration("/**", configuration);
-       return source;
-   }
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        final CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(ImmutableList.of("http://localhost:3001", "http://localhost:3000", "http://localhost:3002"));
+        configuration.setAllowedMethods(ImmutableList.of("HEAD",
+                "GET", "POST", "PUT", "DELETE", "PATCH"));
+        // setAllowCredentials(true) is important, otherwise:
+        // The value of the 'Access-Control-Allow-Origin' header in the response must not be the wildcard '*' when the request's credentials mode is 'include'.
+        configuration.setAllowCredentials(true);
+        // setAllowedHeaders is important! Without it, OPTIONS preflight request
+        // will fail with 403 Invalid CORS request
+        configuration.setAllowedHeaders(ImmutableList.of("Authorization", "Cache-Control", "Content-Type", "Personal-Access-Token"));
+        configuration.addExposedHeader("Authorization");
+        configuration.addExposedHeader("Personal-Access-Token");
+        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
 
 }

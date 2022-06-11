@@ -18,12 +18,13 @@ export default function SignUp() {
 
     const [successful, setSuccessful] = useState(false);
   const [value, setValue] = useState("");
-  const [isCoach, setIsCoach] = useState(false);
+  
   const handleChange = (e) => {
     setValue(e.target.value);
   };
 
   const handleSubmit = (event) => {
+    console.log("heeeere")
     event.preventDefault();
     signup(event, setSuccessful);
   };
