@@ -11,6 +11,7 @@ import Success from "../shared/Success";
 import { createNewProject } from "../../api/projectService";
 import getArchetypes from "../../api/mavenApi";
 import DEFAULT_VALUES from "./FormDefaultValues.json"
+import EC2Form from "./EC2Form";
 
 const styles = {
   labeled: {
@@ -123,6 +124,7 @@ const CreateNewProjectPage = () => {
     Docker: <DockerForm {...formProperties} />,
     Jenkins: <JenkinsForm {...formProperties} />,
     Nexus: <NexusForm {...formProperties} />,
+    EC2:<EC2Form {...formProperties}/>
   };
 
   return (
@@ -153,7 +155,7 @@ const CreateNewProjectPage = () => {
         >
           <Grid container>
             {Object.keys(parts).map((name, index) => (
-              <Grid item xs={2}>
+              <Grid item xs={1.7}>
                 <Typography
                   variant="h7"
                   sx={{ py: 1, px: 2, borderRadius: 10 }}

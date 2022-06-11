@@ -12,7 +12,32 @@ import {
 import ec2Logo from "../../res/images/logo-ec2.svg";
 import { testConnection } from "../../api/jenkinsApi";
 
-const NexusForm = ({
+const jenkinsfileArguments = [
+  { name: "imageName", label: "Image Name" },
+  { name: "dockerhubUsername", label: "Dockerhub Username" },
+  {
+    name: "githubRepositoryUrl",
+    label: "Github Repository Url",
+  },
+  {
+    name: "ec2Username",
+    label: "EC2 Username",
+    deployment: true,
+  },
+  { name: "ec2Ip", label: "EC2 Ip", deployment: true },
+  {
+    name: "ec2ContainerPort",
+    label: "EC2 Container Port",
+    deployment: true,
+  },
+  {
+    name: "ec2DeploymentPort",
+    label: "EC2 Deployment Port",
+    deployment: true,
+  },
+];
+
+const EC2Form = ({
   handleInputChange,
   handleCheckboxChange,
   formValues,
@@ -133,4 +158,4 @@ const NexusForm = ({
   );
 };
 
-export default NexusForm;
+export default EC2Form;

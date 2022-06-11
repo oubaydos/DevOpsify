@@ -6,9 +6,36 @@ import {
   FormControlLabel,
   Button,
   Typography,
+  Divider,
+  Checkbox,
 } from "@mui/material";
 import jenkinsLogo from "../../res/images/logo-jenkins.png";
 import { testConnection } from "../../api/jenkinsApi";
+
+const jenkinsfileArguments = [
+  { name: "imageName", label: "Image Name" },
+  { name: "dockerhubUsername", label: "Dockerhub Username" },
+  {
+    name: "githubRepositoryUrl",
+    label: "Github Repository Url",
+  },
+  {
+    name: "ec2Username",
+    label: "EC2 Username",
+    deployment: true,
+  },
+  { name: "ec2Ip", label: "EC2 Ip", deployment: true },
+  {
+    name: "ec2ContainerPort",
+    label: "EC2 Container Port",
+    deployment: true,
+  },
+  {
+    name: "ec2DeploymentPort",
+    label: "EC2 Deployment Port",
+    deployment: true,
+  },
+];
 
 const JenkinsForm = ({
   handleInputChange,
@@ -18,6 +45,37 @@ const JenkinsForm = ({
   styles,
 }) => {
   const [connectionStatus, setConnectionStatus] = React.useState("");
+  const [generateJenkinsfile, setGenerateJenkinsfile] = React.useState(
+    formValues.jenkins.generateJenkinsfile
+  );
+  const [withDeployment, setWithDeployment] = React.useState(
+    formValues.jenkins.jenkinsfile.withDeployment
+  );
+
+  const getFormControl = (arg) => {
+    let formControl;
+    formControl = (
+      <Grid item style={styles.formItem}>
+        <FormControlLabel
+          label={arg.label}
+          control={
+            <TextField
+              disabled={arg.deployment && !withDeployment}
+              name={arg.name}
+              style={styles.labeled}
+              required
+              color="secondary"
+              size="small"
+              onChange={handleInputChange}
+              value={formValues.jenkins.jenkinsfile[arg.name]}
+            />
+          }
+          labelPlacement="start"
+        />
+      </Grid>
+    );
+    return formControl;
+  };
 
   const getStatus = () => {
     let result = "";
@@ -37,7 +95,7 @@ const JenkinsForm = ({
 
   const handleTestConncetionButtonClick = () => {
     setConnectionStatus("connecting");
-    testConnection(formValues.jenkins,setConnectionStatus);
+    testConnection(formValues.jenkins, setConnectionStatus);
   };
 
   return (
@@ -53,6 +111,8 @@ const JenkinsForm = ({
           src={jenkinsLogo}
         />
       </Grid>
+      <Divider sx={{ my: 2 }} />
+      <Typography variant="h6">Connect Server</Typography>
       <Grid item style={styles.formItem}>
         <FormControlLabel
           label="URL"
@@ -121,6 +181,47 @@ const JenkinsForm = ({
           </Box>
         </Grid>
       </Grid>
+      <Divider sx={{ my: 2 }} />
+
+      <Typography variant="h6">Jenkinsfile</Typography>
+      <Grid item style={styles.formItem}>
+        <FormControlLabel
+          label="Generate a jenkinsfile"
+          control={
+            <Checkbox
+              name="generateJenkinsfile"
+              color="success"
+              onChange={(e) => {
+                setGenerateJenkinsfile(!generateJenkinsfile);
+                handleCheckboxChange(e);
+              }}
+              checked={generateJenkinsfile}
+            />
+          }
+          labelPlacement="end"
+        />
+      </Grid>
+      {generateJenkinsfile && (
+        <Grid item style={styles.formItem}>
+          <FormControlLabel
+            label="With Deployment"
+            control={
+              <Checkbox
+                name="withDeployment"
+                color="success"
+                onChange={(e) => {
+                  setWithDeployment(!withDeployment);
+                  handleCheckboxChange(e);
+                }}
+                checked={withDeployment}
+              />
+            }
+            labelPlacement="end"
+          />
+        </Grid>
+      )}
+      {generateJenkinsfile &&
+        jenkinsfileArguments.map((arg) => getFormControl(arg))}
     </Box>
   );
 };

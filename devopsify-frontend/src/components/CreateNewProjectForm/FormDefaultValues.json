@@ -13,10 +13,10 @@
   },
   "docker": {
     "dockerizeBackend": false,
-    "defaultDockerBackend" :true,
+    "defaultDockerBackend": true,
     "dockerBackend": {},
     "dockerizeDB": false,
-    "defaultDockerDB":true,
+    "defaultDockerDB": true,
     "dockerDB": {
       "imageName": "",
       "imageVersion": "",
@@ -25,9 +25,18 @@
     }
   },
   "jenkins": {
-    "url": "",
-    "username": "",
-    "password": ""
+    "server": { "url": "", "username": "", "password": "" },
+    "generateJenkinsfile": false,
+    "jenkinsfile": {
+      "imageName": "",
+      "dockerhubUsername": "",
+      "githubRepositoryUrl": "",
+      "withDeployment": false,
+      "ec2Username": "",
+      "ec2Ip": "",
+      "ec2ContainerPort": "",
+      "ec2DeploymentPort": ""
+    }
   },
   "nexus": {}
 }
