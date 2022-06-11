@@ -39,6 +39,7 @@ const jenkinsfileArguments = [
 
 const JenkinsForm = ({
   handleInputChange,
+  handleJenkinsfileInputChange,
   handleCheckboxChange,
   formValues,
   setFormValues,
@@ -66,7 +67,7 @@ const JenkinsForm = ({
               required
               color="secondary"
               size="small"
-              onChange={handleInputChange}
+              onChange={handleJenkinsfileInputChange}
               value={formValues.jenkins.jenkinsfile[arg.name]}
             />
           }
