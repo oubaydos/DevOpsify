@@ -32,7 +32,7 @@ public class DockerController {
         return dockerService.viewBackendDockerfile(dto);
     }
 
-    @GetMapping("`default-values`")
+    @GetMapping("default-values")
     public DockerfileDefaultValuesDto getDockerfileDefaultValues() {
 
         return new DockerfileDefaultValuesDto(
