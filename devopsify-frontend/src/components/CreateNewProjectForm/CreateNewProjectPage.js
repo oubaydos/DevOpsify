@@ -67,20 +67,6 @@ const CreateNewProjectPage = () => {
     });
   };
 
-  const handleJenkinsfileInputChange = (e) => {
-    const { name, value } = e.target;
-    const currentFormPart = Object.keys(parts)[current].toLowerCase();
-    let values = formValues.jenkins;
-    let jenkinsfileValues = formValues.jenkins.jenkinsfile;
-    jenkinsfileValues = {...jenkinsfileValues,[name]:value}
-
-    values = { ...values, jenkinsfile: jenkinsfileValues };
-    setFormValues({
-      ...formValues,
-      jenkins: values,
-    });
-  };
-  
   const handleOnButtonClick = (e) => {
     if (current != Object.keys(parts).length - 1) {
       setCurrent(current + 1);
@@ -119,7 +105,6 @@ const CreateNewProjectPage = () => {
 
   const formProperties = {
     handleCheckboxChange: handleCheckboxChange,
-    handleInputChange: handleInputChange,
     formValues: formValues,
     setFormValues,
     styles: styles,
@@ -136,7 +121,7 @@ const CreateNewProjectPage = () => {
       />
     ),
     Docker: <DockerForm {...formProperties} />,
-    Jenkins: <JenkinsForm {...formProperties} handleJenkinsfileInputChange={handleJenkinsfileInputChange} />,
+    Jenkins: <JenkinsForm {...formProperties} />,
     Nexus: <NexusForm {...formProperties} />,
     EC2:<EC2Form {...formProperties}/>
   };

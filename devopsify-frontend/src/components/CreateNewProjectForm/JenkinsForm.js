@@ -39,7 +39,6 @@ const jenkinsfileArguments = [
 
 const JenkinsForm = ({
   handleInputChange,
-  handleJenkinsfileInputChange,
   handleCheckboxChange,
   formValues,
   setFormValues,
@@ -52,6 +51,19 @@ const JenkinsForm = ({
   const [withDeployment, setWithDeployment] = React.useState(
     formValues.jenkins.jenkinsfile.withDeployment
   );
+
+  const handleJenkinsfileInputChange = (e) => {
+    const { name, value } = e.target;
+    let values = formValues.jenkins;
+    let jenkinsfileValues = formValues.jenkins.jenkinsfile;
+    jenkinsfileValues = {...jenkinsfileValues,[name]:value}
+
+    values = { ...values, jenkinsfile: jenkinsfileValues };
+    setFormValues({
+      ...formValues,
+      jenkins: values,
+    });
+  };
 
   const getFormControl = (arg) => {
     let formControl;
