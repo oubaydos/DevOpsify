@@ -42,7 +42,7 @@ public class JenkinsServiceImpl implements JenkinsService {
         );
 
         jenkinsService.setJenkinsClient(server);
-        jenkinsService.addUsernameWithPasswordCredentials(server, "github-cred", "devops", "password");
+        jenkinsService.addSshWithUsernameCredentials(server, "github-cred", "devops", "password");
 
     }
 
@@ -163,7 +163,24 @@ public class JenkinsServiceImpl implements JenkinsService {
     private void addUsernameWithPasswordCredentials(Server server, String credentialsId, String username, String password) throws IOException {
         String[] cmd = {
                 "python",
-                "src/main/resources/credentials.py",
+                "scripts/jenkins/username_with_password_credentials.py",
+                server.url(),
+                server.username(),
+                server.password(),
+                credentialsId,
+                username,
+                password
+        };
+        Arrays.stream(cmd).forEach(s -> System.out.print(s + " "));
+        new ProcessBuilder(cmd)
+                .directory(new File("."))
+                .inheritIO()
+                .start();
+    }
+    private void addSshWithUsernameCredentials(Server server, String credentialsId, String username, String password) throws IOException {
+        String[] cmd = {
+                "python",
+                "scripts/jenkins/ssh_with_username_credentials.py",
                 server.url(),
                 server.username(),
                 server.password(),
