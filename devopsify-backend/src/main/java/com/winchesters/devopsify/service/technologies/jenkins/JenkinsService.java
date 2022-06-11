@@ -12,15 +12,14 @@ import java.io.File;
 public interface JenkinsService {
 
     void generateJenkinsFile(File directory);
+
     void pingJenkinsServer() throws JenkinsException;
 
     void pingJenkinsServer(Server server) throws JenkinsException;
 
     void setJenkinsClient(Server server);
 
-    JenkinsClient getJenkinsClient();
-
-    void installPlugins();
+    void installRequiredPlugins();
 
     void saveGithubCredentials(String token);
 

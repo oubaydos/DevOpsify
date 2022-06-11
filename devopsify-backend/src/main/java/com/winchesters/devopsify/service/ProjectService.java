@@ -143,7 +143,7 @@ public class ProjectService {
 
         jenkinsService.setJenkinsClient(jenkinsServer);
         jenkinsService.pingJenkinsServer();
-        jenkinsService.installPlugins();
+        jenkinsService.installRequiredPlugins();
         jenkinsService.createApiToken();
 
         project.setJenkinsServer(jenkinsServer);
