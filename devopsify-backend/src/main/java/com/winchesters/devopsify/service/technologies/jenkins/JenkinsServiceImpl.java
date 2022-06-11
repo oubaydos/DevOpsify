@@ -15,9 +15,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -30,7 +32,7 @@ public class JenkinsServiceImpl implements JenkinsService {
 
     private JenkinsClient jenkinsClient;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         JenkinsServiceImpl jenkinsService = new JenkinsServiceImpl(new JenkinsClientFactory());
 
         Server server = new Server(
@@ -40,9 +42,7 @@ public class JenkinsServiceImpl implements JenkinsService {
         );
 
         jenkinsService.setJenkinsClient(server);
-        jenkinsService
-                .installRequiredPlugins();
-        System.out.println(jenkinsService.getJenkinsClient().api().pluginManagerApi().plugins(1,null).plugins().size());
+        jenkinsService.addUsernameWithPasswordCredentials(server, "github-cred", "devops", "password");
 
     }
 
@@ -154,5 +154,27 @@ public class JenkinsServiceImpl implements JenkinsService {
 
     public void createGithubTrigger() {
 
+    }
+
+    private String generateUsernameWithPasswordCredentialsXml(String credentialsId, String username, String password) {
+        return "<com.cloudbees.plugins.credentials.impl.UsernamePasswordCredentialsImpl><scope>GLOBAL</scope><id>" + credentialsId + "</id><username>" + username + "</username><password>" + password + "</password><description></description></com.cloudbees.plugins.credentials.impl.UsernamePasswordCredentialsImpl>";
+    }
+
+    private void addUsernameWithPasswordCredentials(Server server, String credentialsId, String username, String password) throws IOException {
+        String[] cmd = {
+                "python",
+                "src/main/resources/credentials.py",
+                server.url(),
+                server.username(),
+                server.password(),
+                credentialsId,
+                username,
+                password
+        };
+        Arrays.stream(cmd).forEach(s -> System.out.print(s + " "));
+        new ProcessBuilder(cmd)
+                .directory(new File("."))
+                .inheritIO()
+                .start();
     }
 }
