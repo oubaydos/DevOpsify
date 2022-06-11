@@ -15,7 +15,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -36,13 +35,13 @@ public class JenkinsServiceImpl implements JenkinsService {
         JenkinsServiceImpl jenkinsService = new JenkinsServiceImpl(new JenkinsClientFactory());
 
         Server server = new Server(
-                "http://3.86.242.247:7070/",
+                "http://188.166.100.241:8080/",
                 "devopsify",
                 "devopsify"
         );
 
         jenkinsService.setJenkinsClient(server);
-        jenkinsService.addSshWithUsernameCredentials(server, "github-cred", "devops", "password");
+        jenkinsService.createPipeline("https://github.com/HamzaBenyazid/account-sharing-app");
 
     }
 
@@ -116,28 +115,64 @@ public class JenkinsServiceImpl implements JenkinsService {
         return apiToken.data();
     }
 
-    public void createPipeline() {
+    public void createPipeline(String repositoryUrl) {
         //TODO
         // https://stackoverflow.com/questions/21405427/how-to-create-a-job-in-jenkins-by-using-simple-java-program
-        String temp = """
-                <?xml version='1.0' encoding='UTF-8'?>
-                <project>
-                  <actions/>
-                  <description></description>
-                  <keepDependencies>false</keepDependencies>
-                  <properties/>
-                  <scm class="hudson.scm.NullSCM"/>
-                  <canRoam>true</canRoam>
-                  <disabled>false</disabled>
-                  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
-                  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
-                  <triggers/>
-                  <concurrentBuild>false</concurrentBuild>
-                  <builders/>
-                  <publishers/>
-                  <buildWrappers/>
-                </project>""";
-        LOG.info("{}", this.jenkinsClient.api().jobsApi().create(null, "tmp", temp).toString());
+        String temp = "<?xml version='1.1' encoding='UTF-8'?>\n" +
+                      "<org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProject plugin=\"workflow-multibranch@716.vc692a_e52371b_\">\n" +
+                      "  <actions/>\n" +
+                      "  <description></description>\n" +
+                      "  <properties/>\n" +
+                      "  <folderViews class=\"jenkins.branch.MultiBranchProjectViewHolder\" plugin=\"branch-api@2.1046.v0ca_37783ecc5\">\n" +
+                      "    <owner class=\"org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProject\" reference=\"../..\"/>\n" +
+                      "  </folderViews>\n" +
+                      "  <healthMetrics/>\n" +
+                      "  <icon class=\"jenkins.branch.MetadataActionFolderIcon\" plugin=\"branch-api@2.1046.v0ca_37783ecc5\">\n" +
+                      "    <owner class=\"org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProject\" reference=\"../..\"/>\n" +
+                      "  </icon>\n" +
+                      "  <orphanedItemStrategy class=\"com.cloudbees.hudson.plugins.folder.computed.DefaultOrphanedItemStrategy\" plugin=\"cloudbees-folder@6.729.v2b_9d1a_74d673\">\n" +
+                      "    <pruneDeadBranches>true</pruneDeadBranches>\n" +
+                      "    <daysToKeep>-1</daysToKeep>\n" +
+                      "    <numToKeep>-1</numToKeep>\n" +
+                      "    <abortBuilds>false</abortBuilds>\n" +
+                      "  </orphanedItemStrategy>\n" +
+                      "  <triggers>\n" +
+                      "    <com.igalg.jenkins.plugins.mswt.trigger.ComputedFolderWebHookTrigger plugin=\"multibranch-scan-webhook-trigger@1.0.9\">\n" +
+                      "      <spec></spec>\n" +
+                      "      <token>thisCouldBeAnyToken</token>\n" +
+                      "    </com.igalg.jenkins.plugins.mswt.trigger.ComputedFolderWebHookTrigger>\n" +
+                      "  </triggers>\n" +
+                      "  <disabled>false</disabled>\n" +
+                      "  <sources class=\"jenkins.branch.MultiBranchProject$BranchSourceList\" plugin=\"branch-api@2.1046.v0ca_37783ecc5\">\n" +
+                      "    <data>\n" +
+                      "      <jenkins.branch.BranchSource>\n" +
+                      "        <source class=\"jenkins.plugins.git.GitSCMSource\" plugin=\"git@4.11.3\">\n" +
+                      "          <id>c611640d-e18d-499b-94df-cd726a39a0ff</id>\n" +
+                      "          <remote>" + repositoryUrl + "</remote>\n" +
+                      "          <credentialsId></credentialsId>\n" +
+                      "          <traits>\n" +
+                      "            <jenkins.plugins.git.traits.BranchDiscoveryTrait/>\n" +
+                      "          </traits>\n" +
+                      "        </source>\n" +
+                      "        <strategy class=\"jenkins.branch.DefaultBranchPropertyStrategy\">\n" +
+                      "          <properties class=\"empty-list\"/>\n" +
+                      "        </strategy>\n" +
+                      "        <buildStrategies>\n" +
+                      "          <au.com.versent.jenkins.plugins.ignoreCommitterStrategy.IgnoreCommitterStrategy plugin=\"ignore-committer-strategy@1.0.4\">\n" +
+                      "            <ignoredAuthors>jenkins@devopsify.com</ignoredAuthors>\n" +
+                      "            <allowBuildIfNotExcludedAuthor>true</allowBuildIfNotExcludedAuthor>\n" +
+                      "          </au.com.versent.jenkins.plugins.ignoreCommitterStrategy.IgnoreCommitterStrategy>\n" +
+                      "        </buildStrategies>\n" +
+                      "      </jenkins.branch.BranchSource>\n" +
+                      "    </data>\n" +
+                      "    <owner class=\"org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProject\" reference=\"../..\"/>\n" +
+                      "  </sources>\n" +
+                      "  <factory class=\"org.jenkinsci.plugins.workflow.multibranch.WorkflowBranchProjectFactory\">\n" +
+                      "    <owner class=\"org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProject\" reference=\"../..\"/>\n" +
+                      "    <scriptPath>Jenkinsfile</scriptPath>\n" +
+                      "  </factory>\n" +
+                      "</org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProject>\n";
+        LOG.info("{}", this.jenkinsClient.api().jobsApi().create(null, "temp-multibranch", temp).toString());
     }
 
     @Override
@@ -177,6 +212,7 @@ public class JenkinsServiceImpl implements JenkinsService {
                 .inheritIO()
                 .start();
     }
+
     private void addSshWithUsernameCredentials(Server server, String credentialsId, String username, String password) throws IOException {
         String[] cmd = {
                 "python",
@@ -194,4 +230,10 @@ public class JenkinsServiceImpl implements JenkinsService {
                 .inheritIO()
                 .start();
     }
+
+    public void configureMaven() {
+        // TODO
+        // maven installation on jenkins remote server is not handled
+    }
 }
+
