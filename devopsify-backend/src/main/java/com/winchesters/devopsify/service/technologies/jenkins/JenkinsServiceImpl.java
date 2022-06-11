@@ -7,6 +7,7 @@ import com.cdancy.jenkins.rest.domain.user.ApiToken;
 import com.cdancy.jenkins.rest.domain.user.ApiTokenData;
 import com.winchesters.devopsify.exception.jenkins.JenkinsException;
 import com.winchesters.devopsify.exception.jenkins.JenkinsServerException;
+import com.winchesters.devopsify.model.Credentials;
 import com.winchesters.devopsify.model.JenkinsAnalyseResults;
 import com.winchesters.devopsify.model.entity.Project;
 import com.winchesters.devopsify.model.entity.Server;
@@ -31,7 +32,7 @@ public class JenkinsServiceImpl implements JenkinsService {
 
     private JenkinsClient jenkinsClient;
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         JenkinsServiceImpl jenkinsService = new JenkinsServiceImpl(new JenkinsClientFactory());
 
         Server server = new Server(
@@ -181,6 +182,15 @@ public class JenkinsServiceImpl implements JenkinsService {
         return new JenkinsAnalyseResults();
     }
 
+    @Override
+    public void createJenkinsPipeline(Server server, String name, String remoteRepoUrl, Credentials dockerhubCredentials, Credentials ec2Credentials) throws IOException {
+        setJenkinsClient(server);
+        pingJenkinsServer();
+        addUsernameWithPasswordCredentials(server, dockerhubCredentials);
+        addSshWithUsernameCredentials(server, ec2Credentials);
+        createPipeline(remoteRepoUrl);
+    }
+
     public void saveGithubCredentials(String token) {
     }
 
@@ -195,16 +205,16 @@ public class JenkinsServiceImpl implements JenkinsService {
         return "<com.cloudbees.plugins.credentials.impl.UsernamePasswordCredentialsImpl><scope>GLOBAL</scope><id>" + credentialsId + "</id><username>" + username + "</username><password>" + password + "</password><description></description></com.cloudbees.plugins.credentials.impl.UsernamePasswordCredentialsImpl>";
     }
 
-    private void addUsernameWithPasswordCredentials(Server server, String credentialsId, String username, String password) throws IOException {
+    private void addUsernameWithPasswordCredentials(Server server, Credentials credentials) throws IOException {
         String[] cmd = {
                 "python",
                 "scripts/jenkins/username_with_password_credentials.py",
                 server.url(),
                 server.username(),
                 server.password(),
-                credentialsId,
-                username,
-                password
+                credentials.credentialsId(),
+                credentials.username(),
+                credentials.secret()
         };
         Arrays.stream(cmd).forEach(s -> System.out.print(s + " "));
         new ProcessBuilder(cmd)
@@ -213,16 +223,16 @@ public class JenkinsServiceImpl implements JenkinsService {
                 .start();
     }
 
-    private void addSshWithUsernameCredentials(Server server, String credentialsId, String username, String password) throws IOException {
+    private void addSshWithUsernameCredentials(Server server, Credentials credentials) throws IOException {
         String[] cmd = {
                 "python",
                 "scripts/jenkins/ssh_with_username_credentials.py",
                 server.url(),
                 server.username(),
                 server.password(),
-                credentialsId,
-                username,
-                password
+                credentials.credentialsId(),
+                credentials.username(),
+                credentials.secret()
         };
         Arrays.stream(cmd).forEach(s -> System.out.print(s + " "));
         new ProcessBuilder(cmd)
