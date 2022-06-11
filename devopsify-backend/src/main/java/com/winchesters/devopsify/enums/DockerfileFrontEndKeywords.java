@@ -1,6 +1,6 @@
 package com.winchesters.devopsify.enums;
 
-public enum DockerfileFrontEndKeywords implements DockerfileKeywords{
+public enum DockerfileFrontEndKeywords implements FileKeywords {
 
 
     // BUILD

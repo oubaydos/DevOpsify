@@ -28,7 +28,7 @@ public class DataBaseDockerFile extends DockerFile {
         File DockerfileTemplate = getDockerfileTemplate();
         DockerfileUtils dockerfileUtils = new DockerfileUtils(DockerfileTemplate);
         dockerfileUtils
-                .setDockerfileKeywordValue(
+                .setFileKeywordValue(
                         Map.of(
                                 DATABASE_NAME.keyword(), imageName,
                                 DATABASE_VERSION.keyword(), imageVersion,
@@ -42,7 +42,7 @@ public class DataBaseDockerFile extends DockerFile {
 
         else
             dockerfileUtils
-                    .setDockerfileKeywordValue(
+                    .setFileKeywordValue(
                             DATABASE_INIT_QUERIES_FILENAME.keyword(),
                             dbInitQueriesFilename
                     );

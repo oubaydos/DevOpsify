@@ -12,8 +12,12 @@ public class IOUtils {
     /***
      * this will cause issues because of anti-slash vs slash
      */
-    private static String dockerfileTemplatesBaseDirectory = System.getProperty("user.dir") + "/src/main/resources/project-templates/dockerfile-templates/";
-    private static String projectsDirectory = javax.swing.filechooser.FileSystemView.getFileSystemView().getHomeDirectory().toString()+"\\devopsify";
+    private static String generatedFilesTemplatesBaseDirectory = System.getProperty("user.dir") + "/src/main/resources/project-templates/";
+    private static String projectsDirectory = javax.swing.filechooser.FileSystemView.getFileSystemView().getHomeDirectory().toString() + "\\devopsify";
+
+    private static String dockerfileTemplatesBaseDirectory = generatedFilesTemplatesBaseDirectory + "dockerfile-templates/";
+    private static String jenkinsfileTemplatesBaseDirectory = generatedFilesTemplatesBaseDirectory + "jenkins/";
+
     public static String InputStreamToString(InputStream inputStream) throws IOException {
         BufferedReader stdInput
                 = new BufferedReader(new InputStreamReader(inputStream));
@@ -24,13 +28,20 @@ public class IOUtils {
         }
         return outputBuilder.toString();
     }
+
     public static String projectsDirectory() throws IOException {
-        projectsDirectory = projectsDirectory.replace("\\","/");
+        projectsDirectory = projectsDirectory.replace("\\", "/");
         Files.createDirectories(Paths.get(projectsDirectory));
         return projectsDirectory;
     }
-    public static String dockerfileTemplatesBaseDirectory(){
-        return dockerfileTemplatesBaseDirectory.replace("\\","/");
+
+    public static String dockerfileTemplatesBaseDirectory() {
+
+        return dockerfileTemplatesBaseDirectory.replace("\\", "/");
+    }
+
+    public static String jenkinsfileTemplatesBaseDirectory() {
+        return jenkinsfileTemplatesBaseDirectory.replace("\\", "/");
     }
 
 

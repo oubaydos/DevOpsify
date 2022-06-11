@@ -47,7 +47,7 @@ public class BackendDockerFile extends DockerFile {
         File DockerfileTemplate = getDockerfileTemplate();
         DockerfileUtils dockerfileUtils = new DockerfileUtils(DockerfileTemplate);
         dockerfileUtils
-                .setDockerfileKeywordValue(
+                .setFileKeywordValue(
                         Map.of(
                                 BASE_BUILD_IMAGE_NAME.keyword(), baseBuildImageName,
                                 BASE_BUILD_IMAGE_VERSION.keyword(), baseBuildImageVersion,

@@ -6,8 +6,7 @@ import com.github.dockerjava.core.DockerClientConfig;
 import com.github.dockerjava.core.DockerClientImpl;
 import com.github.dockerjava.httpclient5.ApacheDockerHttpClient;
 import com.github.dockerjava.transport.DockerHttpClient;
-import com.winchesters.devopsify.service.technologies.docker.dockerfile.DataBaseDockerFile;
-import com.winchesters.devopsify.service.technologies.docker.dockerfile.DockerFile;
+import com.winchesters.devopsify.service.technologies.jenkins.JenkinsFile;
 
 import java.time.Duration;
 
@@ -57,15 +56,15 @@ public class DockerClientFactory {
 //                        "tempname:tag"
 //                )
 //        );
-        DockerFile dockerFile = DataBaseDockerFile
-                .builder()
-                .setImageBaseOS("ubuntu")
-                .setImageVersion("v5")
-                .setImageName("mysql")
-                .setDbInitQueriesFilename("hiu")
-                .build();
-        System.out.println(dockerFile.getDockerfileContent());
-        dockerFile.writeDockerfile("./Dockerfile-helloworld");
+//        DockerFile dockerFile = DataBaseDockerFile
+//                .builder()
+//                .setImageBaseOS("ubuntu")
+//                .setImageVersion("v5")
+//                .setImageName("mysql")
+//                .setDbInitQueriesFilename("hiu")
+//                .build();
+//        System.out.println(dockerFile.getDockerfileContent());
+//        dockerFile.writeFile("./Dockerfile-helloworld");
         /*
          * backend dockerfile test
          */
@@ -104,6 +103,23 @@ public class DockerClientFactory {
 //        backendDockerFile.setHasNginxConfigurationFile(false);
 //
 //        System.out.println(backendDockerFile.getDockerfileContent());
+
+        // jenkins
+        JenkinsFile jenkinsFile = JenkinsFile
+                .builder()
+                .setEc2Ip("192.168.1.1")
+                .setDockerhubUsername("oubaydos")
+                .setGithubRepositoryUrl("github.com/oubaydos/devopsify")
+                .setEc2Username("ubuntu")
+                .setImageName("temp-image")
+                .setEc2ContainerPort("7070")
+                .setEc2DeploymentPort("3000")
+                .setWithDeployment(false)
+                .build();
+
+
+        System.out.println(jenkinsFile.getGroovyScriptContent());
+        jenkinsFile.writeFile("./hello-world");
     }
 
 

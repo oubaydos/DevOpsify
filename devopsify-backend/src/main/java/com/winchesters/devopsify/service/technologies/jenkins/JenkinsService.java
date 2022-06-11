@@ -1,6 +1,5 @@
 package com.winchesters.devopsify.service.technologies.jenkins;
 
-import com.cdancy.jenkins.rest.JenkinsClient;
 import com.cdancy.jenkins.rest.domain.user.ApiTokenData;
 import com.winchesters.devopsify.exception.jenkins.JenkinsException;
 import com.winchesters.devopsify.model.JenkinsAnalyseResults;
@@ -12,15 +11,14 @@ import java.io.File;
 public interface JenkinsService {
 
     void generateJenkinsFile(File directory);
+
     void pingJenkinsServer() throws JenkinsException;
 
     void pingJenkinsServer(Server server) throws JenkinsException;
 
     void setJenkinsClient(Server server);
 
-    JenkinsClient getJenkinsClient();
-
-    void installPlugins();
+    void installRequiredPlugins();
 
     void saveGithubCredentials(String token);
 
@@ -29,7 +27,7 @@ public interface JenkinsService {
     void createGithubTrigger();
 
     ApiTokenData createApiToken();
-    void createPipeline();
+    void createPipeline(String repositoryUrl);
 
     JenkinsAnalyseResults analyseJenkins(Project project);
 
