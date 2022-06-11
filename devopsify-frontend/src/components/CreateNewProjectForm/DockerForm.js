@@ -113,6 +113,12 @@ const DockerForm = ({
   const handleRadioChange = (e) => {
     const { name } = e.target;
     
+    if(name==="defaultDockerBackend"){
+      setCustomBackendDockerfile(!customBackendDockerfile);
+    }else{
+      setCustomDBDockerfile(!customDBDockerfile);
+    }
+    
     let values = formValues.docker;
 
     const newValue = !values[name];

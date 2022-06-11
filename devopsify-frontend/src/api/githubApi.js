@@ -5,7 +5,7 @@ import {getCookie, goto} from "../utils/utils";
 const ENDPOINT = configData.SERVER_URL+"/github";
 const CONNECT_ENDPOINT = ENDPOINT+"/connect";
 
-export function connectToGithub(event, setSuccessful, setError) {
+export function connectToGithub(event, setSuccessful, setError,next) {
     console.log(event.currentTarget)
     const data = new FormData(event.currentTarget);
     const dataToSend = {
@@ -22,7 +22,12 @@ export function connectToGithub(event, setSuccessful, setError) {
         (res) => {
             setSuccessful(true);
             console.log(res.data);
-            setTimeout(()=>{goto("/");},500);
+            
+            if(next==="create-project"){
+                setTimeout(()=>{goto("project/create");},500);
+            }else{
+                setTimeout(()=>{goto("/");},500);
+            }
         }
         ,
         (err) => {

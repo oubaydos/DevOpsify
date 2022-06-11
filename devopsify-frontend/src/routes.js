@@ -15,12 +15,13 @@ import CreateNewProjectPage from "./components/CreateNewProjectForm/CreateNewPro
 
 const ContributorRoutes = () =>
   useRoutes([
-    { path: "/project/create", element: <CreateNewProjectForm /> },
+    { path: "/project/create", element: <CreateNewProjectPage /> },
     { path: "/project", element: <ProjectList /> },
     { path: "/github", element: <ConnectToGithub /> },
     { path: "/jenkins", element: <JenkinsPage /> },
-    { path: "/", element: <CreateNewProjectForm /> },
+    { path: "/", element: <Home /> },
     { path: "/project/:id", element: <ProjectDetails /> },
+    { path: "/github?next=create-project", element: <ConnectToGithub next="/project/create"/> },
   ]);
 const AdminRoutes = () =>
   useRoutes([
@@ -30,6 +31,7 @@ const AdminRoutes = () =>
     { path: "/jenkins", element: <JenkinsPage /> },
     { path: "/", element: <Home /> },
     { path: "/project/:id", element: <ProjectDetails /> },
+    { path: "/github?next=create-project", element: <ConnectToGithub next="/project/create"/> },
 
   ]);
 const GuestRoutes = () =>

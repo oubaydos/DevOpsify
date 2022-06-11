@@ -16,9 +16,11 @@ import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import { listProjects } from "../../api/projectService";
 import { goto } from "../../utils/utils";
-import config from "../../config.json"
+import config from "../../config.json";
+import { AppContext } from "../../App";
+import { useLocation } from "react-router-dom";
 
-const drawerWidth = config.DRAWER_WIDTH ;
+const drawerWidth = config.DRAWER_WIDTH;
 
 const DrawerHeader = styled("div")(({ theme }) => ({
   display: "flex",
@@ -31,8 +33,12 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 }));
 
 export default function Sidebar({ handleCloseNavMenu, open }) {
-  const [projects, setProjects] = React.useState([]);
+
   const theme = useTheme();
+
+  const [projects, setProjects] = React.useState([]);
+
+  const currentUser = React.useContext(AppContext);
 
   const [projectsOpen, setProjectsOpen] = React.useState(true);
 
@@ -49,7 +55,7 @@ export default function Sidebar({ handleCloseNavMenu, open }) {
   }, []);
 
   return (
-    <Box sx={{ display: "flex" ,bgcolor:"#E5E5E5"}}>
+    <Box sx={{ display: "flex", bgcolor: "#E5E5E5" }}>
       <CssBaseline />
       <Drawer
         sx={{
@@ -117,7 +123,10 @@ export default function Sidebar({ handleCloseNavMenu, open }) {
                   }
                   onClick={() => {
                     console.log("create new project clicked");
-                    goto("/project/create");
+                    console.log(currentUser);
+                    if (currentUser.githubUsername === null) {
+                      goto("/github?next=create-project");
+                    } else goto("/project/create");
                   }}
                 />
               </ListItem>

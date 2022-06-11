@@ -107,7 +107,6 @@ const CreateNewProjectPage = () => {
     handleInputChange: handleInputChange,
     formValues: formValues,
     setFormValues,
-    setFormValues,
     styles: styles,
   };
 
