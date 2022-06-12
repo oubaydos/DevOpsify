@@ -29,7 +29,7 @@ public interface JenkinsService {
     void createGithubTrigger();
 
     ApiTokenData createApiToken();
-    void createPipeline(String repositoryUrl);
+    void createPipeline(String repositoryUrl, String pipelineName);
 
     JenkinsAnalyseResults analyseJenkins(Project project);
 

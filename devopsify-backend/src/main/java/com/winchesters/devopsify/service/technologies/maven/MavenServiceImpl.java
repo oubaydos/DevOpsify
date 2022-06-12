@@ -28,7 +28,7 @@ import java.util.regex.Pattern;
 @Service
 public class MavenServiceImpl implements MavenService {
 
-    public static void main(String[] args) throws MavenInvocationException, IOException {
+    public static void main(String[] args) throws MavenInvocationException, IOException, InterruptedException {
         MavenService mavenService = new MavenServiceImpl();
         GenerateMavenProjectDto dto = new GenerateMavenProjectDto(
                 "spring-boot-quick-start-archetype",
@@ -143,10 +143,10 @@ public class MavenServiceImpl implements MavenService {
     }
 
     @Override
-    public void generateMavenProject(GenerateMavenProjectDto dto, String baseDirPath) throws IOException {
+    public void generateMavenProject(GenerateMavenProjectDto dto, String baseDirPath) throws IOException, InterruptedException {
 
         new ProcessBuilder(
-                "mvn",
+                "mvn.cmd",
                 "archetype:generate",
                 String.format("-DgroupId=%s", dto.groupId()),
                 String.format("-DartifactId=%s", dto.artifactId()),
@@ -157,7 +157,8 @@ public class MavenServiceImpl implements MavenService {
         )
                 .directory(new File(baseDirPath))
                 .inheritIO()
-                .start();
+                .start()
+                .waitFor();
     }
 
     TestResultDto getTestResultsFromTestOutput(String output) {

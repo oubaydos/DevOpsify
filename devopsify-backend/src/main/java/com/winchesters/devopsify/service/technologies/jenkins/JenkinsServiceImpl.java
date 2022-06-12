@@ -12,6 +12,7 @@ import com.winchesters.devopsify.model.JenkinsAnalyseResults;
 import com.winchesters.devopsify.model.entity.Project;
 import com.winchesters.devopsify.model.entity.Server;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -33,17 +34,17 @@ public class JenkinsServiceImpl implements JenkinsService {
     private JenkinsClient jenkinsClient;
 
     public static void main(String[] args) {
-        JenkinsServiceImpl jenkinsService = new JenkinsServiceImpl(new JenkinsClientFactory());
-
-        Server server = new Server(
-                "http://188.166.100.241:8080/",
-                "devopsify",
-                "devopsify"
-        );
-
-        jenkinsService.setJenkinsClient(server);
-        jenkinsService.createPipeline("https://github.com/HamzaBenyazid/account-sharing-app");
-
+//        JenkinsServiceImpl jenkinsService = new JenkinsServiceImpl(new JenkinsClientFactory());
+//
+//        Server server = new Server(
+    //                "http://188.166.100.241:8080/",
+    //                "devopsify",
+//                "devopsify"
+//        );
+//
+//        jenkinsService.setJenkinsClient(server);
+//        jenkinsService.createPipeline("https://github.com/HamzaBenyazid/account-sharing-app");
+        getPipelineId("temp");
     }
 
     @Override
@@ -116,7 +117,7 @@ public class JenkinsServiceImpl implements JenkinsService {
         return apiToken.data();
     }
 
-    public void createPipeline(String repositoryUrl) {
+    public void createPipeline(String repositoryUrl, String pipelineName) {
         //TODO
         // https://stackoverflow.com/questions/21405427/how-to-create-a-job-in-jenkins-by-using-simple-java-program
         String temp = "<?xml version='1.1' encoding='UTF-8'?>\n" +
@@ -148,7 +149,7 @@ public class JenkinsServiceImpl implements JenkinsService {
                       "    <data>\n" +
                       "      <jenkins.branch.BranchSource>\n" +
                       "        <source class=\"jenkins.plugins.git.GitSCMSource\" plugin=\"git@4.11.3\">\n" +
-                      "          <id>c611640d-e18d-499b-94df-cd726a39a0ff</id>\n" +
+                      "          <id>" + getPipelineId(repositoryUrl) + "</id>\n" +
                       "          <remote>" + repositoryUrl + "</remote>\n" +
                       "          <credentialsId></credentialsId>\n" +
                       "          <traits>\n" +
@@ -173,7 +174,7 @@ public class JenkinsServiceImpl implements JenkinsService {
                       "    <scriptPath>Jenkinsfile</scriptPath>\n" +
                       "  </factory>\n" +
                       "</org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProject>\n";
-        LOG.info("{}", this.jenkinsClient.api().jobsApi().create(null, "temp-multibranch", temp).toString());
+        LOG.info("{}", this.jenkinsClient.api().jobsApi().create(null, pipelineName, temp).toString());
     }
 
     @Override
@@ -188,7 +189,7 @@ public class JenkinsServiceImpl implements JenkinsService {
         pingJenkinsServer();
         addUsernameWithPasswordCredentials(server, dockerhubCredentials);
         addSshWithUsernameCredentials(server, ec2Credentials);
-        createPipeline(remoteRepoUrl);
+        createPipeline(remoteRepoUrl, name);
     }
 
     public void saveGithubCredentials(String token) {
@@ -244,6 +245,12 @@ public class JenkinsServiceImpl implements JenkinsService {
     public void configureMaven() {
         // TODO
         // maven installation on jenkins remote server is not handled
+    }
+
+    private static String getPipelineId(String name) {
+        String hash = DigestUtils.md5Hex(name).toLowerCase();
+        return hash.substring(0, 8) + "-" + hash.substring(8, 12) + "-" + hash.substring(12, 16) + "-" + hash.substring(16, 20) + "-" + hash.substring(20);
+
     }
 }
 

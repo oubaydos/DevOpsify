@@ -75,7 +75,7 @@ public class ProjectService {
                 .orElseThrow(ProjectNotFoundException::new);
     }
 
-    public ProjectDto createNewProjectWithInit(CreateNewProjectWithInitDto dto) throws IOException, GitAPIException {
+    public ProjectDto createNewProjectWithInit(CreateNewProjectWithInitDto dto) throws IOException, GitAPIException, InterruptedException {
 
 
         String localRepoPath = projectsDirectory() + "/" + dto.general().name();
@@ -89,6 +89,7 @@ public class ProjectService {
 
         //maven
         mavenService.generateMavenProject(dto.maven(), localRepoPath);
+
 
         //docker
         CreateNewProjectDockerDto dockerDto = dto.docker();
@@ -200,7 +201,7 @@ public class ProjectService {
         return analyseResults;
     }
 
-    public void generateMavenProject(GenerateMavenProjectDto dto, Long projectId) throws IOException {
+    public void generateMavenProject(GenerateMavenProjectDto dto, Long projectId) throws IOException, InterruptedException {
         Project project = findProjectById(projectId);
         mavenService.generateMavenProject(dto, project.getLocalRepoPath());
     }
