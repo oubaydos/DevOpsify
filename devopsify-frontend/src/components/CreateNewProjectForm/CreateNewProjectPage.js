@@ -69,6 +69,7 @@ const CreateNewProjectPage = () => {
   };
 
   const handleOnButtonClick = (e) => {
+    console.log(formValues);
     if (current != Object.keys(parts).length - 1) {
       setCurrent(current + 1);
     } else {

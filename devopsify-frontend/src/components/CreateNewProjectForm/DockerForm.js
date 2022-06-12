@@ -140,9 +140,8 @@ const DockerForm = ({
               name="dockerizeBackend"
               color="success"
               onChange={(e) => {
-                console.log(dockerizeBackend);
                 setDockerizeBackend(!dockerizeBackend);
-                console.log(dockerizeBackend);
+
                 handleCheckboxChange(e);
               }}
               checked={formValues.docker.dockerizeBackend}

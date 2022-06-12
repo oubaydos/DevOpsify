@@ -18,31 +18,30 @@ export const getDockerfileDefaultValues = (formValues, setFormValues) => {
       const docker = {
         ...formValues.docker,
       };
+      docker = {
+        ...docker,
+        dockerBackend: {
+          baseBuildImageName: backend["image-name"],
+          baseBuildImageVersion: backend["image-version"],
+          baseBuildJdkType: backend["jdk-type"],
+          jdkImageName: backend["jdk-image-name"],
+          jdkVersion: backend["jdk-version"],
+          jdkBaseOsName: backend["jdk-base-os-name"],
+          workdir: backend["workdir"],
+          port: backend["exposed-port"],
+          jarName: backend["output-jar-name"],
+          buildOnly: false,
+        },
+        dockerDB: {
+          imageName: db["db-name"],
+          imageVersion: db["db-version"],
+          imageBaseOS: db["db-os"],
+          dbInitQueriesFilename: db["db-init-queries-filename"],
+        },
+      };
       setFormValues({
         ...formValues,
-        docker: {
-          dockerizeBackend: formValues.docker.dockerizeBackend,
-          dockerizeDB: formValues.docker.dockerizeDB,
-          dockerBackend: {
-            baseBuildImageName: backend["image-name"],
-            baseBuildImageVersion: backend["image-version"],
-            baseBuildJdkType: backend["jdk-type"],
-            jdkImageName: backend["jdk-image-name"],
-            jdkVersion: backend["jdk-version"],
-            jdkBaseOsName: backend["jdk-base-os-name"],
-            workdir: backend["workdir"],
-            port: backend["exposed-port"],
-            jarName: backend["output-jar-name"],
-            buildOnly: false,
-          },
-          dockerDB: {
-            imageName: db["db-name"],
-            imageVersion: db["db-version"],
-            imageBaseOS: db["db-os"],
-            dbInitQueriesFilename: db["db-init-queries-filename"],
-          },
-        },
+        docker: docker,
       });
     });
 };
-

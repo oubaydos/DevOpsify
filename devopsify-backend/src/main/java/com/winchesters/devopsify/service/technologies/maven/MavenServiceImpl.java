@@ -146,7 +146,7 @@ public class MavenServiceImpl implements MavenService {
     public void generateMavenProject(GenerateMavenProjectDto dto, String baseDirPath) throws IOException {
 
         new ProcessBuilder(
-                "mvn.cmd",
+                "mvn",
                 "archetype:generate",
                 String.format("-DgroupId=%s", dto.groupId()),
                 String.format("-DartifactId=%s", dto.artifactId()),

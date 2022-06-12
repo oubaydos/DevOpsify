@@ -98,7 +98,6 @@ const EC2Form = ({
               id="jenkins-server"
               name="url"
               color="success"
-              onChange={handleInputChange}
             />
           }
           labelPlacement="start"
@@ -114,7 +113,6 @@ const EC2Form = ({
                 id="username"
                 color="secondary"
                 size="small"
-                onChange={handleInputChange}
               />
             }
             labelPlacement="start"
@@ -132,7 +130,6 @@ const EC2Form = ({
                 id="password"
                 color="secondary"
                 size="small"
-                onChange={handleInputChange}
                 password
               />
             }
@@ -146,7 +143,6 @@ const EC2Form = ({
               variant="contained"
               color="success"
               sx={{ mt: 3, mb: 2 }}
-              onClick={handleTestConncetionButtonClick}
             >
               Test Connection
             </Button>

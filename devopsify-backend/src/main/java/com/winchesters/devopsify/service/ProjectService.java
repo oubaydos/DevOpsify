@@ -17,11 +17,9 @@ import com.winchesters.devopsify.model.entity.Server;
 import com.winchesters.devopsify.model.entity.User;
 import com.winchesters.devopsify.repository.ProjectRepository;
 import com.winchesters.devopsify.service.technologies.GeneratedFile;
-import com.winchesters.devopsify.service.technologies.docker.dockerfile.DockerFile;
 import com.winchesters.devopsify.service.technologies.docker.systemdocker.DockerService;
 import com.winchesters.devopsify.service.technologies.git.GitService;
 import com.winchesters.devopsify.service.technologies.github.GithubRepositoryServiceImpl;
-import com.winchesters.devopsify.service.technologies.jenkins.JenkinsFile;
 import com.winchesters.devopsify.service.technologies.jenkins.JenkinsService;
 import com.winchesters.devopsify.service.technologies.maven.MavenService;
 import com.winchesters.devopsify.service.technologies.nexus.NexusService;
@@ -97,12 +95,14 @@ public class ProjectService {
         if (dockerDto.dockerizeBackend()) {
             generateGeneratedFile(
                     localRepoPath,
+                    localRepoPath,
                     backendDockerfileDtoToBackendDockerFile(dockerDto.dockerBackend(), dockerDto.defaultDockerBackend()),
                     "generate backend dockerfile"
             );
         }
         if (dockerDto.dockerizeDB()) {
             generateGeneratedFile(
+                    localRepoPath,
                     localRepoPath + "/db",
                     dataBaseDockerfileDtoToDataBaseDockerFile(dockerDto.dockerDB(), dockerDto.defaultDockerDB()),
                     "generate db dockerfile"
@@ -116,6 +116,7 @@ public class ProjectService {
         //TODO : jenkins
         if (dto.jenkins().generateJenkinsfile()) {
             generateGeneratedFile(
+                    localRepoPath,
                     localRepoPath,
                     jenkinsFileDtoToJenkinsFile(dto.jenkins().jenkinsfile(), dockerDto.defaultDockerDB()),
                     "generate Jenkinsfile"
@@ -205,13 +206,13 @@ public class ProjectService {
     }
 
 
-    public void generateGeneratedFile(String path,
+    public void generateGeneratedFile(String repo,String path,
                                       GeneratedFile file,
                                       String commitMsg) throws IOException {
         User user = userService.getCurrentUser();
-        gitService.syncLocalWithOriginMain(user.getGithubCredentials(), path);
+        gitService.syncLocalWithOriginMain(user.getGithubCredentials(), repo);
         file.writeFile(path);
-        gitService.commitAll(path, commitMsg);
-        gitService.pushOriginMain(user.getGithubCredentials(), path);
+        gitService.commitAll(repo, commitMsg);
+        gitService.pushOriginMain(user.getGithubCredentials(), repo);
     }
 }

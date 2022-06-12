@@ -73,7 +73,6 @@ const NexusForm = ({
               id="jenkins-server"
               name="url"
               color="success"
-              onChange={handleInputChange}
             />
           }
           labelPlacement="start"
@@ -89,7 +88,6 @@ const NexusForm = ({
                 id="username"
                 color="secondary"
                 size="small"
-                onChange={handleInputChange}
               />
             }
             labelPlacement="start"
@@ -107,7 +105,6 @@ const NexusForm = ({
                 id="password"
                 color="secondary"
                 size="small"
-                onChange={handleInputChange}
                 password
               />
             }
@@ -121,7 +118,6 @@ const NexusForm = ({
               variant="contained"
               color="success"
               sx={{ mt: 3, mb: 2 }}
-              onClick={handleTestConncetionButtonClick}
             >
               Test Connection
             </Button>
