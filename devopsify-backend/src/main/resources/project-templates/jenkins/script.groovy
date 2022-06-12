@@ -6,7 +6,7 @@ def isStringFoundInLastCommit(String s) {
 }
 
 def incrementPatchVersion() {
-    dir("./example") {
+    dir("./artifact-name") {
         echo "incrementing project patch version"
         sh 'mvn build-helper:parse-version versions:set -DnewVersion=\\\${parsedVersion.majorVersion}.\\\${parsedVersion.minorVersion}.\\\${parsedVersion.nextIncrementalVersion} versions:commit'
         version = readMavenPom().getVersion()
@@ -16,7 +16,7 @@ def incrementPatchVersion() {
 }
 
 def incrementMinorVersion() {
-    dir("./example") {
+    dir("./artifact-name") {
         echo "incrementing project minor version"
         sh 'mvn build-helper:parse-version versions:set -DnewVersion=\\\${parsedVersion.majorVersion}.\\\${parsedVersion.nextMinorVersion}.\\\${parsedVersion.incrementalVersion} versions:commit'
         version = readMavenPom().getVersion()
@@ -27,7 +27,7 @@ def incrementMinorVersion() {
 
 def incrementMajorVersion() {
     //TODO change to variable
-    dir("./example") {
+    dir("./artifact-name") {
         echo "incrementing project major version"
         sh 'mvn build-helper:parse-version versions:set -DnewVersion=\\\${parsedVersion.nextMajorVersion}.\\\${parsedVersion.minorVersion}.\\\${parsedVersion.incrementalVersion} versions:commit'
         version = readMavenPom().getVersion()
@@ -37,7 +37,7 @@ def incrementMajorVersion() {
 }
 
 def test() {
-    dir("./example") {
+    dir("./artifact-name") {
         sh 'mvn test'
     }
 }

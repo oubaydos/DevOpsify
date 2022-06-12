@@ -97,7 +97,7 @@ public class ProjectService {
             generateGeneratedFile(
                     localRepoPath,
                     localRepoPath,
-                    backendDockerfileDtoToBackendDockerFile(dockerDto.dockerBackend(), dockerDto.defaultDockerBackend()),
+                    backendDockerfileDtoToBackendDockerFile(dockerDto.dockerBackend(), dockerDto.defaultDockerBackend(),dto.maven().artifactId()),
                     "generate backend dockerfile"
             );
         }
@@ -115,11 +115,12 @@ public class ProjectService {
         project.setLocalRepoPath(localRepoPath);
         project.setRemoteRepoUrl(ghRepository.getHtmlUrl().toString());
         //TODO : jenkins
+        // IMAGE_NAME is not being set in jenkinsfile
         if (dto.jenkins().generateJenkinsfile()) {
             generateGeneratedFile(
                     localRepoPath,
                     localRepoPath,
-                    jenkinsFileDtoToJenkinsFile(dto.jenkins().jenkinsfile(), dockerDto.defaultDockerDB()),
+                    jenkinsFileDtoToJenkinsFile(dto.jenkins().jenkinsfile(), dto.maven().artifactId(), project.getRemoteRepoUrl()),
                     "generate Jenkinsfile"
             );
         }

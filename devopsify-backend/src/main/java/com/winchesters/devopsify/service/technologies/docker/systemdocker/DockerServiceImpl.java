@@ -12,6 +12,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import static com.winchesters.devopsify.enums.DockerfileBackEndKeywords.ARTIFACT_NAME;
+
 @Service
 @RequiredArgsConstructor
 public class DockerServiceImpl implements DockerService {
@@ -80,7 +82,7 @@ public class DockerServiceImpl implements DockerService {
 
     @Override
     public byte[] viewBackendDockerfile(BackendDockerfileDto dto) throws IOException {
-        BackendDockerFile backendDockerFile = DockerfileUtils.backendDockerfileDtoToBackendDockerFile(dto,false);
+        BackendDockerFile backendDockerFile = DockerfileUtils.backendDockerfileDtoToBackendDockerFile(dto,false,ARTIFACT_NAME.defaultValue());
         return backendDockerFile.getDockerfileContent().getBytes();
     }
 

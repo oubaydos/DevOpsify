@@ -11,13 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.IntStream;
-
-import static java.util.stream.Collectors.toCollection;
 
 public class DockerfileUtils extends FilesUtils {
 
@@ -36,9 +30,9 @@ public class DockerfileUtils extends FilesUtils {
         return getFileContent();
     }
 
-    public static BackendDockerFile backendDockerfileDtoToBackendDockerFile(BackendDockerfileDto dto, Boolean defaultDockerBackend) {
+    public static BackendDockerFile backendDockerfileDtoToBackendDockerFile(BackendDockerfileDto dto, Boolean defaultDockerBackend, String artifactName) {
         if (defaultDockerBackend) {
-            return BackendDockerFile.builder().build();
+            return BackendDockerFile.builder().setArtifactName(artifactName).build();
         }
         return BackendDockerFile.builder()
                 .setBaseBuildImageName(dto.baseBuildImageName())
@@ -51,6 +45,7 @@ public class DockerfileUtils extends FilesUtils {
                 .setJdkVersion(dto.jdkVersion())
                 .setPort(dto.port())
                 .setWorkdir(dto.workdir())
+                .setArtifactName(artifactName)
                 .build();
     }
 

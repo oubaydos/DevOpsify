@@ -31,6 +31,8 @@ public class JenkinsFile implements GeneratedFile {
     private String githubRepositoryUrl = GITHUB_REPOSITORY_URL.defaultValue();
     @Builder.Default
     private Boolean withDeployment = true;
+    @Builder.Default
+    private String artifactName = ARTIFACT_NAME.defaultValue();
 
     /**
      * writes both Jenkinsfile and script.groovy
@@ -62,13 +64,14 @@ public class JenkinsFile implements GeneratedFile {
         groovyScriptUtils
                 .setFileKeywordValue(
                         Map.of(
-                                IMAGE_NAME.keyword(), imageName,
+                                    IMAGE_NAME.keyword(), imageName,
                                 DOCKERHUB_USERNAME.keyword(), dockerhubUsername,
                                 EC2_USERNAME.keyword(), ec2Username,
                                 EC2_IP.keyword(), ec2Ip,
                                 EC2_CONTAINER_PORT.keyword(), ec2ContainerPort,
                                 EC2_DEPLOYMENT_PORT.keyword(), ec2DeploymentPort,
-                                GITHUB_REPOSITORY_URL.keyword(), githubRepositoryUrl
+                                GITHUB_REPOSITORY_URL.keyword(), githubRepositoryUrl,
+                                ARTIFACT_NAME.keyword(), artifactName
                         )
                 );
         return groovyScriptUtils.getFileContent();
