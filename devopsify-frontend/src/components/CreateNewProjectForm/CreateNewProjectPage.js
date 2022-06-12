@@ -54,6 +54,7 @@ const CreateNewProjectPage = () => {
       ...formValues,
       [currentFormPart]: values,
     });
+    console.log(formValues)
   };
 
   const handleInputChange = (e) => {
@@ -104,7 +105,8 @@ const CreateNewProjectPage = () => {
   };
 
   const formProperties = {
-    handleCheckboxChange: handleCheckboxChange,
+    handleCheckboxChange,
+    handleInputChange,
     formValues: formValues,
     setFormValues,
     styles: styles,

@@ -59,7 +59,7 @@ public class ProjectController {
 
 
     @PostMapping("{projectId}/maven")
-    void generateMavenProject(@ModelAttribute GenerateMavenProjectDto dto, @PathVariable Long projectId){
+    void generateMavenProject(@ModelAttribute GenerateMavenProjectDto dto, @PathVariable Long projectId) throws IOException {
         projectService.generateMavenProject(dto,projectId);
     }
 

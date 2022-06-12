@@ -63,7 +63,7 @@ const MavenForm = ({
           label="Project artifact id: "
           control={
             <TextField
-              name="artifact id"
+              name="artifactId"
               style={styles.labeled}
               required
               color="secondary"

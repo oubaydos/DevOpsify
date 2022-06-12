@@ -28,7 +28,7 @@ import java.util.regex.Pattern;
 @Service
 public class MavenServiceImpl implements MavenService {
 
-    public static void main(String[] args) throws MavenInvocationException {
+    public static void main(String[] args) throws MavenInvocationException, IOException {
         MavenService mavenService = new MavenServiceImpl();
         GenerateMavenProjectDto dto = new GenerateMavenProjectDto(
                 "spring-boot-quick-start-archetype",
@@ -38,8 +38,7 @@ public class MavenServiceImpl implements MavenService {
                 "0.0.1-SNAPSHOT"
         );
 
-        new MavenServiceImpl().generateMavenProject(dto, "/home/hamza/test");
-
+        new MavenServiceImpl().generateMavenProject(dto, "C:\\Users\\oubay\\OneDrive\\Bureau\\devopsify\\project-name");
 
     }
 
@@ -144,24 +143,21 @@ public class MavenServiceImpl implements MavenService {
     }
 
     @Override
-    public void generateMavenProject(GenerateMavenProjectDto dto, String baseDirPath) {
-        try {
-            new ProcessBuilder(
-                    "mvn",
-                    "archetype:generate",
-                    String.format("-DgroupId=%s", dto.groupId()),
-                    String.format("-DartifactId=%s", dto.artifactId()),
-                    String.format("-DarchetypeGroupId=%s", dto.archetypeGroupId()),
-                    String.format("-DarchetypeArtifactId=%s", dto.archetypeArtifactId()),
-                    String.format("-DinteractiveMode=%s", false),
-                    String.format("-Dversion=%s", dto.version())
-            )
-                    .directory(new File(baseDirPath))
-                    .inheritIO()
-                    .start();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public void generateMavenProject(GenerateMavenProjectDto dto, String baseDirPath) throws IOException {
+
+        new ProcessBuilder(
+                "mvn.cmd",
+                "archetype:generate",
+                String.format("-DgroupId=%s", dto.groupId()),
+                String.format("-DartifactId=%s", dto.artifactId()),
+                String.format("-DarchetypeGroupId=%s", dto.archetypeGroupId()),
+                String.format("-DarchetypeArtifactId=%s", dto.archetypeArtifactId()),
+                String.format("-DinteractiveMode=%s", false),
+                String.format("-Dversion=%s", dto.version())
+        )
+                .directory(new File(baseDirPath))
+                .inheritIO()
+                .start();
     }
 
     TestResultDto getTestResultsFromTestOutput(String output) {

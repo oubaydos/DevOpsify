@@ -64,8 +64,21 @@ const JenkinsForm = ({
       jenkins: values,
     });
   };
+    const handleJenkinsServerInputChange = (e) => {
+        const { name, value } = e.target;
+        let values = formValues.jenkins;
+        let server = formValues.jenkins.server;
+        server = {...server,[name]:value}
 
-  const getFormControl = (arg) => {
+        values = { ...values, server };
+        setFormValues({
+            ...formValues,
+            jenkins: values,
+        });
+    };
+
+
+    const getFormControl = (arg) => {
     let formControl;
     formControl = (
       <Grid item style={styles.formItem}>
@@ -108,7 +121,7 @@ const JenkinsForm = ({
 
   const handleTestConncetionButtonClick = () => {
     setConnectionStatus("connecting");
-    testConnection(formValues.jenkins, setConnectionStatus);
+    testConnection(formValues.jenkins.server, setConnectionStatus);
   };
 
   return (
@@ -138,7 +151,8 @@ const JenkinsForm = ({
               id="jenkins-server"
               name="url"
               color="success"
-              onChange={handleInputChange}
+              value={formValues.jenkins.server.url}
+              onChange={handleJenkinsServerInputChange}
             />
           }
           labelPlacement="start"
@@ -154,7 +168,8 @@ const JenkinsForm = ({
                 id="username"
                 color="secondary"
                 size="small"
-                onChange={handleInputChange}
+                value={formValues.jenkins.server.username}
+                onChange={handleJenkinsServerInputChange}
               />
             }
             labelPlacement="start"
@@ -172,7 +187,8 @@ const JenkinsForm = ({
                 id="password"
                 color="secondary"
                 size="small"
-                onChange={handleInputChange}
+                value={formValues.jenkins.server.password}
+                onChange={handleJenkinsServerInputChange}
                 password
               />
             }

@@ -199,7 +199,7 @@ public class ProjectService {
         return analyseResults;
     }
 
-    public void generateMavenProject(GenerateMavenProjectDto dto, Long projectId) {
+    public void generateMavenProject(GenerateMavenProjectDto dto, Long projectId) throws IOException {
         Project project = findProjectById(projectId);
         mavenService.generateMavenProject(dto, project.getLocalRepoPath());
     }
