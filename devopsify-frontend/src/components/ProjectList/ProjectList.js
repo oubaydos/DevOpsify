@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Paper, Box, Typography } from "@mui/material";
+import { Paper, Box, Typography, Button } from "@mui/material";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -12,6 +12,7 @@ import StarIcon from "@mui/icons-material/Star";
 import StarOutlineIcon from "@mui/icons-material/StarOutline";
 import { Icon } from "@mui/material";
 import { listProjects } from "../../api/projectService";
+import {goto} from "../../utils/utils"
 
 const drawerWidth = config.DRAWER_WIDTH + 20 + "px";
 
@@ -44,15 +45,15 @@ export default function ProjectList() {
 
   React.useEffect(() => {
     listProjects(setProjects);
-  },[]);
+  }, []);
 
-  React.useEffect(()=>{
+  React.useEffect(() => {
     setRows(
       projects.map((project) => {
         return createData(project);
       })
     );
-  },[projects])
+  }, [projects]);
 
   const contentToShow = (column, value) => {
     if (column.format && typeof value === "number") return column.format(value);
@@ -68,16 +69,37 @@ export default function ProjectList() {
 
   return (
     <Box>
-      <Typography
-        variant="h5"
-        noWrap
-        component="div"
-        sx={{ my: 4 }}
-        fontWeight="550"
-      >
-        Your projects
-      </Typography>
-      
+      <Box sx={{ display: "inline-flex" }}>
+        <Typography
+          variant="h5"
+          noWrap
+          component="div"
+          sx={{ my: 4 }}
+          fontWeight="550"
+        >
+          Your projects
+        </Typography>
+        <Button
+          variant="contained"
+          sx={{
+            maxHeight: "40px",
+            my: "auto",
+            ml: 10,
+            backgroundColor: "green",
+            color: "white",
+          }}
+          onClick={()=>goto("project/create")}
+        >
+          Create New Project
+        </Button>
+        <Button
+          variant="contained"
+          sx={{ maxHeight: "40px", my: "auto", ml: 1 }}
+        >
+          Load Project From Github
+        </Button>
+      </Box>
+
       <Paper
         sx={{
           width: `calc(100%-${drawerWidth})`,
@@ -85,7 +107,7 @@ export default function ProjectList() {
           mx: drawerWidth,
         }}
       >
-        <TableContainer sx={{ maxHeight: 440 }}>
+        <TableContainer sx={{ maxHeight: 440, minHeight: 200 }}>
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
               <TableRow>
