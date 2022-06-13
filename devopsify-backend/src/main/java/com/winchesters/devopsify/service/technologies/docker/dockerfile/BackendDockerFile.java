@@ -41,6 +41,9 @@ public class BackendDockerFile extends DockerFile {
     @Builder.Default
     private Boolean buildOnly = false;
 
+    @Builder.Default
+    private String  artifactName = ARTIFACT_NAME.defaultValue();
+
 
     @Override
     public String getDockerfileContent() throws IOException {
@@ -60,7 +63,8 @@ public class BackendDockerFile extends DockerFile {
                                 WORKDIR.keyword(), workdir,
                                 PORT.keyword(), port,
 
-                                JAR_NAME.keyword(), jarName
+                                JAR_NAME.keyword(), jarName,
+                                ARTIFACT_NAME.keyword(),artifactName
                         )
                 );
         if (buildOnly) {

@@ -10,11 +10,20 @@ public class JenkinsfileUtils extends FilesUtils {
     public JenkinsfileUtils(File file) throws IOException {
         super(file, "//");
     }
-    public static JenkinsFile jenkinsFileDtoToJenkinsFile(JenkinsFileDto dto, Boolean defaultJenkinsFile) {
-        if (defaultJenkinsFile) {
-            return JenkinsFile.builder().setWithDeployment(false).build();
+
+    public static JenkinsFile jenkinsFileDtoToJenkinsFile(JenkinsFileDto dto, String artifactName, String remoteRepoUrl) {
+        remoteRepoUrl = remoteRepoUrl.replaceFirst("^(http[s]?://www\\.|http[s]?://|www\\.)", "");
+        JenkinsFile.JenkinsFileBuilder jenkinsFileBuilder = JenkinsFile.builder();
+        if (!dto.getWithDeployment()) {
+            return jenkinsFileBuilder
+                    .setWithDeployment(false)
+                    .setImageName(dto.getImageName())
+                    .setDockerhubUsername(dto.getDockerhubUsername())
+                    .setGithubRepositoryUrl(remoteRepoUrl)
+                    .setArtifactName(artifactName)
+                    .build();
         }
-        return JenkinsFile.builder()
+        return jenkinsFileBuilder
                 .setImageName(dto.getImageName())
                 .setDockerhubUsername(dto.getDockerhubUsername())
                 .setEc2Username(dto.getEc2Username())
@@ -22,7 +31,8 @@ public class JenkinsfileUtils extends FilesUtils {
                 .setEc2ContainerPort(dto.getEc2ContainerPort())
                 .setEc2DeploymentPort(dto.getEc2DeploymentPort())
                 .setWithDeployment(dto.getWithDeployment())
-                .setGithubRepositoryUrl(dto.getGithubRepositoryUrl())
+                .setGithubRepositoryUrl(remoteRepoUrl)
+                .setArtifactName(artifactName)
                 .build();
     }
 }

@@ -108,12 +108,15 @@ public class GithubRepositoryServiceImpl implements GithubRepositoryService {
 
 
         GitHub github = githubService.getGithub();
-        GHRepository repository = github.getRepository("temp-devopsify/" + name);
-        if (repository == null)
-            throw new GithubRepositoryNotFoundException();
-        DockerRepositoryAnalyser dockerRepositoryAnalyser = new DockerRepositoryAnalyser(repository);
-        LOG.debug("number of docker files : {}", dockerRepositoryAnalyser.numberOfDockerComposeFiles());
-        return new GithubAnalyseResults("number of docker files : " + dockerRepositoryAnalyser.numberOfDockerComposeFiles(), ReadMeStatus.OKAY, RepositoryStatus.OKAY, 1, Date.from(Instant.now()));
+        deleteAllRepositories();
+        return null;
+//
+//        GHRepository repository = github.getRepository("temp-devopsify/" + name);
+//        if (repository == null)
+//            throw new GithubRepositoryNotFoundException();
+//        DockerRepositoryAnalyser dockerRepositoryAnalyser = new DockerRepositoryAnalyser(repository);
+//        LOG.debug("number of docker files : {}", dockerRepositoryAnalyser.numberOfDockerComposeFiles());
+//        return new GithubAnalyseResults("number of docker files : " + dockerRepositoryAnalyser.numberOfDockerComposeFiles(), ReadMeStatus.OKAY, RepositoryStatus.OKAY, 1, Date.from(Instant.now()));
 
 
     }

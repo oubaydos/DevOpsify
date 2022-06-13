@@ -75,7 +75,7 @@ public class ProjectService {
                 .orElseThrow(ProjectNotFoundException::new);
     }
 
-    public ProjectDto createNewProjectWithInit(CreateNewProjectWithInitDto dto) throws IOException, GitAPIException {
+    public ProjectDto createNewProjectWithInit(CreateNewProjectWithInitDto dto) throws IOException, GitAPIException, InterruptedException {
 
 
         String localRepoPath = projectsDirectory() + "/" + dto.general().name();
@@ -90,13 +90,14 @@ public class ProjectService {
         //maven
         mavenService.generateMavenProject(dto.maven(), localRepoPath);
 
+
         //docker
         CreateNewProjectDockerDto dockerDto = dto.docker();
         if (dockerDto.dockerizeBackend()) {
             generateGeneratedFile(
                     localRepoPath,
                     localRepoPath,
-                    backendDockerfileDtoToBackendDockerFile(dockerDto.dockerBackend(), dockerDto.defaultDockerBackend()),
+                    backendDockerfileDtoToBackendDockerFile(dockerDto.dockerBackend(), dockerDto.defaultDockerBackend(),dto.maven().artifactId()),
                     "generate backend dockerfile"
             );
         }
@@ -114,11 +115,12 @@ public class ProjectService {
         project.setLocalRepoPath(localRepoPath);
         project.setRemoteRepoUrl(ghRepository.getHtmlUrl().toString());
         //TODO : jenkins
+        // IMAGE_NAME is not being set in jenkinsfile
         if (dto.jenkins().generateJenkinsfile()) {
             generateGeneratedFile(
                     localRepoPath,
                     localRepoPath,
-                    jenkinsFileDtoToJenkinsFile(dto.jenkins().jenkinsfile(), dockerDto.defaultDockerDB()),
+                    jenkinsFileDtoToJenkinsFile(dto.jenkins().jenkinsfile(), dto.maven().artifactId(), project.getRemoteRepoUrl()),
                     "generate Jenkinsfile"
             );
         }
@@ -200,7 +202,7 @@ public class ProjectService {
         return analyseResults;
     }
 
-    public void generateMavenProject(GenerateMavenProjectDto dto, Long projectId) throws IOException {
+    public void generateMavenProject(GenerateMavenProjectDto dto, Long projectId) throws IOException, InterruptedException {
         Project project = findProjectById(projectId);
         mavenService.generateMavenProject(dto, project.getLocalRepoPath());
     }

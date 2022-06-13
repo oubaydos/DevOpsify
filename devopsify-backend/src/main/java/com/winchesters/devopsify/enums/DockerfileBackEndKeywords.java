@@ -6,6 +6,8 @@ public enum DockerfileBackEndKeywords implements FileKeywords {
     BASE_BUILD_IMAGE_VERSION("image-version", "3.8.5"),
     BASE_BUILD_JDK_TYPE("jdk-type", "openjdk"),
 
+    ARTIFACT_NAME("artifact-name","example"),
+
     JDK_IMAGE_NAME("jdk-image-name", "openjdk"),
     JDK_VERSION("jdk-version", "17"),
     JDK_BASE_OS_NAME("jdk-base-os-name", "alpine"),

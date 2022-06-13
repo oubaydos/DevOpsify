@@ -32,8 +32,8 @@ public class AppConfig {
                     passwordEncoder.encode(password),
                     ApplicationUserRole.ADMIN,
                     new GithubCredentials(
-                                "devopsify-tempUser",
-                            "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"
+                                "temp-devopsify",
+                            "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"
                     )
             );
             User oubaydos = new User(
@@ -43,8 +43,8 @@ public class AppConfig {
                     passwordEncoder.encode(password),
                     ApplicationUserRole.ADMIN,
                     new GithubCredentials(
-                            "devopsify-tempUser",
-                            "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"
+                            "temp-devopsify",
+                            "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"
                     )
             );
             LOG.info("");

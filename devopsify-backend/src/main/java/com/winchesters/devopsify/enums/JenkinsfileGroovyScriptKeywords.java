@@ -3,6 +3,7 @@ package com.winchesters.devopsify.enums;
 public enum JenkinsfileGroovyScriptKeywords implements FileKeywords {
 
     IMAGE_NAME("image-name", "temp"),
+    ARTIFACT_NAME("artifact-name","example"),
     DOCKERHUB_USERNAME("dockerhub-username", "devopsify"),
     EC2_USERNAME("ec2-username", "ec2-user"),
     EC2_IP("ec2-ip", "0.0.0.0"),

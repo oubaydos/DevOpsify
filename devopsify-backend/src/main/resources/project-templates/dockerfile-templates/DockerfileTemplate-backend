@@ -1,11 +1,12 @@
 FROM image-name:image-version-jdk-type-jdk-version AS build
 WORKDIR /workdir
 COPY . .
+WORKDIR /workdir/artifact-name
 RUN mvn clean package
 ##
 FROM jdk-image-name:jdk-version-jdk-base-os-name
 WORKDIR /workdir
-COPY --from=build /workdir/target .
+COPY --from=build /workdir/artifact-name/target .
 EXPOSE exposed-port
 # this should be dynamic as the account sharing app will not be named this all the time
 # ENTRYPOINT [ "java","-jar","account-sharing-app-0.0.1-SNAPSHOT.jar" ]

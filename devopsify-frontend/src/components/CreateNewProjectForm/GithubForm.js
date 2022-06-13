@@ -15,7 +15,7 @@ import gitIgnoreTemplates from "../../utils/gitIgnoreTemplates.json";
 
 const defaultValues = {
   autoInit: true,
-  private_: true,
+  private_: false,
 };
 
 const GithubForm = ({
@@ -92,6 +92,7 @@ const GithubForm = ({
               defaultChecked={defaultValues.private_}
               color="success"
               onChange={handleCheckboxChange}
+              disabled={true}
             />
           }
           label="the repository is private"

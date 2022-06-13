@@ -39,7 +39,7 @@ public class ProjectController {
         return projectService.createNewProject(createNewProjectDto);
     }
     @PostMapping("/init")
-    public ProjectDto createNewProjectWithInit(@RequestBody CreateNewProjectWithInitDto createNewProjectWithInitDto) throws GitAPIException, IOException {
+    public ProjectDto createNewProjectWithInit(@RequestBody CreateNewProjectWithInitDto createNewProjectWithInitDto) throws GitAPIException, IOException, InterruptedException {
         return projectService.createNewProjectWithInit(createNewProjectWithInitDto);
     }
     @PostMapping("{projectId}/jenkins")
@@ -59,7 +59,7 @@ public class ProjectController {
 
 
     @PostMapping("{projectId}/maven")
-    void generateMavenProject(@ModelAttribute GenerateMavenProjectDto dto, @PathVariable Long projectId) throws IOException {
+    void generateMavenProject(@ModelAttribute GenerateMavenProjectDto dto, @PathVariable Long projectId) throws IOException, InterruptedException {
         projectService.generateMavenProject(dto,projectId);
     }
 

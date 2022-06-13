@@ -22,5 +22,5 @@ public interface MavenService extends TechnologyService {
 
     TestResultDto test(String baseDirPath);
 
-    void generateMavenProject(GenerateMavenProjectDto dto, String baseDirPath) throws IOException;
+    void generateMavenProject(GenerateMavenProjectDto dto, String baseDirPath) throws IOException, InterruptedException;
 }
