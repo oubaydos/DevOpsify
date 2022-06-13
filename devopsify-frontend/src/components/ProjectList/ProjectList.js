@@ -35,7 +35,7 @@ export default function ProjectList() {
       fav: true,
       name: project.name,
       status: "in progress",
-      "created-by": "hamza",
+      "created-by": project.owner,
     };
   }
 

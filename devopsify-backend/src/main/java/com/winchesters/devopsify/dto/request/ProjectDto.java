@@ -18,5 +18,6 @@ public class ProjectDto {
     private Boolean hasTests;
     private String jenkinsServerUrl;
     private String nexusServerUrl;
+    private String owner;
     private String token;
 }

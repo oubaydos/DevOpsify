@@ -40,6 +40,7 @@ const CreateNewProjectPage = () => {
     getArchetypes(setArchetypes);
   }, []);
 
+
   const handleSubmit = (event) => {
     event.preventDefault();
     createNewProject(formValues, setSuccessful, setError);
@@ -126,8 +127,8 @@ const CreateNewProjectPage = () => {
       />
     ),
     Docker: <DockerForm {...formProperties} />,
-    Jenkins: <JenkinsForm {...formProperties} />,
     Nexus: <NexusForm {...formProperties} />,
+    Jenkins: <JenkinsForm {...formProperties} />,
     EC2:<EC2Form {...formProperties}/>
   };
 

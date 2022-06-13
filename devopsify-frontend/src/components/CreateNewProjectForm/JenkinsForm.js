@@ -78,7 +78,6 @@ const JenkinsForm = ({
   };
 
   const handleJenkinsfileCheckBoxChange = (e) => {
-
     const { name, checked } = e.target;
 
     let jenkins = formValues.jenkins;
@@ -121,13 +120,25 @@ const JenkinsForm = ({
     let result = "";
     switch (connectionStatus) {
       case "success":
-        result = "success";
+        result = (
+          <Typography sx={{ my:"auto", ml: 2 }} color="success">
+            Success
+          </Typography>
+        );
         break;
       case "failed":
-        result = "failed";
+        result = (
+          <Typography sx={{ my:"auto", ml: 2 }} color="error">
+            Failed
+          </Typography>
+        );
         break;
       case "connecting":
-        result = "connecting ...";
+        result = (
+          <Typography sx={{ my:"auto", ml: 2 }} color="grey">
+            Connecting ...
+          </Typography>
+        );
         break;
     }
     return result;
@@ -220,7 +231,7 @@ const JenkinsForm = ({
             >
               Test Connection
             </Button>
-            <Typography sx={{ mt: 3, mb: 2 }}>{getStatus()}</Typography>
+            {getStatus()}
           </Box>
         </Grid>
       </Grid>

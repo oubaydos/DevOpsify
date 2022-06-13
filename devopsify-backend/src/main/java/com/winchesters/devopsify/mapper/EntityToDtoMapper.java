@@ -26,6 +26,7 @@ public class EntityToDtoMapper {
                 project.getHasTests(),
                 (project.getJenkinsServer()!=null)?project.getJenkinsServer().url():null,
                 (project.getNexusServer()!=null)?project.getNexusServer().url():null,
+                project.getOwner().getUsername(),
                 null
         );
     }
@@ -45,6 +46,7 @@ public class EntityToDtoMapper {
                 project.getHasTests(),
                 (project.getJenkinsServer()!=null)?project.getJenkinsServer().url():null,
                 (project.getNexusServer()!=null)?project.getNexusServer().url():null,
+                project.getOwner().getUsername(),
                 token
         );
     }
