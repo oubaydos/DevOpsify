@@ -95,6 +95,7 @@ public class UserService {
     public void updateGithubCredentials(GithubCredentials githubCredentials){
         User user = this.getCurrentUser();
         user.setGithubCredentials(githubCredentials);
+        userRepository.save(user);
     }
     public void updatePersonalAccessToken(String personalAccessToken) {
         User user = this.getCurrentUser();
