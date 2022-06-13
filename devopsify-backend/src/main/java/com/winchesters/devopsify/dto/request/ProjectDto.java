@@ -20,4 +20,5 @@ public class ProjectDto {
     private String nexusServerUrl;
     private String owner;
     private String token;
+    private String webHookToken;
 }

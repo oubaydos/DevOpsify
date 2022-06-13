@@ -206,13 +206,16 @@ public class GithubRepositoryServiceImpl implements GithubRepositoryService {
         return myself.getLogin();
     }
 
-    public void createWebHook(Project project, String token) throws IOException {
+    public String createWebHook(Project project, String token) throws IOException {
         String webHookUrl = addTrailingSlash(project.getJenkinsServer().url()) + "multibranch-webhook-trigger/invoke?token=" + toGithubRepositoryName(token);
-        this.getRepository(project.getName()).createWebHook(new URL(webHookUrl));
+        GHRepository repository = this.getRepository(project.getName());
+        return repository.getHtmlUrl() + "/settings/hooks/" + repository.createWebHook(new URL(webHookUrl)).getId();
     }
 
     public static void main(String[] args) throws IOException {
-        GitHub gitHub = new GitHubBuilder().withOAuthToken("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").build();
-        System.out.println(gitHub.getRepository("temp-devopsify/" + toGithubRepositoryName("russian hfrehh")).getHooks());
+        GitHub gitHub = new GitHubBuilder().withOAuthToken("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").build();
+        String webHookUrl = addTrailingSlash("https://mui.com/material-ui/react-progresss/") + "multibranch-webhook-trigger/invoke?token=" + toGithubRepositoryName("feqfds te");
+        GHRepository repository = gitHub.createRepository("dsqddsqqssddsqq").autoInit(true).licenseTemplate("mit").create();
+        System.out.println();
     }
 }

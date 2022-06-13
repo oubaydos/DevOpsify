@@ -27,10 +27,11 @@ public class EntityToDtoMapper {
                 (project.getJenkinsServer()!=null)?project.getJenkinsServer().url():null,
                 (project.getNexusServer()!=null)?project.getNexusServer().url():null,
                 project.getOwner().getUsername(),
+                null,
                 null
         );
     }
-    public static ProjectDto ProjectToProjectDto(Project project, String token) {
+    public static ProjectDto ProjectToProjectDto(Project project, String token , String webHookUrl) {
 
         return new ProjectDto(
                 project.getProjectId(),
@@ -47,7 +48,8 @@ public class EntityToDtoMapper {
                 (project.getJenkinsServer()!=null)?project.getJenkinsServer().url():null,
                 (project.getNexusServer()!=null)?project.getNexusServer().url():null,
                 project.getOwner().getUsername(),
-                token
+                token,
+                webHookUrl
         );
     }
 

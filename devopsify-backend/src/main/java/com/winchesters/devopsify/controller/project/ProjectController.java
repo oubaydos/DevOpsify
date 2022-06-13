@@ -39,7 +39,7 @@ public class ProjectController {
         return projectService.createNewProject(createNewProjectDto);
     }
     @PostMapping("/init")
-    public ProjectDto createNewProjectWithInit(@RequestBody CreateNewProjectWithInitDto createNewProjectWithInitDto) throws GitAPIException, IOException, InterruptedException {
+    public ProjectDto createNewProjectWithInit(@RequestBody CreateNewProjectWithInitDto createNewProjectWithInitDto) throws GitAPIException, IOException, InterruptedException, IllegalAccessException {
         return projectService.createNewProjectWithInit(createNewProjectWithInitDto);
     }
     @PostMapping("{projectId}/jenkins")

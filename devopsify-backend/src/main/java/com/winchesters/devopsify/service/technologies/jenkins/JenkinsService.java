@@ -31,5 +31,5 @@ public interface JenkinsService {
 
     JenkinsAnalyseResults analyseJenkins(Project project);
 
-    String createJenkinsPipeline(Server jenkins, String name, String remoteRepoUrl, Server dockerhubCredentials, Server ec2Credentials) throws IOException;
+    String createJenkinsPipeline(Server jenkins, String name, String remoteRepoUrl, Server dockerhubCredentials, Server ec2Credentials) throws IOException, IllegalAccessException;
 }

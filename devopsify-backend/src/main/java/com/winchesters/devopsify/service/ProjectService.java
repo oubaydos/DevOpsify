@@ -76,7 +76,7 @@ public class ProjectService {
                 .orElseThrow(ProjectNotFoundException::new);
     }
 
-    public ProjectDto createNewProjectWithInit(CreateNewProjectWithInitDto dto) throws IOException, GitAPIException, InterruptedException {
+    public ProjectDto createNewProjectWithInit(CreateNewProjectWithInitDto dto) throws IOException, GitAPIException, InterruptedException, IllegalAccessException {
 
 
         String localRepoPath = projectsDirectory() + "/" + dto.general().name();
@@ -129,7 +129,7 @@ public class ProjectService {
         }
         project.setJenkinsServer(dto.jenkins().server());
         // CREATING WEBHOOK TOKEN
-        githubRepositoryService.createWebHook(project, project.getName());
+        String webHookUrl = githubRepositoryService.createWebHook(project, project.getName());
         /*
          ssh key with id
          */
@@ -148,7 +148,7 @@ public class ProjectService {
         //TODO : nexus
         // TODO return token
 
-        return EntityToDtoMapper.ProjectToProjectDto(projectRepository.save(project));
+        return EntityToDtoMapper.ProjectToProjectDto(projectRepository.save(project),token,webHookUrl);
     }
 
 

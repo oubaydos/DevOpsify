@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.winchesters.devopsify.utils.Utils.noFieldIsNullNorEmpty;
 import static com.winchesters.devopsify.utils.Utils.toGithubRepositoryName;
 
 @RequiredArgsConstructor
@@ -187,7 +188,7 @@ public class JenkinsServiceImpl implements JenkinsService {
     }
 
     @Override
-    public String createJenkinsPipeline(Server server, String name, String remoteRepoUrl, Server dockerhubCredentials, Server ec2Credentials) throws IOException {
+    public String createJenkinsPipeline(Server server, String name, String remoteRepoUrl, Server dockerhubCredentials, Server ec2Credentials) throws IOException, IllegalAccessException {
         setJenkinsClient(server);
         if (jenkinsPluginsNotInstalled())
             installRequiredPlugins();
@@ -196,7 +197,8 @@ public class JenkinsServiceImpl implements JenkinsService {
         pingJenkinsServer();
         // TODO uncomment
 //        addUsernameWithPasswordCredentials(server, new Credentials("dockerhub", dockerhubCredentials));
-        addSshWithUsernameCredentials(server, new Credentials("ec2", dockerhubCredentials));
+        if (ec2Credentials != null && noFieldIsNullNorEmpty(ec2Credentials))
+            addSshWithUsernameCredentials(server, new Credentials("ec2", dockerhubCredentials));
         createPipeline(remoteRepoUrl, name, name);
         return token;
     }
