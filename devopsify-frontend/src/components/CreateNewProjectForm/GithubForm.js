@@ -38,6 +38,7 @@ const GithubForm = ({
               sx={{ mx: 2 }}
               name={"licenseTemplate"}
               onChange={handleInputChange}
+              value={formValues.github.licenseTemplate}
             >
               {licenseTemplates.map((v) => (
                 <MenuItem value={v.value}>{v.label}</MenuItem>
@@ -59,6 +60,7 @@ const GithubForm = ({
               sx={{ mx: 2 }}
               name="gitIgnoreTemplate"
               onChange={handleInputChange}
+              value={formValues.github.gitIgnoreTemplate}
             >
               {gitIgnoreTemplates.map((v) => (
                 <MenuItem value={v}>{v}</MenuItem>

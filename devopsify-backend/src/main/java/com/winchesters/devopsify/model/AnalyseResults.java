@@ -11,4 +11,6 @@ public class AnalyseResults{
     private GithubAnalyseResults github;
     private JenkinsAnalyseResults jenkins;
     private NexusAnalyseResults nexus;
+    //private DockerAnalyseResults docker;
+    //private MavenAnalyseResults maven;
 }

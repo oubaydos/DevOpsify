@@ -12,12 +12,11 @@ export const getDockerfileDefaultValues = (formValues, setFormValues) => {
       },
     })
     .then((res) => {
+      console.log("here");
       console.log(res.data);
       const backend = res.data.backend;
       const db = res.data.db;
-      const docker = {
-        ...formValues.docker,
-      };
+      const docker = formValues.docker;
       docker = {
         ...docker,
         dockerBackend: {
@@ -39,6 +38,8 @@ export const getDockerfileDefaultValues = (formValues, setFormValues) => {
           dbInitQueriesFilename: db["db-init-queries-filename"],
         },
       };
+      console.log("docker");
+      console.log(docker);
       setFormValues({
         ...formValues,
         docker: docker,

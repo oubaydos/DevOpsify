@@ -9,7 +9,7 @@ import {
   Divider,
   Checkbox,
 } from "@mui/material";
-import ec2Logo from "../../res/images/logo-ec2.svg";
+import nexusLogo from "../../res/images/logo-nexus.png";
 import { testConnection } from "../../api/jenkinsApi";
 
 const NexusForm = ({
@@ -20,12 +20,22 @@ const NexusForm = ({
   styles,
 }) => {
   const [connectionStatus, setConnectionStatus] = React.useState("");
-  const [generateJenkinsfile, setGenerateJenkinsfile] = React.useState(
-    formValues.jenkins.generateJenkinsfile
+  const [pushDockerImages, setPushDockerImages] = React.useState(
+    formValues.nexus.pushDockerImages
   );
-  const [withDeployment, setWithDeployment] = React.useState(
-    formValues.jenkins.jenkinsfile.withDeployment
-  );
+
+  const handleNexusServerInputChange = (e) => {
+    const { name, value } = e.target;
+    let values = formValues.nexus;
+    let server = formValues.nexus.server;
+    server = { ...server, [name]: value };
+
+    values = { ...values, server };
+    setFormValues({
+      ...formValues,
+      jenkins: values,
+    });
+  };
 
   const getStatus = () => {
     let result = "";
@@ -57,8 +67,8 @@ const NexusForm = ({
             maxHeight: { xs: 100, md: 80 },
             maxWidth: { xs: 100, md: 80 },
           }}
-          alt="ec2 logo"
-          src={ec2Logo}
+          alt="nexus logo"
+          src={nexusLogo}
         />
       </Grid>
       <Grid item style={styles.formItem}>
@@ -70,7 +80,7 @@ const NexusForm = ({
               margin="normal"
               size="small"
               required
-              id="jenkins-server"
+              id="nexus-server"
               name="url"
               color="success"
             />
@@ -124,6 +134,23 @@ const NexusForm = ({
             <Typography sx={{ mt: 3, mb: 2 }}>{getStatus()}</Typography>
           </Box>
         </Grid>
+      </Grid>
+      <Grid item style={styles.formItem}>
+        <FormControlLabel
+          label="push docker images"
+          control={
+            <Checkbox
+              name="pushDockerImages"
+              color="success"
+              onChange={(e) => {
+                setPushDockerImages(!pushDockerImages);
+                handleCheckboxChange(e);
+              }}
+              checked={pushDockerImages}
+            />
+          }
+          labelPlacement="end"
+        />
       </Grid>
     </Box>
   );

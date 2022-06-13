@@ -38,5 +38,11 @@
       "ec2DeploymentPort": ""
     }
   },
-  "nexus": {}
+  "nexus": {
+    "server": {
+      "URL": "",
+      "username": "",
+      "password": ""
+    }
+  }
 }

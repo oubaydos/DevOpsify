@@ -16,20 +16,31 @@ const backendDockerFileArguments = [
     name: "baseBuildImageName",
     label: "Base build image name",
     type: "TextField",
+    build: true
   },
   {
     name: "baseBuildImageVersion",
     label: "Base build image version",
     type: "TextField",
+    build: true
   },
-  { name: "baseBuildJdkType", label: "Base build JDK Type", type: "TextField" },
-  { name: "jdkImageName", label: "JDK Image Name", type: "TextField" },
+  { name: "baseBuildJdkType", label: "Base build JDK Type", type: "TextField" , build: true},
+  { name: "workdir", label: "Workdir", type: "TextField" ,build:true},
+
+  {
+    name: "jdkImageName",
+    label: "JDK Image Name",
+    type: "TextField",
+
+  },
   { name: "jdkVersion", label: "JDK Version", type: "TextField" },
-  { name: "jdkBaseOsName", label: "JDK Base Os Name", type: "TextField" },
-  { name: "workdir", label: "Workdir", type: "TextField" },
+  {
+    name: "jdkBaseOsName",
+    label: "JDK Base Os Name",
+    type: "TextField"
+  },
   { name: "port", label: "Port", type: "TextField" },
   { name: "jarName", label: "Jar Name", type: "TextField" },
-  { name: "buildOnly", label: "Build Only", type: "CheckBox" },
 ];
 const databaseDockerFileArguments = [
   { name: "imageName", label: "Image Name", type: "TextField" },
@@ -58,11 +69,14 @@ const DockerForm = ({
   const [dockerizeBackend, setDockerizeBackend] = React.useState(
     formValues.docker.dockerizeBackend
   );
+  const [buildOnly, setBuildOnly] = React.useState(
+    formValues.docker.dockerBackend.buildOnly
+  );
 
   const getFormControl = (arg, target) => {
     //target possible values : 'dockerBackend' for backend and 'dockerDB' for database
     let formControl;
-    console.log(formValues.docker[target][arg.name]);
+    //console.log(formValues.docker);
     switch (arg.type) {
       case "TextField":
         formControl = (
@@ -71,6 +85,7 @@ const DockerForm = ({
               label={arg.label}
               control={
                 <TextField
+                  disabled={!arg.build && buildOnly}
                   name={arg.name}
                   style={styles.labeled}
                   required
@@ -112,23 +127,24 @@ const DockerForm = ({
 
   const handleRadioChange = (e) => {
     const { name } = e.target;
-    
-    if(name==="defaultDockerBackend"){
+
+    if (name === "defaultDockerBackend") {
       setCustomBackendDockerfile(!customBackendDockerfile);
-    }else{
+    } else {
       setCustomDBDockerfile(!customDBDockerfile);
     }
-    
-    let values = formValues.docker;
 
-    const newValue = !values[name];
+    let docker = formValues.docker;
 
-    values = { ...values, [name]: newValue };
+    const newValue = !docker[name];
+
+    docker = { ...docker, [name]: newValue };
 
     setFormValues({
       ...formValues,
-      docker: values,
+      docker: docker,
     });
+    console.log(formValues.docker)
   };
 
   return (
@@ -170,6 +186,25 @@ const DockerForm = ({
               label="custom dockerfile"
             />
           </RadioGroup>
+        </Grid>
+      )}
+      {dockerizeBackend && customBackendDockerfile && (
+        <Grid item style={styles.formItem}>
+          <FormControlLabel
+            label="Build Only"
+            control={
+              <Checkbox
+                name="buildOnly"
+                color="success"
+                onChange={(e) => {
+                  setBuildOnly(!buildOnly);
+                  handleCheckboxChange(e);
+                }}
+                checked={formValues.docker.dockerBackend.buildOnly}
+              />
+            }
+            labelPlacement="start"
+          />
         </Grid>
       )}
       {dockerizeBackend &&

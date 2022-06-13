@@ -56,7 +56,7 @@ const JenkinsForm = ({
     const { name, value } = e.target;
     let values = formValues.jenkins;
     let jenkinsfileValues = formValues.jenkins.jenkinsfile;
-    jenkinsfileValues = {...jenkinsfileValues,[name]:value}
+    jenkinsfileValues = { ...jenkinsfileValues, [name]: value };
 
     values = { ...values, jenkinsfile: jenkinsfileValues };
     setFormValues({
@@ -64,21 +64,20 @@ const JenkinsForm = ({
       jenkins: values,
     });
   };
-    const handleJenkinsServerInputChange = (e) => {
-        const { name, value } = e.target;
-        let values = formValues.jenkins;
-        let server = formValues.jenkins.server;
-        server = {...server,[name]:value}
+  const handleJenkinsServerInputChange = (e) => {
+    const { name, value } = e.target;
+    let values = formValues.jenkins;
+    let server = formValues.jenkins.server;
+    server = { ...server, [name]: value };
 
-        values = { ...values, server };
-        setFormValues({
-            ...formValues,
-            jenkins: values,
-        });
-    };
+    values = { ...values, server };
+    setFormValues({
+      ...formValues,
+      jenkins: values,
+    });
+  };
 
-
-    const getFormControl = (arg) => {
+  const getFormControl = (arg) => {
     let formControl;
     formControl = (
       <Grid item style={styles.formItem}>
