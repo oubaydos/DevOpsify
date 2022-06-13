@@ -9,7 +9,6 @@ import com.winchesters.devopsify.exception.github.PersonalAccessTokenPermissionE
 import com.winchesters.devopsify.model.GithubAnalyseResults;
 import com.winchesters.devopsify.model.entity.Project;
 import com.winchesters.devopsify.service.UserService;
-import com.winchesters.devopsify.service.technologies.docker.repositorydocker.DockerRepositoryAnalyser;
 import com.winchesters.devopsify.service.technologies.github.branch.Branch;
 import lombok.RequiredArgsConstructor;
 import org.kohsuke.github.*;
@@ -20,12 +19,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Date;
-import java.time.Instant;
 import java.util.Optional;
 
 import static com.winchesters.devopsify.service.technologies.github.readme.ReadMe.analyseReadMe;
-import static com.winchesters.devopsify.utils.UrlUtils.addTrailingSlash;
+import static com.winchesters.devopsify.utils.Utils.addTrailingSlash;
+import static com.winchesters.devopsify.utils.Utils.toGithubRepositoryName;
 
 @Service
 @RequiredArgsConstructor
@@ -111,7 +109,7 @@ public class GithubRepositoryServiceImpl implements GithubRepositoryService {
      */
     @Deprecated
     private String getRepositoryName(String name) {
-        return userService.getGithubCredentials().username() + "/" + name;
+        return userService.getGithubCredentials().username() + "/" + toGithubRepositoryName(name);
     }
 
     /**
@@ -121,6 +119,7 @@ public class GithubRepositoryServiceImpl implements GithubRepositoryService {
      */
     @Deprecated
     private GHRepository getRepository(String name) throws IOException {
+        LOG.debug(getRepositoryName(name));
         return githubService.getGithub().getRepository(getRepositoryName(name));
     }
 
@@ -210,5 +209,10 @@ public class GithubRepositoryServiceImpl implements GithubRepositoryService {
     public void createWebHook(Project project, String token) throws IOException {
         String webHookUrl = addTrailingSlash(project.getJenkinsServer().url()) + "multibranch-webhook-trigger/invoke?token=" + token;
         this.getRepository(project.getName()).createWebHook(new URL(webHookUrl));
+    }
+
+    public static void main(String[] args) throws IOException {
+        GitHub gitHub = new GitHubBuilder().withOAuthToken("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").build();
+        System.out.println(gitHub.getRepository("temp-devopsify/" + toGithubRepositoryName("russian hfrehh")).getHooks());
     }
 }

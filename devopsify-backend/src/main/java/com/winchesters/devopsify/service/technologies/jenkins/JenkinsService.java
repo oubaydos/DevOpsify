@@ -1,8 +1,6 @@
 package com.winchesters.devopsify.service.technologies.jenkins;
 
-import com.cdancy.jenkins.rest.domain.user.ApiTokenData;
 import com.winchesters.devopsify.exception.jenkins.JenkinsException;
-import com.winchesters.devopsify.model.Credentials;
 import com.winchesters.devopsify.model.JenkinsAnalyseResults;
 import com.winchesters.devopsify.model.entity.Project;
 import com.winchesters.devopsify.model.entity.Server;
@@ -28,10 +26,10 @@ public interface JenkinsService {
 
     void createGithubTrigger();
 
-    ApiTokenData createApiToken();
-    void createPipeline(String repositoryUrl, String pipelineName);
+    String createApiToken(String name);
+    void createPipeline(String repositoryUrl, String pipelineName, String webHookToken);
 
     JenkinsAnalyseResults analyseJenkins(Project project);
 
-    void createJenkinsPipeline(Server jenkins, String name, String remoteRepoUrl, Server dockerhubCredentials, Server ec2Credentials) throws IOException;
+    String createJenkinsPipeline(Server jenkins, String name, String remoteRepoUrl, Server dockerhubCredentials, Server ec2Credentials) throws IOException;
 }

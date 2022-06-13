@@ -36,6 +36,7 @@ import static com.winchesters.devopsify.utils.DockerfileUtils.backendDockerfileD
 import static com.winchesters.devopsify.utils.DockerfileUtils.dataBaseDockerfileDtoToDataBaseDockerFile;
 import static com.winchesters.devopsify.utils.IOUtils.projectsDirectory;
 import static com.winchesters.devopsify.utils.JenkinsfileUtils.jenkinsFileDtoToJenkinsFile;
+import static com.winchesters.devopsify.utils.Utils.toGithubRepositoryName;
 
 @Service
 @Transactional
@@ -125,13 +126,17 @@ public class ProjectService {
             );
         }
         project.setJenkinsServer(dto.jenkins().server());
+        // CREATING WEBHOOK TOKEN
+        githubRepositoryService.createWebHook(project, project.getName());
         /*
          ssh key with id
          */
         // TODO must get it from front
 //        Server dockerhubCredentials = new Server("dockerhub", "", "");
 //        Server ec2Credentials = new Server("ec2", "", "");
-        jenkinsService.createJenkinsPipeline(
+
+
+        String token = jenkinsService.createJenkinsPipeline(
                 dto.jenkins().server(),
                 project.getName(),
                 project.getRemoteRepoUrl(),
@@ -139,7 +144,7 @@ public class ProjectService {
                 dto.ec2().server()
         );
         //TODO : nexus
-
+        // TODO return token
 
         return EntityToDtoMapper.ProjectToProjectDto(projectRepository.save(project));
     }
@@ -171,7 +176,7 @@ public class ProjectService {
         jenkinsService.setJenkinsClient(jenkinsServer);
         jenkinsService.pingJenkinsServer();
         jenkinsService.installRequiredPlugins();
-        jenkinsService.createApiToken();
+        jenkinsService.createApiToken(toGithubRepositoryName(project.getName()));
 
         project.setJenkinsServer(jenkinsServer);
     }
