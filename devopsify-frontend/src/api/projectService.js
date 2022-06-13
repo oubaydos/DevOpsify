@@ -36,7 +36,7 @@ export function createNewProject(formValues,setSuccess,setError) {
         (res) => {
             console.log(res);
             setSuccess(true);
-            setTimeout(reload, 1000);
+            // setTimeout(reload, 1000);
         }
         ,
         (err) => {

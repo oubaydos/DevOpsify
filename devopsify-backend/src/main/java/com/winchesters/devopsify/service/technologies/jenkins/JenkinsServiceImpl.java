@@ -11,6 +11,8 @@ import com.winchesters.devopsify.model.Credentials;
 import com.winchesters.devopsify.model.JenkinsAnalyseResults;
 import com.winchesters.devopsify.model.entity.Project;
 import com.winchesters.devopsify.model.entity.Server;
+import com.winchesters.devopsify.service.technologies.docker.dockerfile.BackendDockerFile;
+import com.winchesters.devopsify.service.technologies.docker.dockerfile.DockerFile;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.slf4j.Logger;
@@ -33,18 +35,20 @@ public class JenkinsServiceImpl implements JenkinsService {
 
     private JenkinsClient jenkinsClient;
 
-    public static void main(String[] args) {
-//        JenkinsServiceImpl jenkinsService = new JenkinsServiceImpl(new JenkinsClientFactory());
-//
-//        Server server = new Server(
-        //                "http://188.166.100.241:8080/",
-        //                "devopsify",
-//                "devopsify"
-//        );
-//
-//        jenkinsService.setJenkinsClient(server);
-//        jenkinsService.createPipeline("https://github.com/HamzaBenyazid/account-sharing-app");
-        getPipelineId("temp");
+    public static void main(String[] args) throws IOException {
+        JenkinsServiceImpl jenkinsService = new JenkinsServiceImpl(new JenkinsClientFactory());
+
+        Server server = new Server(
+                "http://188.166.100.241:8080/",
+                "devopsify",
+                "devopsify"
+        );
+
+        System.out.println(
+                BackendDockerFile.builder()
+                .build()
+                .getDockerfileContent()
+        );
     }
 
     @Override
@@ -185,17 +189,19 @@ public class JenkinsServiceImpl implements JenkinsService {
 
     @Override
     public void createJenkinsPipeline(Server server, String name, String remoteRepoUrl, Server dockerhubCredentials, Server ec2Credentials) throws IOException {
+        setJenkinsClient(server);
         if (jenkinsPluginsNotInstalled())
             installRequiredPlugins();
-        setJenkinsClient(server);
+
         pingJenkinsServer();
-        addUsernameWithPasswordCredentials(server, new Credentials("dockerhub", dockerhubCredentials));
+        // TODO uncomment
+//        addUsernameWithPasswordCredentials(server, new Credentials("dockerhub", dockerhubCredentials));
         addSshWithUsernameCredentials(server, new Credentials("ec2", dockerhubCredentials));
         createPipeline(remoteRepoUrl, name);
     }
 
     private boolean jenkinsPluginsNotInstalled() {
-        return (long) getJenkinsClient().api().pluginManagerApi().plugins(1, "").plugins().size() < 90;
+        return (long) getJenkinsClient().api().pluginManagerApi().plugins(1, null).plugins().size() < 50;
     }
 
     public void saveGithubCredentials(String token) {

@@ -1,5 +1,7 @@
 from api4jenkins import Jenkins
 import sys
+import time
+
 argv = sys.argv
 url = argv[1]
 username = argv[2]
@@ -13,4 +15,7 @@ credentials = "<com.cloudbees.plugins.credentials.impl.UsernamePasswordCredentia
 
 
 client = Jenkins(url, auth=(username, password))
+if client.credentials.get(credentialsId) is not None:
+    client.credentials.get(credentialsId).delete()
+    time.sleep(1)
 client.credentials.create(credentials)

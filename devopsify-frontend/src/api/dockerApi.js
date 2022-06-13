@@ -20,7 +20,7 @@ export const getDockerfileDefaultValues = (formValues, setFormValues) => {
       docker = {
         ...docker,
         dockerBackend: {
-          baseBuildImageName: backend["image-name"],
+          baseBuildImageName: backend["base-image-name"],
           baseBuildImageVersion: backend["image-version"],
           baseBuildJdkType: backend["jdk-type"],
           jdkImageName: backend["jdk-image-name"],
