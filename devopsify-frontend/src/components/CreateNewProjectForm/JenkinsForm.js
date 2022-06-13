@@ -121,7 +121,7 @@ const JenkinsForm = ({
     switch (connectionStatus) {
       case "success":
         result = (
-          <Typography sx={{ my:"auto", ml: 2 }} color="success">
+          <Typography sx={{ my:"auto", ml: 2 }} color="green">
             Success
           </Typography>
         );

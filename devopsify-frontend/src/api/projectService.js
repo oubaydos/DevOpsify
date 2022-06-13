@@ -34,9 +34,10 @@ export function createNewProject(formValues, setSuccess, setError, setTokenInfor
         }
     ).then(
         (res) => {
-            console.log("result of creation"+res.data);
+            console.log("result of creation");
+            console.log({token: res.data.token, url: res.data.webHookToken});
             setSuccess(true);
-            setTokenInformation({token: res.data.token, url: res.data.url})
+            setTokenInformation({token: res.data.token, url: res.data.webHookToken})
             // setTimeout(reload, 1000);
         }
         ,

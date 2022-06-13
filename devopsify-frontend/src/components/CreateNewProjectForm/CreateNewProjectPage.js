@@ -14,6 +14,7 @@ import DEFAULT_VALUES from "./FormDefaultValues.json"
 import EC2Form from "./EC2Form";
 import {useState} from "react";
 import {notEmpty} from "../../utils/utils";
+import TokenInformation from "./response/TokenInformation";
 
 const styles = {
   labeled: {
@@ -137,8 +138,8 @@ const CreateNewProjectPage = () => {
   return (
     <Box>
       {showNotif && error !== false && <Error error={error} onClose={() => {setShowNotif(false)}}/>}
-      {showNotif && successful && error === false && <Success onClose={() => {setShowNotif(false)}}/>}
-      {showNotif && notEmpty(tokenInformation.url) && notEmpty(tokenInformation.token) && error === false && <Success onClose={() => {setShowNotif(false)}}/>}
+      {/* {showNotif && successful && error === false && <Success onClose={() => {setShowNotif(false)}}/>} */}
+      {showNotif  && successful && error === false && <TokenInformation token={tokenInformation.token} url={tokenInformation.url} onClose={() => {setShowNotif(false)}}/>}
       <Typography
         variant="h5"
         noWrap
