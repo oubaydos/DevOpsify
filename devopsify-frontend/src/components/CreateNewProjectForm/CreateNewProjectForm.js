@@ -13,6 +13,8 @@ import {
 } from "@mui/material";
 import Error from "../shared/Error";
 import Success from "../shared/Success";
+import {notEmpty} from "../../utils/utils";
+import TokenInformation from "./response/TokenInformation";
 
 const styles = {
     labeled: {
@@ -32,12 +34,13 @@ const defaultValues = {
 
 const CreateNewProjectForm = () => {
     const [formValues, setFormValues] = useState(defaultValues);
+    const [tokenInformation, setTokenInformation] = useState({token: "", url: ""});
     const [successful, setSuccessful] = useState(false);
     const [error, setError] = useState(false);
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        createNewProject(formValues, setSuccessful, setError);
+        createNewProject(formValues, setSuccessful, setError, setTokenInformation);
         console.log(formValues)
     };
 
@@ -168,6 +171,11 @@ const CreateNewProjectForm = () => {
                 <Grid>
                     {error !== false && (
                         <Error error={error}/>
+                    )}{" "}
+                </Grid>
+                <Grid>
+                    {notEmpty(tokenInformation.token) && notEmpty(tokenInformation.url) && (
+                        <TokenInformation token={tokenInformation.token} url={tokenInformation.url}/>
                     )}{" "}
                 </Grid>
             </Grid>

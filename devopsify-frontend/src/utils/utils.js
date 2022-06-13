@@ -1,13 +1,15 @@
-export function goto(url){
+export function goto(url) {
     window.location.href = url;
 }
 
-export function reload(){
+export function reload() {
     window.location.reload();
 }
-export function notNull(str){
+
+export function notNull(str) {
     return str !== undefined && str != null;
 }
+
 export function logOut() {
     // TODO : to cookies
     removeCookie("Authorization");
@@ -15,25 +17,35 @@ export function logOut() {
     removeCookie("isAdmin");
     goto("/");
 }
+
 export function getCookie(name) {
     var nameEQ = name + "=";
     var ca = document.cookie.split(';');
-    for(var i=0;i < ca.length;i++) {
+    for (var i = 0; i < ca.length; i++) {
         var c = ca[i];
-        while (c.charAt(0)===' ') c = c.substring(1,c.length);
-        if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length,c.length);
+        while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+        if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
     }
     return null;
 }
-export function setCookie(name,value,days) {
+
+export function setCookie(name, value, days) {
     var expires = "";
     if (days) {
         var date = new Date();
-        date.setTime(date.getTime() + (days*24*60*60*1000));
+        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
         expires = "; expires=" + date.toUTCString();
     }
-    document.cookie = name + "=" + (value || "")  + expires + "; path=/";
+    document.cookie = name + "=" + (value || "") + expires + "; path=/";
 }
+
 export function removeCookie(name) {
-    document.cookie = name+'=; Max-Age=-99999999;';
+    document.cookie = name + '=; Max-Age=-99999999;';
+}
+
+export function notEmpty(string) {
+    return string !== undefined
+        && string !== null
+        && !isNaN(string)
+        && string !== "";
 }

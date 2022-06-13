@@ -2,11 +2,11 @@ import axios from "axios";
 import configData from "../config.json";
 import {getCookie, reload} from "../utils/utils"
 
-const endpoint = configData.SERVER_URL+"/project";
+const endpoint = configData.SERVER_URL + "/project";
 const CREATE_PROJECT_ENDPOINT = endpoint + "/init";
 
 
-export function listProjects(setProjects){
+export function listProjects(setProjects) {
 
     axios.get(`${endpoint}`
         , {
@@ -21,7 +21,7 @@ export function listProjects(setProjects){
     );
 }
 
-export function createNewProject(formValues,setSuccess,setError) {
+export function createNewProject(formValues, setSuccess, setError, setTokenInformation) {
 
     console.log(formValues)
 
@@ -34,8 +34,9 @@ export function createNewProject(formValues,setSuccess,setError) {
         }
     ).then(
         (res) => {
-            console.log(res);
+            console.log("result of creation"+res);
             setSuccess(true);
+            setTokenInformation({token: res.data.token, url: res.data.url})
             // setTimeout(reload, 1000);
         }
         ,

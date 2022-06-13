@@ -176,6 +176,7 @@ const JenkinsForm = ({
               id="jenkins-server"
               name="url"
               color="success"
+              autoComplete={true}
               value={formValues.jenkins.server.url}
               onChange={handleJenkinsServerInputChange}
             />
@@ -193,6 +194,7 @@ const JenkinsForm = ({
                 id="username"
                 color="secondary"
                 size="small"
+                autoComplete={true}
                 value={formValues.jenkins.server.username}
                 onChange={handleJenkinsServerInputChange}
               />
@@ -209,6 +211,7 @@ const JenkinsForm = ({
                 name="password"
                 style={styles.labeled}
                 required
+                autoComplete={true}
                 id="password"
                 color="secondary"
                 size="small"
