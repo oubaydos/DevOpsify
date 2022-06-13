@@ -234,9 +234,6 @@ const CreateNewProjectPage = () => {
             {current != Object.values(parts).length - 1 ? "next" : "finish"}
           </Button>
         </Box>
-        <Grid container>
-          <Grid item>{successful && error === false && <Success />} </Grid>
-        </Grid>
       </Box>
     </Box>
   );
