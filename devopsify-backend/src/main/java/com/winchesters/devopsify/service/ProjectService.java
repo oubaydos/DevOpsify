@@ -111,6 +111,8 @@ public class ProjectService {
         }
         //saving project in database
         Project project = new Project();
+        User user = userService.getCurrentUser();
+        project.setOwner(user);
         project.setName(dto.general().name());
         project.setLocalRepoPath(localRepoPath);
         project.setRemoteRepoUrl(ghRepository.getHtmlUrl().toString());

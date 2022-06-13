@@ -144,9 +144,14 @@ public class MavenServiceImpl implements MavenService {
 
     @Override
     public void generateMavenProject(GenerateMavenProjectDto dto, String baseDirPath) throws IOException, InterruptedException {
-
+        String mvnCommand ="mvn";
+        String os = System.getProperty("os.name").toLowerCase();
+        if (os.contains("win")){
+            //Operating system is based on Windows
+            mvnCommand = "mvn.cmd";
+        }
         new ProcessBuilder(
-                "mvn.cmd",
+                mvnCommand,
                 "archetype:generate",
                 String.format("-DgroupId=%s", dto.groupId()),
                 String.format("-DartifactId=%s", dto.artifactId()),
