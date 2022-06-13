@@ -197,7 +197,7 @@ public class JenkinsServiceImpl implements JenkinsService {
         pingJenkinsServer();
         // TODO uncomment
 //        addUsernameWithPasswordCredentials(server, new Credentials("dockerhub", dockerhubCredentials));
-        if (ec2Credentials != null && noFieldIsNullNorEmpty(ec2Credentials))
+        if (noFieldIsNullNorEmpty(ec2Credentials))
             addSshWithUsernameCredentials(server, new Credentials("ec2", dockerhubCredentials));
         createPipeline(remoteRepoUrl, name, name);
         return token;

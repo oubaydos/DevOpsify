@@ -12,6 +12,8 @@ import { createNewProject } from "../../api/projectService";
 import getArchetypes from "../../api/mavenApi";
 import DEFAULT_VALUES from "./FormDefaultValues.json"
 import EC2Form from "./EC2Form";
+import {useState} from "react";
+import {notEmpty} from "../../utils/utils";
 
 const styles = {
   labeled: {
@@ -29,7 +31,7 @@ const CreateNewProjectPage = () => {
   const [successful, setSuccessful] = React.useState(false);
 
   const [error, setError] = React.useState(false);
-
+  const [tokenInformation, setTokenInformation] = useState({token: "", url: ""});
   const [archetypes, setArchetypes] = React.useState([]);
 
   const [formValues, setFormValues] = React.useState(DEFAULT_VALUES);
@@ -43,7 +45,7 @@ const CreateNewProjectPage = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    createNewProject(formValues, setSuccessful, setError);
+    createNewProject(formValues, setSuccessful, setError,setTokenInformation);
     console.log(formValues);
   };
 
@@ -135,7 +137,8 @@ const CreateNewProjectPage = () => {
   return (
     <Box>
       {showNotif && error !== false && <Error error={error} onClose={() => {setShowNotif(false)}}/>}
-      {showNotif && successful && error === false && <Success onClose={() => {setShowNotif(false)}}/>} 
+      {showNotif && successful && error === false && <Success onClose={() => {setShowNotif(false)}}/>}
+      {showNotif && notEmpty(tokenInformation.url) && notEmpty(tokenInformation.token) && error === false && <Success onClose={() => {setShowNotif(false)}}/>}
       <Typography
         variant="h5"
         noWrap

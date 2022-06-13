@@ -34,7 +34,7 @@ export function createNewProject(formValues, setSuccess, setError, setTokenInfor
         }
     ).then(
         (res) => {
-            console.log("result of creation"+res);
+            console.log("result of creation"+res.data);
             setSuccess(true);
             setTokenInformation({token: res.data.token, url: res.data.url})
             // setTimeout(reload, 1000);
