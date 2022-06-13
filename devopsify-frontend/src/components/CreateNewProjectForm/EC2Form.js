@@ -108,10 +108,12 @@ const EC2Form = ({
               margin="normal"
               size="small"
               required
-              id="jenkins-server"
+              id="ec2-server"
               name="url"
               color="success"
               onChange={handleEc2ServerInputChange}
+              value={formValues.ec2.server.url}
+
             />
           }
           labelPlacement="start"
@@ -128,6 +130,7 @@ const EC2Form = ({
                 color="secondary"
                 size="small"
                 onChange={handleEc2ServerInputChange}
+                value={formValues.ec2.server.username}
 
               />
             }
@@ -148,7 +151,7 @@ const EC2Form = ({
                 size="small"
                 password
                 onChange={handleEc2ServerInputChange}
-
+                value={formValues.ec2.server.password}
               />
             }
             labelPlacement="start"

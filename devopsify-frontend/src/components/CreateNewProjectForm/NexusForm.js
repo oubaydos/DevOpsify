@@ -59,6 +59,8 @@ const NexusForm = ({
               name="url"
               color="success"
               onChange={handleNexusServerInputChange}
+              value={formValues.nexus.server.url}
+
             />
           }
           labelPlacement="start"
@@ -75,6 +77,7 @@ const NexusForm = ({
                 color="secondary"
                 size="small"
                 onChange={handleNexusServerInputChange}
+                value={formValues.nexus.server.username}
 
               />
             }
@@ -95,6 +98,8 @@ const NexusForm = ({
                 size="small"
                 password
                 onChange={handleNexusServerInputChange}
+                value={formValues.nexus.server.password}
+
               />
             }
             labelPlacement="start"
