@@ -77,6 +77,21 @@ const JenkinsForm = ({
     });
   };
 
+  const handleJenkinsfileCheckBoxChange = (e) => {
+
+    const { name, checked } = e.target;
+
+    let jenkins = formValues.jenkins;
+    let jenkinsfile = formValues.jenkins.jenkinsfile;
+    jenkinsfile = { ...jenkinsfile, [name]: checked };
+
+    jenkins = { ...jenkins, jenkinsfile };
+    setFormValues({
+      ...formValues,
+      jenkins: jenkins,
+    });
+  };
+
   const getFormControl = (arg) => {
     let formControl;
     formControl = (
@@ -91,7 +106,7 @@ const JenkinsForm = ({
               required
               color="secondary"
               size="small"
-              onChange={handleJenkinsfileInputChange}
+              onChange={handleJenkinsfileCheckBoxChange}
               value={formValues.jenkins.jenkinsfile[arg.name]}
             />
           }
