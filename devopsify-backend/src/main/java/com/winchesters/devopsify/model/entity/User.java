@@ -12,6 +12,8 @@ import org.hibernate.annotations.Type;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "MY_USER")
@@ -19,6 +21,7 @@ import javax.validation.constraints.NotNull;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
+
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -43,4 +46,16 @@ public class User {
     @Type(type = "jsonb")
     @Column(columnDefinition = "jsonb")
     private GithubCredentials githubCredentials;
+
+    @OneToMany(mappedBy="owner", fetch = FetchType.LAZY)
+    private List<Project> projects = new ArrayList<>();
+
+    public User(Long userId, String username, String email, String password, ApplicationUserRole role, GithubCredentials githubCredentials) {
+        this.userId = userId;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+        this.githubCredentials = githubCredentials;
+    }
 }

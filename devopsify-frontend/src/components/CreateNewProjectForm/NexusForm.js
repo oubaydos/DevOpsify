@@ -78,7 +78,6 @@ const NexusForm = ({
                 size="small"
                 onChange={handleNexusServerInputChange}
                 value={formValues.nexus.server.username}
-
               />
             }
             labelPlacement="start"

@@ -1,13 +1,22 @@
-import { Typography, Box } from "@mui/material";
+import { Typography, Box, Alert, Button, Link } from "@mui/material";
 import * as React from "react";
-import {AppContext} from "../../App";
+import { AppContext } from "../../App";
+import ProjectList from "../ProjectList/ProjectList";
 
 const Home = () => {
-
   const currentUser = React.useContext(AppContext);
+  const [showAlert, setShowAlert] = React.useState(true);
 
   return (
-    <Box sx={{ my: 10 }}>
+    <Box>
+      {showAlert &&  !currentUser.githubUsername && (
+        <Alert severity="warning" onClose={() => {setShowAlert(false)}}>
+          You didn't link your account with github account.
+          <Link sx={{ mx: 2, color: "#000" }} href="/github">
+            Connect Now
+          </Link>
+        </Alert>
+      )}
       <Typography
         variant="h5"
         noWrap
@@ -23,6 +32,7 @@ const Home = () => {
           alt={`${currentUser.githubUsername}'s Github chart`}
         />
       )}
+      <ProjectList/>
     </Box>
   );
 };

@@ -77,6 +77,21 @@ const JenkinsForm = ({
     });
   };
 
+  const handleJenkinsfileCheckBoxChange = (e) => {
+
+    const { name, checked } = e.target;
+
+    let jenkins = formValues.jenkins;
+    let jenkinsfile = formValues.jenkins.jenkinsfile;
+    jenkinsfile = { ...jenkinsfile, [name]: checked };
+
+    jenkins = { ...jenkins, jenkinsfile };
+    setFormValues({
+      ...formValues,
+      jenkins: jenkins,
+    });
+  };
+
   const getFormControl = (arg) => {
     let formControl;
     formControl = (
@@ -239,7 +254,7 @@ const JenkinsForm = ({
                 color="success"
                 onChange={(e) => {
                   setWithDeployment(!withDeployment);
-                  handleCheckboxChange(e);
+                  handleJenkinsfileCheckBoxChange(e);
                 }}
                 checked={withDeployment}
               />

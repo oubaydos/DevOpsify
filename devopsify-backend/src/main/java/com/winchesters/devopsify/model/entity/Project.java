@@ -45,5 +45,8 @@ public class Project {
     @Column(columnDefinition = "jsonb")
     private Server nexusServer;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="owner")
+    private User owner;
 
 }
