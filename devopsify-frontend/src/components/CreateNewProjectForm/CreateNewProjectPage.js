@@ -1,4 +1,4 @@
-import { Box, Container, Typography, Grid, Button } from "@mui/material";
+import { Box, Container, Typography, Grid, Button,Alert } from "@mui/material";
 import * as React from "react";
 import DockerForm from "./DockerForm";
 import GeneralForm from "./GeneralForm";
@@ -33,6 +33,8 @@ const CreateNewProjectPage = () => {
   const [archetypes, setArchetypes] = React.useState([]);
 
   const [formValues, setFormValues] = React.useState(DEFAULT_VALUES);
+
+  const [showNotif, setShowNotif] = React.useState(true);
 
   React.useEffect(() => {
     getArchetypes(setArchetypes);
@@ -131,6 +133,8 @@ const CreateNewProjectPage = () => {
 
   return (
     <Box>
+      {showNotif && error !== false && <Error error={error} onClose={() => {setShowNotif(false)}}/>}
+      {showNotif && successful && error === false && <Success onClose={() => {setShowNotif(false)}}/>} 
       <Typography
         variant="h5"
         noWrap
@@ -231,7 +235,6 @@ const CreateNewProjectPage = () => {
         </Box>
         <Grid container>
           <Grid item>{successful && error === false && <Success />} </Grid>
-          <Grid item>{error !== false && <Error error={error} />} </Grid>
         </Grid>
       </Box>
     </Box>
