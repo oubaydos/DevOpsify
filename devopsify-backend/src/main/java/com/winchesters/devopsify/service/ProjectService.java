@@ -10,7 +10,6 @@ import com.winchesters.devopsify.exception.UserCredentialsNotFoundException;
 import com.winchesters.devopsify.exception.project.ProjectNotFoundException;
 import com.winchesters.devopsify.mapper.EntityToDtoMapper;
 import com.winchesters.devopsify.model.AnalyseResults;
-import com.winchesters.devopsify.model.Credentials;
 import com.winchesters.devopsify.model.GithubCredentials;
 import com.winchesters.devopsify.model.entity.Project;
 import com.winchesters.devopsify.model.entity.Server;
@@ -60,7 +59,8 @@ public class ProjectService {
     }
 
     public List<ProjectDto> listProjects() {
-        return EntityToDtoMapper.ProjectToProjectDto(projectRepository.findAll());
+        User user = userService.getCurrentUser();
+        return EntityToDtoMapper.ProjectToProjectDto(user.getProjects());
     }
 
     public ProjectDto getProjectDto(Long projectId) {

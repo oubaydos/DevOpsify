@@ -106,7 +106,7 @@ const JenkinsForm = ({
               required
               color="secondary"
               size="small"
-              onChange={handleJenkinsfileCheckBoxChange}
+              onChange={handleJenkinsfileInputChange}
               value={formValues.jenkins.jenkinsfile[arg.name]}
             />
           }
@@ -254,7 +254,7 @@ const JenkinsForm = ({
                 color="success"
                 onChange={(e) => {
                   setWithDeployment(!withDeployment);
-                  handleCheckboxChange(e);
+                  handleJenkinsfileCheckBoxChange(e);
                 }}
                 checked={withDeployment}
               />

@@ -32,7 +32,7 @@ public class AppConfig {
                     passwordEncoder.encode(password),
                     ApplicationUserRole.ADMIN,
                     new GithubCredentials(
-                                "temp-devopsify",
+                                "HamzaBenyazid",
                             "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"
                     )
             );
