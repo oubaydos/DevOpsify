@@ -37,8 +37,8 @@ public class JenkinsServiceImpl implements JenkinsService {
 //        JenkinsServiceImpl jenkinsService = new JenkinsServiceImpl(new JenkinsClientFactory());
 //
 //        Server server = new Server(
-    //                "http://188.166.100.241:8080/",
-    //                "devopsify",
+        //                "http://188.166.100.241:8080/",
+        //                "devopsify",
 //                "devopsify"
 //        );
 //
@@ -184,12 +184,18 @@ public class JenkinsServiceImpl implements JenkinsService {
     }
 
     @Override
-    public void createJenkinsPipeline(Server server, String name, String remoteRepoUrl, Credentials dockerhubCredentials, Credentials ec2Credentials) throws IOException {
+    public void createJenkinsPipeline(Server server, String name, String remoteRepoUrl, Server dockerhubCredentials, Server ec2Credentials) throws IOException {
+        if (jenkinsPluginsNotInstalled())
+            installRequiredPlugins();
         setJenkinsClient(server);
         pingJenkinsServer();
-        addUsernameWithPasswordCredentials(server, dockerhubCredentials);
-        addSshWithUsernameCredentials(server, ec2Credentials);
+        addUsernameWithPasswordCredentials(server, new Credentials("dockerhub", dockerhubCredentials));
+        addSshWithUsernameCredentials(server, new Credentials("ec2", dockerhubCredentials));
         createPipeline(remoteRepoUrl, name);
+    }
+
+    private boolean jenkinsPluginsNotInstalled() {
+        return (long) getJenkinsClient().api().pluginManagerApi().plugins(1, "").plugins().size() < 90;
     }
 
     public void saveGithubCredentials(String token) {

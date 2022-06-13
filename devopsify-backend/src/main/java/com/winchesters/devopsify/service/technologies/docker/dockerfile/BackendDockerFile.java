@@ -52,11 +52,12 @@ public class BackendDockerFile extends DockerFile {
         dockerfileUtils
                 .setFileKeywordValue(
                         Map.of(
+                                JDK_IMAGE_NAME.keyword(), jdkImageName,
                                 BASE_BUILD_IMAGE_NAME.keyword(), baseBuildImageName,
                                 BASE_BUILD_IMAGE_VERSION.keyword(), baseBuildImageVersion,
                                 BASE_BUILD_JDK_TYPE.keyword(), baseBuildJdkType,
 
-                                JDK_IMAGE_NAME.keyword(), jdkImageName,
+
                                 JDK_VERSION.keyword(), jdkVersion,
                                 JDK_BASE_OS_NAME.keyword(), jdkBaseOsName,
 
