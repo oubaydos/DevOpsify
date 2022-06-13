@@ -2,7 +2,7 @@
   "general": {},
   "github": {
     "autoInit": true,
-    "private_": true
+    "private_": false
   },
   "maven": {
     "archetypeArtifactId": "maven-archetype-quickstart",

@@ -16,7 +16,7 @@ export const getDockerfileDefaultValues = (formValues, setFormValues) => {
       console.log(res.data);
       const backend = res.data.backend;
       const db = res.data.db;
-      const docker = formValues.docker;
+      let docker = formValues.docker;
       docker = {
         ...docker,
         dockerBackend: {
