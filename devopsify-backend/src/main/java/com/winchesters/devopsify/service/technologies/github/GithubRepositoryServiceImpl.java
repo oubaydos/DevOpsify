@@ -19,11 +19,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.net.URL;
 import java.sql.Date;
 import java.time.Instant;
 import java.util.Optional;
 
 import static com.winchesters.devopsify.service.technologies.github.readme.ReadMe.analyseReadMe;
+import static com.winchesters.devopsify.utils.UrlUtils.addTrailingSlash;
 
 @Service
 @RequiredArgsConstructor
@@ -100,6 +102,26 @@ public class GithubRepositoryServiceImpl implements GithubRepositoryService {
         String name = userService.getGithubCredentials().username() + "/" + project.getName();
         GHRepository repository = githubService.getGithub().getRepository(name);
         return analyseGithub(repository);
+    }
+
+    /**
+     * @param name only title, gets username from current user
+     * @return the full name
+     * @deprecated
+     */
+    @Deprecated
+    private String getRepositoryName(String name) {
+        return userService.getGithubCredentials().username() + "/" + name;
+    }
+
+    /**
+     * @param name only title, gets username from current user
+     * @return the full name
+     * @deprecated
+     */
+    @Deprecated
+    private GHRepository getRepository(String name) throws IOException {
+        return githubService.getGithub().getRepository(getRepositoryName(name));
     }
 
 
@@ -183,5 +205,10 @@ public class GithubRepositoryServiceImpl implements GithubRepositoryService {
         if (myself == null || myself.getLogin() == null)
             throw new GithubNotContainingLoginException();
         return myself.getLogin();
+    }
+
+    public void createWebHook(Project project, String token) throws IOException {
+        String webHookUrl = addTrailingSlash(project.getJenkinsServer().url()) + "multibranch-webhook-trigger/invoke?token=" + token;
+        this.getRepository(project.getName()).createWebHook(new URL(webHookUrl));
     }
 }
