@@ -2,7 +2,7 @@ package com.winchesters.devopsify.enums;
 
 public enum DockerfileBackEndKeywords implements FileKeywords {
 
-    BASE_BUILD_IMAGE_NAME("image-name", "maven"),
+    BASE_BUILD_IMAGE_NAME("base-image-name", "maven"),
     BASE_BUILD_IMAGE_VERSION("image-version", "3.8.5"),
     BASE_BUILD_JDK_TYPE("jdk-type", "openjdk"),
 

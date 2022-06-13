@@ -10,6 +10,7 @@ public record CreateNewProjectWithInitDto(
 
         CreateNewProjectDockerDto docker,
         CreateNewProjectJenkinsDto jenkins,
-        CreateNewProjectNexusDto nexus
+        CreateNewProjectNexusDto nexus,
+        CreateNewProjectEc2Dto ec2
 ) {
 }

@@ -1,4 +1,4 @@
-FROM image-name:image-version-jdk-type-jdk-version AS build
+FROM base-image-name:image-version-jdk-type-jdk-version AS build
 WORKDIR /workdir
 COPY . .
 WORKDIR /workdir/artifact-name

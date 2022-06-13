@@ -97,7 +97,7 @@ public class ProjectService {
             generateGeneratedFile(
                     localRepoPath,
                     localRepoPath,
-                    backendDockerfileDtoToBackendDockerFile(dockerDto.dockerBackend(), dockerDto.defaultDockerBackend(),dto.maven().artifactId()),
+                    backendDockerfileDtoToBackendDockerFile(dockerDto.dockerBackend(), dockerDto.defaultDockerBackend(), dto.maven().artifactId()),
                     "generate backend dockerfile"
             );
         }
@@ -129,9 +129,15 @@ public class ProjectService {
          ssh key with id
          */
         // TODO must get it from front
-        Credentials dockerhubCredentials = new Credentials("dockerhub", "", "");
-        Credentials ec2Credentials = new Credentials("ec2", "", "");
-        jenkinsService.createJenkinsPipeline(dto.jenkins().server(), project.getName(), project.getRemoteRepoUrl(), dockerhubCredentials, ec2Credentials);
+//        Server dockerhubCredentials = new Server("dockerhub", "", "");
+//        Server ec2Credentials = new Server("ec2", "", "");
+        jenkinsService.createJenkinsPipeline(
+                dto.jenkins().server(),
+                project.getName(),
+                project.getRemoteRepoUrl(),
+                dto.nexus().server(),
+                dto.ec2().server()
+        );
         //TODO : nexus
 
 
@@ -208,7 +214,7 @@ public class ProjectService {
     }
 
 
-    public void generateGeneratedFile(String repo,String path,
+    public void generateGeneratedFile(String repo, String path,
                                       GeneratedFile file,
                                       String commitMsg) throws IOException {
         User user = userService.getCurrentUser();
