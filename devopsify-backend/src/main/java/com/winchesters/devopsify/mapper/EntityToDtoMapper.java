@@ -25,7 +25,27 @@ public class EntityToDtoMapper {
                 project.getHasJenkinsFile(),
                 project.getHasTests(),
                 (project.getJenkinsServer()!=null)?project.getJenkinsServer().url():null,
-                (project.getNexusServer()!=null)?project.getNexusServer().url():null
+                (project.getNexusServer()!=null)?project.getNexusServer().url():null,
+                null
+        );
+    }
+    public static ProjectDto ProjectToProjectDto(Project project, String token) {
+
+        return new ProjectDto(
+                project.getProjectId(),
+                project.getName(),
+                //TODO
+                "todo",
+                project.getRemoteRepoUrl(),
+                project.getLocalRepoPath(),
+                project.getIsGitInitialized(),
+                project.getIsMavenProject(),
+                project.getIsDockerized(),
+                project.getHasJenkinsFile(),
+                project.getHasTests(),
+                (project.getJenkinsServer()!=null)?project.getJenkinsServer().url():null,
+                (project.getNexusServer()!=null)?project.getNexusServer().url():null,
+                token
         );
     }
 

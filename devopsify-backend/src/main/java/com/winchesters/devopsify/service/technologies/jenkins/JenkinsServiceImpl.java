@@ -4,7 +4,6 @@ import com.cdancy.jenkins.rest.JenkinsClient;
 import com.cdancy.jenkins.rest.domain.common.RequestStatus;
 import com.cdancy.jenkins.rest.domain.system.SystemInfo;
 import com.cdancy.jenkins.rest.domain.user.ApiToken;
-import com.cdancy.jenkins.rest.domain.user.ApiTokenData;
 import com.winchesters.devopsify.exception.jenkins.JenkinsException;
 import com.winchesters.devopsify.exception.jenkins.JenkinsServerException;
 import com.winchesters.devopsify.model.Credentials;
@@ -12,7 +11,6 @@ import com.winchesters.devopsify.model.JenkinsAnalyseResults;
 import com.winchesters.devopsify.model.entity.Project;
 import com.winchesters.devopsify.model.entity.Server;
 import com.winchesters.devopsify.service.technologies.docker.dockerfile.BackendDockerFile;
-import com.winchesters.devopsify.service.technologies.docker.dockerfile.DockerFile;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.slf4j.Logger;
@@ -24,6 +22,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+
+import static com.winchesters.devopsify.utils.Utils.toGithubRepositoryName;
 
 @RequiredArgsConstructor
 @Service
@@ -43,11 +43,9 @@ public class JenkinsServiceImpl implements JenkinsService {
                 "devopsify",
                 "devopsify"
         );
-
+        jenkinsService.setJenkinsClient(server);
         System.out.println(
-                BackendDockerFile.builder()
-                .build()
-                .getDockerfileContent()
+                jenkinsService.jenkinsClient.api().userApi().generateNewToken("tempToken").data().tokenValue()
         );
     }
 
@@ -113,15 +111,16 @@ public class JenkinsServiceImpl implements JenkinsService {
         return jenkinsClient;
     }
 
-    public ApiTokenData createApiToken() {
-        ApiToken apiToken = this.jenkinsClient.api().userApi().generateNewToken("devOpsify");
+    public String createApiToken(String name) {
+        ApiToken apiToken = this.jenkinsClient.api().userApi().generateNewToken("devopsify-" + name);
         if (!apiToken.status().equals("ok")) {
+            LOG.error("error creating jenkins token : devopsify, may be because it already exists");
             throw new JenkinsException("JenkinsServiceImpl.createApiToken()", "Token generation failed");
         }
-        return apiToken.data();
+        return apiToken.data().tokenValue();
     }
 
-    public void createPipeline(String repositoryUrl, String pipelineName) {
+    public void createPipeline(String repositoryUrl, String pipelineName, String webHookToken) {
         //TODO
         // https://stackoverflow.com/questions/21405427/how-to-create-a-job-in-jenkins-by-using-simple-java-program
         String temp = "<?xml version='1.1' encoding='UTF-8'?>\n" +
@@ -145,7 +144,7 @@ public class JenkinsServiceImpl implements JenkinsService {
                       "  <triggers>\n" +
                       "    <com.igalg.jenkins.plugins.mswt.trigger.ComputedFolderWebHookTrigger plugin=\"multibranch-scan-webhook-trigger@1.0.9\">\n" +
                       "      <spec></spec>\n" +
-                      "      <token>thisCouldBeAnyToken</token>\n" +
+                      "      <token>" + webHookToken + "</token>\n" +
                       "    </com.igalg.jenkins.plugins.mswt.trigger.ComputedFolderWebHookTrigger>\n" +
                       "  </triggers>\n" +
                       "  <disabled>false</disabled>\n" +
@@ -188,16 +187,18 @@ public class JenkinsServiceImpl implements JenkinsService {
     }
 
     @Override
-    public void createJenkinsPipeline(Server server, String name, String remoteRepoUrl, Server dockerhubCredentials, Server ec2Credentials) throws IOException {
+    public String createJenkinsPipeline(Server server, String name, String remoteRepoUrl, Server dockerhubCredentials, Server ec2Credentials) throws IOException {
         setJenkinsClient(server);
         if (jenkinsPluginsNotInstalled())
             installRequiredPlugins();
-
+        String token = this.createApiToken(toGithubRepositoryName(name));
+        LOG.debug("created token : " + token);
         pingJenkinsServer();
         // TODO uncomment
 //        addUsernameWithPasswordCredentials(server, new Credentials("dockerhub", dockerhubCredentials));
         addSshWithUsernameCredentials(server, new Credentials("ec2", dockerhubCredentials));
-        createPipeline(remoteRepoUrl, name);
+        createPipeline(remoteRepoUrl, name, name);
+        return token;
     }
 
     private boolean jenkinsPluginsNotInstalled() {

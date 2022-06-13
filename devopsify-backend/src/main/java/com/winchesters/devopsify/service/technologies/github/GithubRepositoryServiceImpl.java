@@ -9,7 +9,6 @@ import com.winchesters.devopsify.exception.github.PersonalAccessTokenPermissionE
 import com.winchesters.devopsify.model.GithubAnalyseResults;
 import com.winchesters.devopsify.model.entity.Project;
 import com.winchesters.devopsify.service.UserService;
-import com.winchesters.devopsify.service.technologies.docker.repositorydocker.DockerRepositoryAnalyser;
 import com.winchesters.devopsify.service.technologies.github.branch.Branch;
 import lombok.RequiredArgsConstructor;
 import org.kohsuke.github.*;
@@ -19,11 +18,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
-import java.sql.Date;
-import java.time.Instant;
+import java.net.URL;
 import java.util.Optional;
 
 import static com.winchesters.devopsify.service.technologies.github.readme.ReadMe.analyseReadMe;
+import static com.winchesters.devopsify.utils.Utils.addTrailingSlash;
+import static com.winchesters.devopsify.utils.Utils.toGithubRepositoryName;
 
 @Service
 @RequiredArgsConstructor
@@ -100,6 +100,27 @@ public class GithubRepositoryServiceImpl implements GithubRepositoryService {
         String name = userService.getGithubCredentials().username() + "/" + project.getName();
         GHRepository repository = githubService.getGithub().getRepository(name);
         return analyseGithub(repository);
+    }
+
+    /**
+     * @param name only title, gets username from current user
+     * @return the full name
+     * @deprecated
+     */
+    @Deprecated
+    private String getRepositoryName(String name) {
+        return userService.getGithubCredentials().username() + "/" + toGithubRepositoryName(name);
+    }
+
+    /**
+     * @param name only title, gets username from current user
+     * @return the full name
+     * @deprecated
+     */
+    @Deprecated
+    private GHRepository getRepository(String name) throws IOException {
+        LOG.debug(getRepositoryName(name));
+        return githubService.getGithub().getRepository(getRepositoryName(name));
     }
 
 
@@ -183,5 +204,15 @@ public class GithubRepositoryServiceImpl implements GithubRepositoryService {
         if (myself == null || myself.getLogin() == null)
             throw new GithubNotContainingLoginException();
         return myself.getLogin();
+    }
+
+    public void createWebHook(Project project, String token) throws IOException {
+        String webHookUrl = addTrailingSlash(project.getJenkinsServer().url()) + "multibranch-webhook-trigger/invoke?token=" + token;
+        this.getRepository(project.getName()).createWebHook(new URL(webHookUrl));
+    }
+
+    public static void main(String[] args) throws IOException {
+        GitHub gitHub = new GitHubBuilder().withOAuthToken("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").build();
+        System.out.println(gitHub.getRepository("temp-devopsify/" + toGithubRepositoryName("russian hfrehh")).getHooks());
     }
 }
