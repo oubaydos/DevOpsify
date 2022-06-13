@@ -15,10 +15,10 @@ import { testConnection } from "../../api/jenkinsApi";
 const jenkinsfileArguments = [
   { name: "imageName", label: "Image Name" },
   { name: "dockerhubUsername", label: "Dockerhub Username" },
-  {
-    name: "githubRepositoryUrl",
-    label: "Github Repository Url",
-  },
+  // {
+  //   name: "githubRepositoryUrl",
+  //   label: "Github Repository Url",
+  // },
   {
     name: "ec2Username",
     label: "EC2 Username",
