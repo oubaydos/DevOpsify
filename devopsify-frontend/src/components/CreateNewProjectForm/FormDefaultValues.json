@@ -40,9 +40,16 @@
   },
   "nexus": {
     "server": {
-      "URL": "",
+      "url": "",
       "username": "",
       "password": ""
+    }
+  },
+  "ec2":{
+    "server":{
+      "url":"",
+      "username":"",
+      "password":""
     }
   }
 }
