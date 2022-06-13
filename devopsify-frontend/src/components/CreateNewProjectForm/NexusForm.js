@@ -19,43 +19,18 @@ const NexusForm = ({
   setFormValues,
   styles,
 }) => {
-  const [connectionStatus, setConnectionStatus] = React.useState("");
-  const [pushDockerImages, setPushDockerImages] = React.useState(
-    formValues.nexus.pushDockerImages
-  );
 
   const handleNexusServerInputChange = (e) => {
     const { name, value } = e.target;
-    let values = formValues.nexus;
+    let nexus = formValues.nexus;
     let server = formValues.nexus.server;
     server = { ...server, [name]: value };
 
-    values = { ...values, server };
+    nexus = { ...nexus, server };
     setFormValues({
       ...formValues,
-      jenkins: values,
+      nexus: nexus,
     });
-  };
-
-  const getStatus = () => {
-    let result = "";
-    switch (connectionStatus) {
-      case "success":
-        result = "success";
-        break;
-      case "failed":
-        result = "failed";
-        break;
-      case "connecting":
-        result = "connecting ...";
-        break;
-    }
-    return result;
-  };
-
-  const handleTestConncetionButtonClick = () => {
-    setConnectionStatus("connecting");
-    testConnection(formValues.jenkins, setConnectionStatus);
   };
 
   return (
@@ -83,6 +58,7 @@ const NexusForm = ({
               id="nexus-server"
               name="url"
               color="success"
+              onChange={handleNexusServerInputChange}
             />
           }
           labelPlacement="start"
@@ -98,6 +74,8 @@ const NexusForm = ({
                 id="username"
                 color="secondary"
                 size="small"
+                onChange={handleNexusServerInputChange}
+
               />
             }
             labelPlacement="start"
@@ -116,42 +94,14 @@ const NexusForm = ({
                 color="secondary"
                 size="small"
                 password
+                onChange={handleNexusServerInputChange}
               />
             }
             labelPlacement="start"
           />
         </Grid>
-        <Grid item style={styles.formItem}>
-          <Box sx={{ display: "flex" }}>
-            <Button
-              type="submit"
-              variant="contained"
-              color="success"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Test Connection
-            </Button>
-            <Typography sx={{ mt: 3, mb: 2 }}>{getStatus()}</Typography>
-          </Box>
-        </Grid>
       </Grid>
-      <Grid item style={styles.formItem}>
-        <FormControlLabel
-          label="push docker images"
-          control={
-            <Checkbox
-              name="pushDockerImages"
-              color="success"
-              onChange={(e) => {
-                setPushDockerImages(!pushDockerImages);
-                handleCheckboxChange(e);
-              }}
-              checked={pushDockerImages}
-            />
-          }
-          labelPlacement="end"
-        />
-      </Grid>
+     
     </Box>
   );
 };

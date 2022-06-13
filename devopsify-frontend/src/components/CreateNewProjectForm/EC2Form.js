@@ -52,6 +52,19 @@ const EC2Form = ({
     formValues.jenkins.jenkinsfile.withDeployment
   );
 
+  const handleEc2ServerInputChange = (e) => {
+    const { name, value } = e.target;
+    let values = formValues.ec2;
+    let server = formValues.ec2.server;
+    server = { ...server, [name]: value };
+
+    values = { ...values, server };
+    setFormValues({
+      ...formValues,
+      ec2: values,
+    });
+  };
+
   const getStatus = () => {
     let result = "";
     switch (connectionStatus) {
@@ -98,6 +111,7 @@ const EC2Form = ({
               id="jenkins-server"
               name="url"
               color="success"
+              onChange={handleEc2ServerInputChange}
             />
           }
           labelPlacement="start"
@@ -113,6 +127,8 @@ const EC2Form = ({
                 id="username"
                 color="secondary"
                 size="small"
+                onChange={handleEc2ServerInputChange}
+
               />
             }
             labelPlacement="start"
@@ -131,23 +147,12 @@ const EC2Form = ({
                 color="secondary"
                 size="small"
                 password
+                onChange={handleEc2ServerInputChange}
+
               />
             }
             labelPlacement="start"
           />
-        </Grid>
-        <Grid item style={styles.formItem}>
-          <Box sx={{ display: "flex" }}>
-            <Button
-              type="submit"
-              variant="contained"
-              color="success"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Test Connection
-            </Button>
-            <Typography sx={{ mt: 3, mb: 2 }}>{getStatus()}</Typography>
-          </Box>
         </Grid>
       </Grid>
     </Box>
