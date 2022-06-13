@@ -144,7 +144,7 @@ public class JenkinsServiceImpl implements JenkinsService {
                       "  <triggers>\n" +
                       "    <com.igalg.jenkins.plugins.mswt.trigger.ComputedFolderWebHookTrigger plugin=\"multibranch-scan-webhook-trigger@1.0.9\">\n" +
                       "      <spec></spec>\n" +
-                      "      <token>" + webHookToken + "</token>\n" +
+                      "      <token>" + toGithubRepositoryName(webHookToken) + "</token>\n" +
                       "    </com.igalg.jenkins.plugins.mswt.trigger.ComputedFolderWebHookTrigger>\n" +
                       "  </triggers>\n" +
                       "  <disabled>false</disabled>\n" +

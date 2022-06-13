@@ -207,7 +207,7 @@ public class GithubRepositoryServiceImpl implements GithubRepositoryService {
     }
 
     public void createWebHook(Project project, String token) throws IOException {
-        String webHookUrl = addTrailingSlash(project.getJenkinsServer().url()) + "multibranch-webhook-trigger/invoke?token=" + token;
+        String webHookUrl = addTrailingSlash(project.getJenkinsServer().url()) + "multibranch-webhook-trigger/invoke?token=" + toGithubRepositoryName(token);
         this.getRepository(project.getName()).createWebHook(new URL(webHookUrl));
     }
 
