@@ -186,7 +186,7 @@ const CreateNewProjectPage = () => {
           <Container
             sx={{
               marginTop: 2,
-              marginBottom: 10,
+              pb: 10,
             }}
           >
             <Grid
