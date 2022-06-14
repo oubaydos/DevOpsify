@@ -98,7 +98,7 @@ public class JenkinsServiceImpl implements JenkinsService {
         this.jenkinsClient = jenkinsClientFactory.getClient(server);
     }
 
-    public JenkinsClient getJenkinsClient() {
+    private JenkinsClient getJenkinsClient() {
         if (jenkinsClient == null)
             throw new JenkinsServerException("JenkinsClientNull", "jenkins client is not yet set");
         return jenkinsClient;

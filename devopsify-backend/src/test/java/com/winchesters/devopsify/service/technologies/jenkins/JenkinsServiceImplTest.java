@@ -40,10 +40,6 @@ class JenkinsServiceImplTest {
     }
 
     @Test
-    void generateJenkinsFile() {
-    }
-
-    @Test
     @Timeout(value = 1000, unit = TimeUnit.MILLISECONDS)
     void pingJenkinsServer() {
         try {
@@ -51,18 +47,6 @@ class JenkinsServiceImplTest {
         } catch (JenkinsServerException e) {
             fail();
         }
-    }
-
-    @Test
-    void installRequiredPlugins() {
-    }
-
-    @Test
-    void setJenkinsClient() {
-    }
-
-    @Test
-    void getJenkinsClient() {
     }
 
     @Test
@@ -87,27 +71,5 @@ class JenkinsServiceImplTest {
         assertNotNull(jobInfo);
         assertEquals(pipelineName, jobInfo.name());
     }
-
-    @Test
-    void analyseJenkins() {
-
-    }
-
-    @Test
-    void createJenkinsPipeline() {
-    }
-
-    @Test
-    void pullFromGithub() {
-    }
-
-    @Test
-    void createGithubTrigger() {
-    }
-
-    @Test
-    void configureMaven() {
-    }
-
 
 }
