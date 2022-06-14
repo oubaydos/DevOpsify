@@ -10,8 +10,6 @@ import java.io.IOException;
 
 public interface JenkinsService {
 
-    void generateJenkinsFile(File directory);
-
     void pingJenkinsServer() throws JenkinsException;
 
     void pingJenkinsServer(Server server) throws JenkinsException;
@@ -20,13 +18,8 @@ public interface JenkinsService {
 
     void installRequiredPlugins();
 
-    void saveGithubCredentials(String token);
-
-    void pullFromGithub();
-
-    void createGithubTrigger();
-
     String createApiToken(String name);
+
     void createPipeline(String repositoryUrl, String pipelineName, String webHookToken);
 
     JenkinsAnalyseResults analyseJenkins(Project project);
