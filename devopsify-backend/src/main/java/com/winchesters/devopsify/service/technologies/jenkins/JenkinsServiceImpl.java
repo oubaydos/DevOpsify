@@ -2,6 +2,8 @@ package com.winchesters.devopsify.service.technologies.jenkins;
 
 import com.cdancy.jenkins.rest.JenkinsClient;
 import com.cdancy.jenkins.rest.domain.common.RequestStatus;
+import com.cdancy.jenkins.rest.domain.job.Job;
+import com.cdancy.jenkins.rest.domain.job.JobInfo;
 import com.cdancy.jenkins.rest.domain.system.SystemInfo;
 import com.cdancy.jenkins.rest.domain.user.ApiToken;
 import com.winchesters.devopsify.exception.jenkins.JenkinsException;
@@ -50,18 +52,6 @@ public class JenkinsServiceImpl implements JenkinsService {
         );
     }
 
-    @Override
-    public void generateJenkinsFile(File directory) {
-        //for now, it only generates empty Jenkinsfile
-        try {
-            File file = new File(directory, "Jenkinsfile");
-            FileWriter writer = new FileWriter(file);
-            writer.append("//empty Jenkinsfile");
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
     @Override
     public void pingJenkinsServer() throws JenkinsException {
@@ -109,6 +99,8 @@ public class JenkinsServiceImpl implements JenkinsService {
     }
 
     public JenkinsClient getJenkinsClient() {
+        if (jenkinsClient == null)
+            throw new JenkinsServerException("JenkinsClientNull", "jenkins client is not yet set");
         return jenkinsClient;
     }
 
@@ -207,16 +199,6 @@ public class JenkinsServiceImpl implements JenkinsService {
         return (long) getJenkinsClient().api().pluginManagerApi().plugins(1, null).plugins().size() < 50;
     }
 
-    public void saveGithubCredentials(String token) {
-    }
-
-    public void pullFromGithub() {
-    }
-
-    public void createGithubTrigger() {
-
-    }
-
     private String generateUsernameWithPasswordCredentialsXml(String credentialsId, String username, String password) {
         return "<com.cloudbees.plugins.credentials.impl.UsernamePasswordCredentialsImpl><scope>GLOBAL</scope><id>" + credentialsId + "</id><username>" + username + "</username><password>" + password + "</password><description></description></com.cloudbees.plugins.credentials.impl.UsernamePasswordCredentialsImpl>";
     }
@@ -266,6 +248,18 @@ public class JenkinsServiceImpl implements JenkinsService {
         String hash = DigestUtils.md5Hex(name).toLowerCase();
         return hash.substring(0, 8) + "-" + hash.substring(8, 12) + "-" + hash.substring(12, 16) + "-" + hash.substring(16, 20) + "-" + hash.substring(20);
 
+    }
+
+    public void deleteJob(String jobName) {
+        getJenkinsClient().api().jobsApi().delete(null, jobName);
+    }
+
+    public void deleteAllJobs() {
+        getJenkinsClient().api().jobsApi().jobList(null).jobs().stream().map(Job::name).forEach(this::deleteJob);
+    }
+
+    public JobInfo getJobInfoByName(String pipelineName) {
+        return this.getJenkinsClient().api().jobsApi().jobInfo(null, pipelineName);
     }
 }
 
