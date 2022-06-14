@@ -32,6 +32,7 @@ const favIcon = (
 export default function ProjectList() {
   function createData(project) {
     return {
+      id:project.projectId,
       fav: true,
       name: project.name,
       status: "in progress",
@@ -131,7 +132,7 @@ export default function ProjectList() {
             <TableBody>
               {rows.map((row) => {
                 return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                  <TableRow hover role="checkbox" tabIndex={-1} key={row.code} onClick={()=>{goto(`project/${row.id}`)}}>
                     {columns.map((column) => {
                       const value = row[column.id];
                       return (
