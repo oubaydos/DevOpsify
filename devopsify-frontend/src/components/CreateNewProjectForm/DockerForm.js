@@ -73,6 +73,25 @@ const DockerForm = ({
     formValues.docker.dockerBackend.buildOnly
   );
 
+  const handleDockerInputChange = (e,target) => {
+    const { name, value } = e.target;
+    console.log({name,value});
+    let docker = formValues.docker;
+    let dockerfile = docker[target];
+    console.log(dockerfile);
+    dockerfile = { ...dockerfile, [name]: value };
+    console.log(dockerfile);
+
+
+    docker = { ...docker, [target]:dockerfile };
+    console.log("docker");
+    console.log(docker);
+    setFormValues({
+      ...formValues,
+      docker: docker,
+    });
+  };
+
   const getFormControl = (arg, target) => {
     //target possible values : 'dockerBackend' for backend and 'dockerDB' for database
     let formControl;
@@ -91,7 +110,7 @@ const DockerForm = ({
                   required
                   color="secondary"
                   size="small"
-                  onChange={handleInputChange}
+                  onChange={(e)=>(handleDockerInputChange(e,target))}
                   value={formValues.docker[target][arg.name]}
                 />
               }

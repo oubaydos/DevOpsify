@@ -43,7 +43,7 @@ function App() {
 
             <Router>
               <div className="body">
-                <NavBar />
+                {currentUser.role!=="" && <NavBar />}
                 {getRoutes(currentUser.role)}
                 <Footer />
               </div>
