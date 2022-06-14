@@ -137,6 +137,11 @@ const CreateNewProjectPage = () => {
 
   return (
     <Box>
+      {console.log("showNotif : ",showNotif)}
+      {console.log("successful : ",successful)}
+      {console.log("error : ",error)}
+      {console.log("tokenInformation : ")}
+      {console.log(tokenInformation)}
       {showNotif && error !== false && <Error error={error} onClose={() => {setShowNotif(false)}}/>}
       {/* {showNotif && successful && error === false && <Success onClose={() => {setShowNotif(false)}}/>} */}
       {showNotif  && successful && error === false && <TokenInformation token={tokenInformation.token} url={tokenInformation.url} onClose={() => {setShowNotif(false)}}/>}
