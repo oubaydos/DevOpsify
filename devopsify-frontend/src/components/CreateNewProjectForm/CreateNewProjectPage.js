@@ -137,9 +137,9 @@ const CreateNewProjectPage = () => {
 
   return (
     <Box>
-      {showNotif && error !== false && <Error error={error} onClose={() => {setShowNotif(false)}}/>}
+      { error && <Error error={error} onClose={() => {setError(false)}}/>}
       {/* {showNotif && successful && error === false && <Success onClose={() => {setShowNotif(false)}}/>} */}
-      {showNotif  && successful && error === false && <TokenInformation token={tokenInformation.token} url={tokenInformation.url} onClose={() => {setShowNotif(false)}}/>}
+      {  successful && !error && <TokenInformation token={tokenInformation.token} url={tokenInformation.url} onClose={() => {setSuccessful(false)}}/>}
       <Typography
         variant="h5"
         noWrap
