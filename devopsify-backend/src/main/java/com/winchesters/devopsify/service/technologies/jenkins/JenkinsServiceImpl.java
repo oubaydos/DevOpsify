@@ -180,7 +180,7 @@ public class JenkinsServiceImpl implements JenkinsService {
     }
 
     @Override
-    public String createJenkinsPipeline(Server server, String name, String remoteRepoUrl, Server dockerhubCredentials, Server ec2Credentials) throws IOException, IllegalAccessException {
+    public String createJenkinsPipeline(Server server, String name, String remoteRepoUrl, Server dockerhubCredentials, Server ec2Credentials, Credentials githubCredentials) throws IOException, IllegalAccessException {
         setJenkinsClient(server);
         if (jenkinsPluginsNotInstalled())
             installRequiredPlugins();
@@ -191,6 +191,7 @@ public class JenkinsServiceImpl implements JenkinsService {
 //        addUsernameWithPasswordCredentials(server, new Credentials("dockerhub", dockerhubCredentials));
         if (noFieldIsNullNorEmpty(ec2Credentials))
             addSshWithUsernameCredentials(server, new Credentials("ec2", dockerhubCredentials));
+        addUsernameWithPasswordCredentials(server,githubCredentials);
         createPipeline(remoteRepoUrl, name, name);
         return token;
     }
@@ -255,7 +256,7 @@ public class JenkinsServiceImpl implements JenkinsService {
     }
 
     public void deleteAllJobs() {
-        getJenkinsClient().api().jobsApi().jobList(null).jobs().stream().map(Job::name).forEach(this::deleteJob);
+        getJenkinsClient().api().jobsApi().jobList("").jobs().stream().map(Job::name).forEach(this::deleteJob);
     }
 
     public JobInfo getJobInfoByName(String pipelineName) {

@@ -1,4 +1,4 @@
-import { Box, Container, Typography, Grid, Button,Alert } from "@mui/material";
+import {Box, Container, Typography, Grid, Button, Alert, CircularProgress} from "@mui/material";
 import * as React from "react";
 import DockerForm from "./DockerForm";
 import GeneralForm from "./GeneralForm";
@@ -32,6 +32,7 @@ const CreateNewProjectPage = () => {
   const [successful, setSuccessful] = React.useState(false);
 
   const [error, setError] = React.useState(false);
+  const [loading, setLoading] = React.useState(false);
   const [tokenInformation, setTokenInformation] = useState({token: "", url: ""});
   const [archetypes, setArchetypes] = React.useState([]);
 
@@ -45,7 +46,9 @@ const CreateNewProjectPage = () => {
 
 
   const handleSubmit = (event) => {
+
     event.preventDefault();
+    setLoading(true);
     createNewProject(formValues, setSuccessful, setError,setTokenInformation);
     console.log(formValues);
   };
@@ -137,6 +140,7 @@ const CreateNewProjectPage = () => {
 
   return (
     <Box>
+      {loading && !error && !successful && <CircularProgress />}
       { error && <Error error={error} onClose={() => {setError(false)}}/>}
       {/* {showNotif && successful && error === false && <Success onClose={() => {setShowNotif(false)}}/>} */}
       {  successful && !error && <TokenInformation token={tokenInformation.token} url={tokenInformation.url} onClose={() => {setSuccessful(false)}}/>}

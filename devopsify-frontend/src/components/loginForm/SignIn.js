@@ -57,7 +57,7 @@ export default function SignIn() {
             required
             fullWidth
             id="email"
-            label="Email Address"
+            label="Username"
             name="email"
             autoComplete="email"
             color="success"
@@ -101,7 +101,7 @@ export default function SignIn() {
             </Grid>
             <Grid>
               {(successful && error === false) && (
-                  <Success/>
+                  <Success message="successfully signed in"/>
               )}{" "}
             </Grid>
             <Grid>

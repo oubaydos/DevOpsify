@@ -38,7 +38,7 @@ public class AppConfig {
             );
             User oubaydos = new User(
                     2L,
-                    "oubaydos",
+                    "oubaydoss",
                     "oubaydos@gmail.com",
                     passwordEncoder.encode(password),
                     ApplicationUserRole.ADMIN,

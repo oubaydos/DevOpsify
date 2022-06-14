@@ -71,5 +71,9 @@ class JenkinsServiceImplTest {
         assertNotNull(jobInfo);
         assertEquals(pipelineName, jobInfo.name());
     }
+    @Test
+    void del(){
+        jenkinsService.deleteAllJobs();
+    }
 
 }
