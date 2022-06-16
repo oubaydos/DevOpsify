@@ -8,6 +8,7 @@ project, or to turn an existing project into a devops project using open source 
 The main aim of this project is to develop a server application that automizes some parts of
 the DevOps cycle, does a DevOps analyze for projects and gives some feedback to developers
 on thing to improve.
+
 UseCases
 ------------
 So far, the only use case we have is creating a new project and generating jenkinsfiles, dockerfiles while creating a
