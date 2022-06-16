@@ -80,7 +80,7 @@ public class GitServiceImpl implements GitService {
 
         } catch (GitAPIException e) {
             throw new com.winchesters.devopsify.exception.git.GitAPIException(e);
-        } catch (IOException e) {
+        } catch (IOException | NullPointerException e) {
             throw new GitException(e);
         }
     }

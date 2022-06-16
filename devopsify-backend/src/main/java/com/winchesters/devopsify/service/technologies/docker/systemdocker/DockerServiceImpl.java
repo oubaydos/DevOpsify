@@ -42,12 +42,10 @@ public class DockerServiceImpl implements DockerService {
     @Override
     public void generateDockerFile(File directory) {
         //for now, it only generates empty Dockerfile
-        try{
-            File file = new File(directory,"Dockerfile");
-            FileWriter writer = new FileWriter(file);
+        File file = new File(directory, "Dockerfile");
+        try (FileWriter writer = new FileWriter(file)) {
             writer.append("#empty Dockerfile");
-            writer.close();
-        }catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -76,13 +74,13 @@ public class DockerServiceImpl implements DockerService {
 
     @Override
     public byte[] viewDataBaseDockerfile(DataBaseDockerfileDto dto) throws IOException {
-        DockerFile dockerFile = DockerfileUtils.dataBaseDockerfileDtoToDataBaseDockerFile(dto,false);
+        DockerFile dockerFile = DockerfileUtils.dataBaseDockerfileDtoToDataBaseDockerFile(dto, false);
         return dockerFile.getDockerfileContent().getBytes();
     }
 
     @Override
     public byte[] viewBackendDockerfile(BackendDockerfileDto dto) throws IOException {
-        BackendDockerFile backendDockerFile = DockerfileUtils.backendDockerfileDtoToBackendDockerFile(dto,false,ARTIFACT_NAME.defaultValue());
+        BackendDockerFile backendDockerFile = DockerfileUtils.backendDockerfileDtoToBackendDockerFile(dto, false, ARTIFACT_NAME.defaultValue());
         return backendDockerFile.getDockerfileContent().getBytes();
     }
 
