@@ -128,3 +128,7 @@ Reach us here:
 * hamzabyazid@gmail.com
 * [LinkedIn 1](https://www.linkedin.com/in/oubaydos)
 * [LinkedIn 2](https://www.linkedin.com/in/hamza-benyazid)
+
+Special Thanks
+-------
+We thank our Mentor Mr Mahmoud El Hamlaoui, for his availability, his guidance, and his help.
