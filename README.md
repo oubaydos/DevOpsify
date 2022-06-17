@@ -6,8 +6,8 @@ An assistance platform made using Spring framework that analyses your code, and 
 project, or to turn an existing project into a devops project using open source software (Git, Docker, Jenkins..)
 
 The main aim of this project is to develop a server application that automizes some parts of
-the DevOps cycle, does a DevOps analyze for projects and gives some feedback to developers
-on thing to improve.
+the DevOps cycle, does a "DevOps analysis" for projects and gives some feedback to developers
+on things to improve.
 
 UseCases
 ------------
