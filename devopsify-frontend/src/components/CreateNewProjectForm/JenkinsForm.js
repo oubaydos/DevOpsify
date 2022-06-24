@@ -11,6 +11,10 @@ import {
 } from "@mui/material";
 import jenkinsLogo from "../../res/images/logo-jenkins.png";
 import { testConnection } from "../../api/jenkinsApi";
+import {
+  handleFormCheckBoxChange,
+  handleFormInputChange,
+} from "../../utils/form";
 
 const jenkinsfileArguments = [
   { name: "imageName", label: "Image Name" },
@@ -37,59 +41,18 @@ const jenkinsfileArguments = [
   },
 ];
 
-const JenkinsForm = ({
-  handleInputChange,
-  handleCheckboxChange,
-  formValues,
-  setFormValues,
-  styles,
-}) => {
+const JenkinsForm = ({ formValues, setFormValues, styles }) => {
   const [connectionStatus, setConnectionStatus] = React.useState("");
-  const [generateJenkinsfile, setGenerateJenkinsfile] = React.useState(
-    formValues.jenkins.generateJenkinsfile
+  const [jenkins, setJenkins] = React.useState(formValues.jenkins);
+  const [server, setServer] = React.useState(formValues.jenkins.server);
+  const [jenkinsfile, setJenkinsfile] = React.useState(
+    formValues.jenkins.jenkinsfile
   );
-  const [withDeployment, setWithDeployment] = React.useState(
-    formValues.jenkins.jenkinsfile.withDeployment
-  );
 
-  const handleJenkinsfileInputChange = (e) => {
-    const { name, value } = e.target;
-    let values = formValues.jenkins;
-    let jenkinsfileValues = formValues.jenkins.jenkinsfile;
-    jenkinsfileValues = { ...jenkinsfileValues, [name]: value };
-
-    values = { ...values, jenkinsfile: jenkinsfileValues };
-    setFormValues({
-      ...formValues,
-      jenkins: values,
-    });
-  };
-  const handleJenkinsServerInputChange = (e) => {
-    const { name, value } = e.target;
-    let values = formValues.jenkins;
-    let server = formValues.jenkins.server;
-    server = { ...server, [name]: value };
-
-    values = { ...values, server };
-    setFormValues({
-      ...formValues,
-      jenkins: values,
-    });
-  };
-
-  const handleJenkinsfileCheckBoxChange = (e) => {
-    const { name, checked } = e.target;
-
-    let jenkins = formValues.jenkins;
-    let jenkinsfile = formValues.jenkins.jenkinsfile;
-    jenkinsfile = { ...jenkinsfile, [name]: checked };
-
-    jenkins = { ...jenkins, jenkinsfile };
-    setFormValues({
-      ...formValues,
-      jenkins: jenkins,
-    });
-  };
+  React.useEffect(() => {
+    setJenkins({ ...jenkins, server: server, jenkinsfile: jenkinsfile });
+    setFormValues({ ...formValues, jenkins: jenkins });
+  }, [jenkins, jenkinsfile, server]);
 
   const getFormControl = (arg) => {
     let formControl;
@@ -99,14 +62,16 @@ const JenkinsForm = ({
           label={arg.label}
           control={
             <TextField
-              disabled={arg.deployment && !withDeployment}
+              disabled={arg.deployment && !jenkinsfile.withDeployment}
               name={arg.name}
               style={styles.labeled}
               required
               color="secondary"
               size="small"
-              onChange={handleJenkinsfileInputChange}
-              value={formValues.jenkins.jenkinsfile[arg.name]}
+              onChange={(e) =>
+                handleFormInputChange(e, jenkinsfile, setJenkinsfile)
+              }
+              value={jenkinsfile[arg.name]}
             />
           }
           labelPlacement="start"
@@ -121,21 +86,21 @@ const JenkinsForm = ({
     switch (connectionStatus) {
       case "success":
         result = (
-          <Typography sx={{ my:"auto", ml: 2 }} color="green">
+          <Typography sx={{ my: "auto", ml: 2 }} color="green">
             Success
           </Typography>
         );
         break;
       case "failed":
         result = (
-          <Typography sx={{ my:"auto", ml: 2 }} color="error">
+          <Typography sx={{ my: "auto", ml: 2 }} color="error">
             Failed
           </Typography>
         );
         break;
       case "connecting":
         result = (
-          <Typography sx={{ my:"auto", ml: 2 }} color="grey">
+          <Typography sx={{ my: "auto", ml: 2 }} color="grey">
             Connecting ...
           </Typography>
         );
@@ -177,8 +142,8 @@ const JenkinsForm = ({
               name="url"
               color="success"
               autoComplete={true}
-              value={formValues.jenkins.server.url}
-              onChange={handleJenkinsServerInputChange}
+              value={server.url}
+              onChange={(e) => handleFormInputChange(e, server, setServer)}
             />
           }
           labelPlacement="start"
@@ -195,8 +160,8 @@ const JenkinsForm = ({
                 color="secondary"
                 size="small"
                 autoComplete={true}
-                value={formValues.jenkins.server.username}
-                onChange={handleJenkinsServerInputChange}
+                value={server.username}
+                onChange={(e) => handleFormInputChange(e, server, setServer)}
               />
             }
             labelPlacement="start"
@@ -215,8 +180,8 @@ const JenkinsForm = ({
                 id="password"
                 color="secondary"
                 size="small"
-                value={formValues.jenkins.server.password}
-                onChange={handleJenkinsServerInputChange}
+                value={server.password}
+                onChange={(e) => handleFormInputChange(e, server, setServer)}
                 password
               />
             }
@@ -248,17 +213,14 @@ const JenkinsForm = ({
             <Checkbox
               name="generateJenkinsfile"
               color="success"
-              onChange={(e) => {
-                setGenerateJenkinsfile(!generateJenkinsfile);
-                handleCheckboxChange(e);
-              }}
-              checked={generateJenkinsfile}
+              onChange={(e) => handleFormCheckBoxChange(e, jenkins, setJenkins)}
+              checked={jenkins.generateJenkinsfile}
             />
           }
           labelPlacement="end"
         />
       </Grid>
-      {generateJenkinsfile && (
+      {jenkins.generateJenkinsfile && (
         <Grid item style={styles.formItem}>
           <FormControlLabel
             label="With Deployment"
@@ -267,17 +229,16 @@ const JenkinsForm = ({
                 name="withDeployment"
                 color="success"
                 onChange={(e) => {
-                  setWithDeployment(!withDeployment);
-                  handleJenkinsfileCheckBoxChange(e);
+                  handleFormCheckBoxChange(e, jenkinsfile, setJenkinsfile);
                 }}
-                checked={withDeployment}
+                checked={jenkinsfile.withDeployment}
               />
             }
             labelPlacement="end"
           />
         </Grid>
       )}
-      {generateJenkinsfile &&
+      {jenkins.generateJenkinsfile &&
         jenkinsfileArguments.map((arg) => getFormControl(arg))}
     </Box>
   );

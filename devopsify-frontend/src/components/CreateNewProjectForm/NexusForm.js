@@ -11,27 +11,23 @@ import {
 } from "@mui/material";
 import nexusLogo from "../../res/images/logo-nexus.png";
 import { testConnection } from "../../api/jenkinsApi";
+import { handleFormInputChange,handleFormCheckBoxChange } from "../../utils/form";
 
 const NexusForm = ({
-  handleInputChange,
-  handleCheckboxChange,
   formValues,
   setFormValues,
   styles,
 }) => {
 
-  const handleNexusServerInputChange = (e) => {
-    const { name, value } = e.target;
-    let nexus = formValues.nexus;
-    let server = formValues.nexus.server;
-    server = { ...server, [name]: value };
+  const [nexus, setNexus] = React.useState(formValues.nexus);
+  const [server, setServer] = React.useState(formValues.nexus.server);
 
-    nexus = { ...nexus, server };
-    setFormValues({
-      ...formValues,
-      nexus: nexus,
-    });
-  };
+
+  React.useEffect(()=>{
+    setNexus({...nexus,server:server})
+    setFormValues({...formValues,nexus:nexus})
+  },[nexus,server])
+
 
   return (
     <Box>
@@ -58,8 +54,8 @@ const NexusForm = ({
               id="nexus-server"
               name="url"
               color="success"
-              onChange={handleNexusServerInputChange}
-              value={formValues.nexus.server.url}
+              onChange={(e)=>handleFormInputChange(e,server,setServer)}
+              value={server.url}
 
             />
           }
@@ -76,8 +72,8 @@ const NexusForm = ({
                 id="username"
                 color="secondary"
                 size="small"
-                onChange={handleNexusServerInputChange}
-                value={formValues.nexus.server.username}
+                onChange={(e)=>handleFormInputChange(e,server,setServer)}
+                value={server.username}
               />
             }
             labelPlacement="start"
@@ -96,8 +92,8 @@ const NexusForm = ({
                 color="secondary"
                 size="small"
                 password
-                onChange={handleNexusServerInputChange}
-                value={formValues.nexus.server.password}
+                onChange={(e)=>handleFormInputChange(e,server,setServer)}
+                value={server.password}
 
               />
             }

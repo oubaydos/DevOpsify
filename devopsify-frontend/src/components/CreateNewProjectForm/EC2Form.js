@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 import ec2Logo from "../../res/images/logo-ec2.svg";
 import { testConnection } from "../../api/jenkinsApi";
+import { handleFormCheckBoxChange,handleFormInputChange } from "../../utils/form";
 
 const jenkinsfileArguments = [
   { name: "imageName", label: "Image Name" },
@@ -38,8 +39,6 @@ const jenkinsfileArguments = [
 ];
 
 const EC2Form = ({
-  handleInputChange,
-  handleCheckboxChange,
   formValues,
   setFormValues,
   styles,
@@ -48,43 +47,15 @@ const EC2Form = ({
   const [generateJenkinsfile, setGenerateJenkinsfile] = React.useState(
     formValues.jenkins.generateJenkinsfile
   );
-  const [withDeployment, setWithDeployment] = React.useState(
-    formValues.jenkins.jenkinsfile.withDeployment
-  );
+  const [ec2, setEc2] = React.useState(formValues.ec2);
+  const [server, setServer] = React.useState(formValues.ec2.server);
 
-  const handleEc2ServerInputChange = (e) => {
-    const { name, value } = e.target;
-    let values = formValues.ec2;
-    let server = formValues.ec2.server;
-    server = { ...server, [name]: value };
 
-    values = { ...values, server };
-    setFormValues({
-      ...formValues,
-      ec2: values,
-    });
-  };
+  React.useEffect(()=>{
+    setEc2({...ec2,server:server})
+    setFormValues({...formValues,ec2:ec2})
+  },[ec2,server])
 
-  const getStatus = () => {
-    let result = "";
-    switch (connectionStatus) {
-      case "success":
-        result = "success";
-        break;
-      case "failed":
-        result = "failed";
-        break;
-      case "connecting":
-        result = "connecting ...";
-        break;
-    }
-    return result;
-  };
-
-  const handleTestConncetionButtonClick = () => {
-    setConnectionStatus("connecting");
-    testConnection(formValues.jenkins, setConnectionStatus);
-  };
 
   return (
     <Box>
@@ -111,8 +82,8 @@ const EC2Form = ({
               id="ec2-server"
               name="url"
               color="success"
-              onChange={handleEc2ServerInputChange}
-              value={formValues.ec2.server.url}
+              onChange={(e)=>handleFormInputChange(e,server,setServer)}
+              value={server.url}
 
             />
           }
@@ -129,8 +100,8 @@ const EC2Form = ({
                 id="username"
                 color="secondary"
                 size="small"
-                onChange={handleEc2ServerInputChange}
-                value={formValues.ec2.server.username}
+                onChange={(e)=>handleFormInputChange(e,server,setServer)}
+                value={server.username}
 
               />
             }
@@ -150,8 +121,8 @@ const EC2Form = ({
                 color="secondary"
                 size="small"
                 password
-                onChange={handleEc2ServerInputChange}
-                value={formValues.ec2.server.password}
+                onChange={(e)=>handleFormInputChange(e,server,setServer)}
+                value={server.password}
               />
             }
             labelPlacement="start"
