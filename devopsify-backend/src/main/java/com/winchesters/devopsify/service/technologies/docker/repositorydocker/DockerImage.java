@@ -23,7 +23,7 @@ public class DockerImage {
 
     }
 
-    protected static String dockerfileBuild(InputStream tarInputStream, String imageName) throws Exception {
+    protected static String dockerfileBuild(InputStream tarInputStream, String imageName) {
         DockerClient dockerClient = DockerClientFactory.getInstance();
         BuildImageCmd buildImageCmd = dockerClient
                 .buildImageCmd()
@@ -33,6 +33,7 @@ public class DockerImage {
     }
 
     private static String execBuild(BuildImageCmd buildImageCmd) {
+        // todo Use try-with-resources or close this "CreateContainerCmd" in a "finally" clause.
         DockerClient dockerClient = DockerClientFactory.getInstance();
         String imageId = buildImageCmd.start().awaitImageId();
         CreateContainerResponse container = dockerClient.createContainerCmd(imageId).exec();

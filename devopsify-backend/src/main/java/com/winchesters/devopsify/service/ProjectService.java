@@ -10,6 +10,7 @@ import com.winchesters.devopsify.exception.UserCredentialsNotFoundException;
 import com.winchesters.devopsify.exception.project.ProjectNotFoundException;
 import com.winchesters.devopsify.mapper.EntityToDtoMapper;
 import com.winchesters.devopsify.model.AnalyseResults;
+import com.winchesters.devopsify.model.Credentials;
 import com.winchesters.devopsify.model.GithubCredentials;
 import com.winchesters.devopsify.model.entity.Project;
 import com.winchesters.devopsify.model.entity.Server;
@@ -143,12 +144,13 @@ public class ProjectService {
                 project.getName(),
                 project.getRemoteRepoUrl(),
                 dto.nexus().server(),
-                dto.ec2().server()
+                dto.ec2().server(),
+                new Credentials("githubWithToken", user.getGithubCredentials().username(), user.getGithubCredentials().personalAccessToken())
         );
         //TODO : nexus
         // TODO return token
 
-        return EntityToDtoMapper.ProjectToProjectDto(projectRepository.save(project),token,webHookUrl);
+        return EntityToDtoMapper.ProjectToProjectDto(projectRepository.save(project), token, webHookUrl);
     }
 
 

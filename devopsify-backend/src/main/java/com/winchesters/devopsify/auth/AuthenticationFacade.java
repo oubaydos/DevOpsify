@@ -21,6 +21,6 @@ public class AuthenticationFacade implements IAuthenticationFacade{
                 .filter(auth->auth.startsWith("ROLE_"))
                 .map(auth->auth.substring(5))
                 .findFirst()
-                .get();
+                .orElseThrow();
     }
 }

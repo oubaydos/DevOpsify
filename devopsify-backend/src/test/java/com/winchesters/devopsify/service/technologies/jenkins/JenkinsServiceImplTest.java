@@ -49,27 +49,31 @@ class JenkinsServiceImplTest {
         }
     }
 
-    @Test
-    void createApiToken() {
-        // given
-        // when
-        String token = jenkinsService.createApiToken("temp");
-        // then
-        Assertions.assertNotNull(token);
-        Assertions.assertEquals(34, token.length());
-    }
+//    @Test
+//    void createApiToken() {
+//        // given
+//        // when
+//        String token = jenkinsService.createApiToken("temp");
+//        // then
+//        Assertions.assertNotNull(token);
+//        Assertions.assertEquals(34, token.length());
+//    }
 
+//    @Test
+//    void createPipeline() {
+//        // given
+//        String pipelineName = "temp-pipeline-for-test";
+//        createdPipelineName = pipelineName;
+//        // when
+//        jenkinsService.createPipeline("https://github.com/temp-devopsify/waaaaaaaa", pipelineName, "token");
+//        JobInfo jobInfo = jenkinsService.getJobInfoByName(pipelineName);
+//        // then
+//        assertNotNull(jobInfo);
+//        assertEquals(pipelineName, jobInfo.name());
+//    }
     @Test
-    void createPipeline() {
-        // given
-        String pipelineName = "temp-pipeline-for-test";
-        createdPipelineName = pipelineName;
-        // when
-        jenkinsService.createPipeline("https://github.com/temp-devopsify/waaaaaaaa", pipelineName, "token");
-        JobInfo jobInfo = jenkinsService.getJobInfoByName(pipelineName);
-        // then
-        assertNotNull(jobInfo);
-        assertEquals(pipelineName, jobInfo.name());
+    void del(){
+        jenkinsService.deleteAllJobs();
     }
 
 }

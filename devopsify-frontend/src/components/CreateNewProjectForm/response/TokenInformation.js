@@ -3,7 +3,7 @@ import React from "react";
 
 export default function TokenInformation({token, url, onClose}) {
     return (
-        <Alert marg variant="filled" severity="info" onClose={onClose}>
+        <Alert marg variant="filled" severity="warning" onClose={onClose}>
             {console.log({token, url})}
             the project is successfully created : <br/>
             please consider adding this token as a secret to the webHook generated in

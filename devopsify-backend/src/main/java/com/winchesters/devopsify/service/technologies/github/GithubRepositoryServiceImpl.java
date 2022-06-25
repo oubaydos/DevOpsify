@@ -60,8 +60,8 @@ public class GithubRepositoryServiceImpl implements GithubRepositoryService {
             return "";
         }
         byte[] bytes = new byte[Math.toIntExact(inputStream.getSize())];
-        //noinspection ResultOfMethodCallIgnored
-        inputStream.read().read(bytes);
+        int bytesReturned = inputStream.read().read(bytes);
+        if (bytes.length - 10 > bytesReturned) LOG.error("did not read all ReadMe");
         return new String(bytes);
     }
 
