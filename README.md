@@ -13,7 +13,7 @@ UseCases
 ------------
 So far, the only use case we have is creating a new project and generating jenkinsfiles, dockerfiles while creating a
 new pipeline in jenkins
-![eza](https://svgshare.com/i/iPw.svg)
+![eza](https://svgshare.com/i/i_K.svg)
 
 ##### TODO:
 
