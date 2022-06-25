@@ -189,7 +189,7 @@ public class ProjectService {
         project.setNexusServer(nexusServer);
     }
 
-    public AnalyseResults analyse(Long projectId) throws IOException {
+    public AnalyseResults analyse(Long projectId) throws IOException, GitAPIException {
         User user = userService.getCurrentUser();
         GithubCredentials githubCredentials = user.getGithubCredentials();
 
@@ -223,7 +223,7 @@ public class ProjectService {
 
     public void generateGeneratedFile(String repo, String path,
                                       GeneratedFile file,
-                                      String commitMsg) throws IOException {
+                                      String commitMsg) throws IOException, GitAPIException {
         User user = userService.getCurrentUser();
         gitService.syncLocalWithOriginMain(user.getGithubCredentials(), repo);
         file.writeFile(path);
