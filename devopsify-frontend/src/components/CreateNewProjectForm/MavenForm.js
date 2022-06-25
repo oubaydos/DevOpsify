@@ -8,13 +8,34 @@ import {
   Select,
 } from "@mui/material";
 
+import { handleFormInputChange,handleFormCheckBoxChange } from "../../utils/form";
+
 const MavenForm = ({
-  handleInputChange,
-  handleMavenArchetypeChange,
   archetypes,
   formValues,
+  setFormValues,
   styles,
 }) => {
+
+  const handleMavenArchetypeChange = (e) => {
+    //TODO: this needs to be changed in the backend ; send only the archtype id
+    //TODO: fix archtype returns to default value when you get back to the form
+    const { value } = e.target;
+    const archetypeGroupId = archetypes[value].groupId;
+    const archetypeArtifactId = archetypes[value].artifactId;
+    setMaven({
+      ...maven,
+      archetypeGroupId: archetypeGroupId,
+      archetypeArtifactId: archetypeArtifactId,
+    });
+  };
+
+  const [maven,setMaven] = React.useState(formValues.maven);
+
+  React.useEffect(() => {
+    setFormValues({ ...formValues, maven: maven });
+  }, [maven]);
+
   return (
     <Box>
       <Grid item style={styles.formItem}>
@@ -51,8 +72,8 @@ const MavenForm = ({
               color="secondary"
               size="small"
               label={"groupId"}
-              onChange={handleInputChange}
-              value={formValues.maven.groupId}
+              onChange={(e)=>handleFormInputChange(e,maven,setMaven)}
+              value={maven.groupId}
             />
           }
           labelPlacement="start"
@@ -69,8 +90,8 @@ const MavenForm = ({
               color="secondary"
               size="small"
               label={"artifactId"}
-              onChange={handleInputChange}
-              value={formValues.maven.artifactId}
+              onChange={(e)=>handleFormInputChange(e,maven,setMaven)}
+              value={maven.artifactId}
             />
           }
           labelPlacement="start"
@@ -87,8 +108,8 @@ const MavenForm = ({
               color="secondary"
               size="small"
               label={"version"}
-              onChange={handleInputChange}
-              value={formValues.maven.version}
+              onChange={(e)=>handleFormInputChange(e,maven,setMaven)}
+              value={maven.version}
             />
           }
           labelPlacement="start"

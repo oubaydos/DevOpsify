@@ -1,12 +1,14 @@
 import * as React from "react";
 import { TextField, Grid, Box, FormControlLabel } from "@mui/material";
+import { handleFormInputChange } from "../../utils/form";
 
-const GeneralForm = ({
-  handleInputChange,
-  handleCheckboxChange,
-  formValues,
-  styles,
-}) => {
+const GeneralForm = ({ formValues, setFormValues, styles }) => {
+  const [general, setGeneral] = React.useState(formValues.general);
+
+  React.useEffect(()=>{
+    setFormValues({...formValues,general:general})
+  },[general])
+
   return (
     <Box>
       <Grid item style={styles.formItem}>
@@ -21,8 +23,11 @@ const GeneralForm = ({
               color="secondary"
               size="small"
               label={"project name"}
-              onChange={handleInputChange}
-              value={formValues.general.name}
+              onChange={(e) => {
+                handleFormInputChange(e, general, setGeneral);
+              }}
+              value={general.name}
+              onMouseEnter={()=>console.log(formValues.general.name)}
             />
           }
           labelPlacement="start"
@@ -41,8 +46,8 @@ const GeneralForm = ({
               color="secondary"
               size="small"
               label={"project description"}
-              onChange={handleInputChange}
-              value={formValues.general.description}
+              onChange={(e) => handleFormInputChange(e, general, setGeneral)}
+              value={general.description}
             />
           }
           labelPlacement="start"

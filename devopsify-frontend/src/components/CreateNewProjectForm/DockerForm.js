@@ -10,34 +10,43 @@ import {
 } from "@mui/material";
 
 import { getDockerfileDefaultValues } from "../../api/dockerApi";
+import {
+  handleFormInputChange,
+  handleFormCheckBoxChange,
+} from "../../utils/form";
+
 
 const backendDockerFileArguments = [
   {
     name: "baseBuildImageName",
     label: "Base build image name",
     type: "TextField",
-    build: true
+    build: true,
   },
   {
     name: "baseBuildImageVersion",
     label: "Base build image version",
     type: "TextField",
-    build: true
+    build: true,
   },
-  { name: "baseBuildJdkType", label: "Base build JDK Type", type: "TextField" , build: true},
-  { name: "workdir", label: "Workdir", type: "TextField" ,build:true},
+  {
+    name: "baseBuildJdkType",
+    label: "Base build JDK Type",
+    type: "TextField",
+    build: true,
+  },
+  { name: "workdir", label: "Workdir", type: "TextField", build: true },
 
   {
     name: "jdkImageName",
     label: "JDK Image Name",
     type: "TextField",
-
   },
   { name: "jdkVersion", label: "JDK Version", type: "TextField" },
   {
     name: "jdkBaseOsName",
     label: "JDK Base Os Name",
-    type: "TextField"
+    type: "TextField",
   },
   { name: "port", label: "Port", type: "TextField" },
   { name: "jarName", label: "Jar Name", type: "TextField" },
@@ -53,49 +62,26 @@ const databaseDockerFileArguments = [
   },
 ];
 
-const DockerForm = ({
-  handleInputChange,
-  handleCheckboxChange,
-  formValues,
-  styles,
-  setFormValues,
-}) => {
-  const [dockerizeDB, setDockerizeDB] = React.useState(
-    formValues.docker.dockerizeDB
+const DockerForm = ({ formValues, setFormValues, styles }) => {
+  const [docker, setDocker] = React.useState(formValues.docker);
+  const [dockerBackend, setDockerBackend] = React.useState(
+    formValues.docker.dockerBackend
   );
-  const [customBackendDockerfile, setCustomBackendDockerfile] =
-    React.useState(false);
-  const [customDBDockerfile, setCustomDBDockerfile] = React.useState(false);
-  const [dockerizeBackend, setDockerizeBackend] = React.useState(
-    formValues.docker.dockerizeBackend
-  );
-  const [buildOnly, setBuildOnly] = React.useState(
-    formValues.docker.dockerBackend.buildOnly
-  );
-
-  const handleDockerInputChange = (e,target) => {
-    const { name, value } = e.target;
-    console.log({name,value});
-    let docker = formValues.docker;
-    let dockerfile = docker[target];
-    console.log(dockerfile);
-    dockerfile = { ...dockerfile, [name]: value };
-    console.log(dockerfile);
+  const [dockerDB, setDockerDB] = React.useState(formValues.docker.dockerDB);
 
 
-    docker = { ...docker, [target]:dockerfile };
-    console.log("docker");
-    console.log(docker);
-    setFormValues({
-      ...formValues,
-      docker: docker,
-    });
-  };
+  React.useEffect(() => {
+    setDocker({ ...docker, dockerBackend:dockerBackend, dockerDB:dockerDB });
+    setFormValues({ ...formValues, docker:docker });
+  }, [dockerBackend,dockerDB,docker]);
 
-  const getFormControl = (arg, target) => {
+  React.useEffect(() => {
+    getDockerfileDefaultValues(docker, setDocker);
+  }, []);
+
+  const getFormControl = (arg, obj, setObj) => {
     //target possible values : 'dockerBackend' for backend and 'dockerDB' for database
     let formControl;
-    //console.log(formValues.docker);
     switch (arg.type) {
       case "TextField":
         formControl = (
@@ -104,14 +90,14 @@ const DockerForm = ({
               label={arg.label}
               control={
                 <TextField
-                  disabled={!arg.build && buildOnly}
+                  disabled={!arg.build && dockerBackend.buildOnly}
                   name={arg.name}
                   style={styles.labeled}
                   required
                   color="secondary"
                   size="small"
-                  onChange={(e)=>(handleDockerInputChange(e,target))}
-                  value={formValues.docker[target][arg.name]}
+                  onChange={(e) => handleFormInputChange(e, obj, setObj)}
+                  value={obj[arg.name]}
                 />
               }
               labelPlacement="start"
@@ -128,8 +114,8 @@ const DockerForm = ({
                 <Checkbox
                   name={arg.name}
                   color="success"
-                  onChange={handleCheckboxChange}
-                  checked={formValues.docker[target][arg.name]}
+                  onChange={(e) => handleFormCheckBoxChange(e, obj, setObj)}
+                  checked={obj[arg.name]}
                 />
               }
               labelPlacement="start"
@@ -140,30 +126,16 @@ const DockerForm = ({
     return formControl;
   };
 
-  React.useEffect(() => {
-    getDockerfileDefaultValues(formValues, setFormValues);
-  }, []);
-
   const handleRadioChange = (e) => {
     const { name } = e.target;
-
     if (name === "defaultDockerBackend") {
-      setCustomBackendDockerfile(!customBackendDockerfile);
+      setDocker({
+        ...docker,
+        defaultDockerBackend: !docker.defaultDockerBackend,
+      });
     } else {
-      setCustomDBDockerfile(!customDBDockerfile);
+      setDocker({ ...docker, defaultDBBackend: !docker.defaultDBBackend });
     }
-
-    let docker = formValues.docker;
-
-    const newValue = !docker[name];
-
-    docker = { ...docker, [name]: newValue };
-
-    setFormValues({
-      ...formValues,
-      docker: docker,
-    });
-    console.log(formValues.docker)
   };
 
   return (
@@ -175,22 +147,20 @@ const DockerForm = ({
               name="dockerizeBackend"
               color="success"
               onChange={(e) => {
-                setDockerizeBackend(!dockerizeBackend);
-
-                handleCheckboxChange(e);
+                handleFormCheckBoxChange(e, docker, setDocker);
               }}
-              checked={formValues.docker.dockerizeBackend}
+              checked={docker.dockerizeBackend}
             />
           }
           label="Dockerize backend ?"
         />
       </Grid>
-      {dockerizeBackend && (
+      {docker.dockerizeBackend && (
         <Grid>
           <RadioGroup
             row
             aria-labelledby="demo-radio-buttons-group-label"
-            defaultValue={customBackendDockerfile ? "custom" : "default"}
+            defaultValue={docker.defaultDockerBackend ? "default" : "custom"}
             name="defaultDockerBackend"
             onChange={handleRadioChange}
           >
@@ -207,7 +177,7 @@ const DockerForm = ({
           </RadioGroup>
         </Grid>
       )}
-      {dockerizeBackend && customBackendDockerfile && (
+      {docker.dockerizeBackend && !docker.defaultDockerBackend && (
         <Grid item style={styles.formItem}>
           <FormControlLabel
             label="Build Only"
@@ -216,20 +186,19 @@ const DockerForm = ({
                 name="buildOnly"
                 color="success"
                 onChange={(e) => {
-                  setBuildOnly(!buildOnly);
-                  handleCheckboxChange(e);
+                  handleFormCheckBoxChange(e, dockerBackend, setDockerBackend);
                 }}
-                checked={formValues.docker.dockerBackend.buildOnly}
+                checked={dockerBackend.buildOnly}
               />
             }
             labelPlacement="start"
           />
         </Grid>
       )}
-      {dockerizeBackend &&
-        customBackendDockerfile &&
+      {docker.dockerizeBackend &&
+        !docker.defaultDockerBackend &&
         backendDockerFileArguments.map((arg) => {
-          return getFormControl(arg, "dockerBackend");
+          return getFormControl(arg, dockerBackend, setDockerBackend);
         })}
 
       <Grid item style={styles.formItem}>
@@ -239,21 +208,20 @@ const DockerForm = ({
               name="dockerizeDB"
               color="success"
               onChange={(e) => {
-                setDockerizeDB(!dockerizeDB);
-                handleCheckboxChange(e);
+                handleFormCheckBoxChange(e, docker, setDocker);
               }}
-              checked={formValues.docker.dockerizeDB}
+              checked={docker.dockerizeDB}
             />
           }
           label="Dockerize database ?"
         />
       </Grid>
-      {dockerizeDB && (
+      {docker.dockerizeDB && (
         <Grid>
           <RadioGroup
             row
             aria-labelledby="demo-radio-buttons-group-label"
-            defaultValue={customDBDockerfile ? "custom" : "default"}
+            defaultValue={docker.defaultDockerDB ? "default" : "custom"}
             name="defaultDockerDB"
             onChange={handleRadioChange}
           >
@@ -270,10 +238,10 @@ const DockerForm = ({
           </RadioGroup>
         </Grid>
       )}
-      {dockerizeDB &&
-        customDBDockerfile &&
+      {docker.dockerizeDB &&
+        !docker.defaultDockerDB &&
         databaseDockerFileArguments.map((arg) => {
-          return getFormControl(arg, "dockerDB");
+          return getFormControl(arg, dockerDB, setDockerDB);
         })}
     </Box>
   );

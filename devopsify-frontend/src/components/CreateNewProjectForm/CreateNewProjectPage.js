@@ -1,4 +1,4 @@
-import {Box, Container, Typography, Grid, Button, Alert, CircularProgress} from "@mui/material";
+import { Box, Container, Typography, Grid, Button, Alert } from "@mui/material";
 import * as React from "react";
 import DockerForm from "./DockerForm";
 import GeneralForm from "./GeneralForm";
@@ -10,10 +10,10 @@ import Error from "../shared/Error";
 import Success from "../shared/Success";
 import { createNewProject } from "../../api/projectService";
 import getArchetypes from "../../api/mavenApi";
-import DEFAULT_VALUES from "./FormDefaultValues.json"
+import DEFAULT_VALUES from "./FormDefaultValues.json";
 import EC2Form from "./EC2Form";
-import {useState} from "react";
-import {notEmpty} from "../../utils/utils";
+import { useState } from "react";
+import { notEmpty } from "../../utils/utils";
 import TokenInformation from "./response/TokenInformation";
 
 const styles = {
@@ -32,52 +32,25 @@ const CreateNewProjectPage = () => {
   const [successful, setSuccessful] = React.useState(false);
 
   const [error, setError] = React.useState(false);
-  const [loading, setLoading] = React.useState(false);
-  const [tokenInformation, setTokenInformation] = useState({token: "", url: ""});
+  const [tokenInformation, setTokenInformation] = useState({
+    token: "",
+    url: "",
+  });
   const [archetypes, setArchetypes] = React.useState([]);
 
   const [formValues, setFormValues] = React.useState(DEFAULT_VALUES);
-
-  const [showNotif, setShowNotif] = React.useState(true);
 
   React.useEffect(() => {
     getArchetypes(setArchetypes);
   }, []);
 
-
   const handleSubmit = (event) => {
-
     event.preventDefault();
-    setLoading(true);
-    createNewProject(formValues, setSuccessful, setError,setTokenInformation);
+    createNewProject(formValues, setSuccessful, setError, setTokenInformation);
     console.log(formValues);
   };
 
-  const handleCheckboxChange = (e) => {
-    const { name, checked } = e.target;
-    const currentFormPart = Object.keys(parts)[current].toLowerCase();
-    let values = formValues[currentFormPart];
-    values = { ...values, [name]: checked };
-
-    setFormValues({
-      ...formValues,
-      [currentFormPart]: values,
-    });
-    console.log(formValues)
-  };
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    const currentFormPart = Object.keys(parts)[current].toLowerCase();
-    let values = formValues[currentFormPart];
-    values = { ...values, [name]: value };
-    setFormValues({
-      ...formValues,
-      [currentFormPart]: values,
-    });
-  };
-
-  const handleOnButtonClick = (e) => {
+  const handleNextClick = (e) => {
     console.log(formValues);
     if (current != Object.keys(parts).length - 1) {
       setCurrent(current + 1);
@@ -90,60 +63,42 @@ const CreateNewProjectPage = () => {
     setCurrent(current - 1);
   };
 
-  const handleMavenArchetypeChange = (e) => {
-    const { value } = e.target;
-
-    const currentFormPart = "maven";
-
-    const archetypeGroupId = archetypes[value].groupId;
-
-    const archetypeArtifactId = archetypes[value].artifactId;
-
-    let values = formValues[currentFormPart];
-
-    values = {
-      ...values,
-      archetypeGroupId: archetypeGroupId,
-      archetypeArtifactId: archetypeArtifactId,
-    };
-
-    setFormValues({
-      ...formValues,
-      [currentFormPart]: values,
-    });
-    console.log(formValues);
-  };
-
   const formProperties = {
-    handleCheckboxChange,
-    handleInputChange,
-    formValues: formValues,
+    formValues,
     setFormValues,
-    styles: styles,
+    styles,
   };
 
   const parts = {
     General: <GeneralForm {...formProperties} />,
     Github: <GithubForm {...formProperties} />,
-    Maven: (
-      <MavenForm
-        {...formProperties}
-        handleMavenArchetypeChange={handleMavenArchetypeChange}
-        archetypes={archetypes}
-      />
-    ),
+    Maven: <MavenForm {...formProperties} archetypes={archetypes} />,
     Docker: <DockerForm {...formProperties} />,
     Nexus: <NexusForm {...formProperties} />,
     Jenkins: <JenkinsForm {...formProperties} />,
-    EC2:<EC2Form {...formProperties}/>
+    EC2: <EC2Form {...formProperties} />,
   };
 
   return (
     <Box>
-      {loading && !error && !successful && <CircularProgress />}
-      { error && <Error error={error} onClose={() => {setError(false)}}/>}
+      {error && (
+        <Error
+          error={error}
+          onClose={() => {
+            setError(false);
+          }}
+        />
+      )}
       {/* {showNotif && successful && error === false && <Success onClose={() => {setShowNotif(false)}}/>} */}
-      {  successful && !error && <TokenInformation token={tokenInformation.token} url={tokenInformation.url} onClose={() => {setSuccessful(false)}}/>}
+      {successful && !error && (
+        <TokenInformation
+          token={tokenInformation.token}
+          url={tokenInformation.url}
+          onClose={() => {
+            setSuccessful(false);
+          }}
+        />
+      )}
       <Typography
         variant="h5"
         noWrap
@@ -237,7 +192,7 @@ const CreateNewProjectPage = () => {
                 color: "black",
               },
             }}
-            onClick={handleOnButtonClick}
+            onClick={handleNextClick}
           >
             {current != Object.values(parts).length - 1 ? "next" : "finish"}
           </Button>

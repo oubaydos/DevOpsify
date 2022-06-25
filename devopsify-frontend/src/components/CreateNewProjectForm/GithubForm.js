@@ -12,6 +12,7 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import licenseTemplates from "../../utils/licenseTemplates.json";
 import gitIgnoreTemplates from "../../utils/gitIgnoreTemplates.json";
+import { handleFormInputChange,handleFormCheckBoxChange } from "../../utils/form";
 
 const defaultValues = {
   autoInit: true,
@@ -19,11 +20,17 @@ const defaultValues = {
 };
 
 const GithubForm = ({
-  handleInputChange,
-  handleCheckboxChange,
   formValues,
-  styles,
+  setFormValues,
+  styles
 }) => {
+
+  const [github,setGithub] = React.useState(formValues.github);
+
+  React.useEffect(() => { 
+    setFormValues({ ...formValues, github:github });
+  }, [github]);
+
   return (
     <Box>
       <Grid item style={styles.formItem}>
@@ -37,8 +44,8 @@ const GithubForm = ({
               style={{ width: "300px" }}
               sx={{ mx: 2 }}
               name={"licenseTemplate"}
-              onChange={handleInputChange}
-              value={formValues.github.licenseTemplate}
+              onChange={(e)=>handleFormInputChange(e,github,setGithub)}
+              value={github.licenseTemplate}
             >
               {licenseTemplates.map((v) => (
                 <MenuItem value={v.value}>{v.label}</MenuItem>
@@ -59,8 +66,8 @@ const GithubForm = ({
               style={{ width: "300px" }}
               sx={{ mx: 2 }}
               name="gitIgnoreTemplate"
-              onChange={handleInputChange}
-              value={formValues.github.gitIgnoreTemplate}
+              onChange={(e)=>handleFormInputChange(e,github,setGithub)}
+              value={github.gitIgnoreTemplate}
             >
               {gitIgnoreTemplates.map((v) => (
                 <MenuItem value={v}>{v}</MenuItem>
@@ -78,7 +85,7 @@ const GithubForm = ({
               name="autoInit"
               defaultChecked={defaultValues.autoInit}
               color="success"
-              onChange={handleCheckboxChange}
+              onChange={(e)=>handleFormCheckBoxChange(e,github,setGithub)}
             />
           }
           label="create a ReadMe"
@@ -91,7 +98,7 @@ const GithubForm = ({
               name="private_"
               defaultChecked={defaultValues.private_}
               color="success"
-              onChange={handleCheckboxChange}
+              onChange={(e)=>handleFormCheckBoxChange(e,github,setGithub)}
               disabled={true}
             />
           }

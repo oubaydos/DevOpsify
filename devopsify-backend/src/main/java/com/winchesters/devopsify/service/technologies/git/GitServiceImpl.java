@@ -42,7 +42,7 @@ public class GitServiceImpl implements GitService {
     }
 
     @Override
-    public void initializeRepository(String path) throws GitException {
+    public void initializeRepository(String path) throws GitNotInstalledException {
         try {
             if (!installed()) throw new GitNotInstalledException();
             new ProcessBuilder("git", "init")
@@ -55,39 +55,32 @@ public class GitServiceImpl implements GitService {
     }
 
     @Override
-    public Boolean localAndRemoteInSync(GithubCredentials githubCredentials,String localRepoPath,String remoteName,String remoteBranchName) throws GitException {
-        try {
-            Repository repository = getRepository(localRepoPath);
-            Git git = new Git(repository);
+    public Boolean localAndRemoteInSync(GithubCredentials githubCredentials, String localRepoPath, String remoteName, String remoteBranchName) throws GitException, IOException, GitAPIException {
+        Repository repository = getRepository(localRepoPath);
+        Git git = new Git(repository);
 
-            String latestRemoteCommitHash = git.getRepository()
-                    .exactRef(String.format("refs/remotes/%s/%s",remoteName, remoteBranchName))
-                    .getObjectId()
-                    .name();
+        String latestRemoteCommitHash = git.getRepository()
+                .exactRef(String.format("refs/remotes/%s/%s", remoteName, remoteBranchName))
+                .getObjectId()
+                .name();
 
-            RevCommit latestLocalCommit = new Git(repository).
-                    log().
-                    setMaxCount(1).
-                    call().
-                    iterator().
-                    next();
+        RevCommit latestLocalCommit = new Git(repository).
+                log().
+                setMaxCount(1).
+                call().
+                iterator().
+                next();
 
-            String latestLocalCommitHash = latestLocalCommit.getName();
-            LOG.info("latestLocalCommitHash="+latestLocalCommitHash);
-            LOG.info("latestRemoteCommitHash="+latestRemoteCommitHash);
+        String latestLocalCommitHash = latestLocalCommit.getName();
+        LOG.info("latestLocalCommitHash=" + latestLocalCommitHash);
+        LOG.info("latestRemoteCommitHash=" + latestRemoteCommitHash);
 
-            return latestLocalCommitHash.equals(latestRemoteCommitHash);
-
-        } catch (GitAPIException e) {
-            throw new com.winchesters.devopsify.exception.git.GitAPIException(e);
-        } catch (IOException | NullPointerException e) {
-            throw new GitException(e);
-        }
+        return latestLocalCommitHash.equals(latestRemoteCommitHash);
     }
 
     @Override
-    public Boolean localAndOriginMainInSync(GithubCredentials githubCredentials, String localRepoPath) throws GitException {
-        return localAndRemoteInSync(githubCredentials,localRepoPath,"origin","main");
+    public Boolean localAndOriginMainInSync(GithubCredentials githubCredentials, String localRepoPath) throws GitAPIException, IOException {
+        return localAndRemoteInSync(githubCredentials, localRepoPath, "origin", "main");
     }
 
 
@@ -131,7 +124,7 @@ public class GitServiceImpl implements GitService {
     }
 
     @Override
-    public void clone(GithubCredentials credentials,String remoteUrl, String localPath) {
+    public void clone(GithubCredentials credentials, String remoteUrl, String localPath) {
         final File localPathFile = new File(localPath);
         try {
             Git.cloneRepository()
@@ -164,33 +157,26 @@ public class GitServiceImpl implements GitService {
     }
 
     @Override
-    public void push(GithubCredentials credentials, String path, String remoteRepoName, String remoteBranchName) throws GitException {
-        try {
-            Repository repository = getRepository(path);
-            Git git = new Git(repository);
-            PushCommand push = git.push()
-                    .setRemote(remoteRepoName)
-                    .setRefSpecs(new RefSpec(remoteBranchName))
-                    .setCredentialsProvider(
-                            new UsernamePasswordCredentialsProvider(
-                                    credentials.username(),
-                                    credentials.personalAccessToken()
-                            )
-                    );
+    public void push(GithubCredentials credentials, String path, String remoteRepoName, String remoteBranchName) throws GitAPIException, IOException {
+        Repository repository = getRepository(path);
+        Git git = new Git(repository);
+        PushCommand push = git.push()
+                .setRemote(remoteRepoName)
+                .setRefSpecs(new RefSpec(remoteBranchName))
+                .setCredentialsProvider(
+                        new UsernamePasswordCredentialsProvider(
+                                credentials.username(),
+                                credentials.personalAccessToken()
+                        )
+                );
 
-            RemoteRefUpdate remoteRefUpdate = push.call().iterator().next().getRemoteUpdates().iterator().next();
-            LOG.info("Push was successful.");
-            LOG.info("Response status : " + remoteRefUpdate.getStatus().name());
-
-        } catch (GitAPIException e) {
-            throw new com.winchesters.devopsify.exception.git.GitAPIException(e);
-        } catch (IOException e) {
-            throw new GitException(e);
-        }
+        RemoteRefUpdate remoteRefUpdate = push.call().iterator().next().getRemoteUpdates().iterator().next();
+        LOG.info("Push was successful.");
+        LOG.info("Response status : " + remoteRefUpdate.getStatus().name());
     }
 
     @Override
-    public void pushOriginMain(GithubCredentials credentials, String path) throws GitException {
+    public void pushOriginMain(GithubCredentials credentials, String path) throws GitAPIException, IOException {
         push(credentials, path, "origin", "main");
     }
 
@@ -217,7 +203,7 @@ public class GitServiceImpl implements GitService {
     }
 
     @Override
-    public void commit(@NotNull String path,@NotNull String message) {
+    public void commit(@NotNull String path, @NotNull String message) {
         try {
             Repository repository = getRepository(path);
             Git git = new Git(repository);
@@ -236,20 +222,20 @@ public class GitServiceImpl implements GitService {
     }
 
     @Override
-    public void commitAll(String path,String message) {
+    public void commitAll(String path, String message) {
         addAll(path);
-        commit(path,message);
+        commit(path, message);
     }
 
     @Override
-    public void syncLocalWithRemote(GithubCredentials githubCredentials, String path, String remoteName, String remoteBranchName) {
-        pull(githubCredentials,path,remoteName,remoteBranchName);
-        push(githubCredentials,path,remoteName,remoteBranchName);
+    public void syncLocalWithRemote(GithubCredentials githubCredentials, String path, String remoteName, String remoteBranchName) throws GitAPIException, IOException {
+        pull(githubCredentials, path, remoteName, remoteBranchName);
+        push(githubCredentials, path, remoteName, remoteBranchName);
     }
 
     @Override
-    public void syncLocalWithOriginMain(GithubCredentials githubCredentials, String path) {
-        syncLocalWithRemote(githubCredentials,path,"origin","main");
+    public void syncLocalWithOriginMain(GithubCredentials githubCredentials, String path) throws GitAPIException, IOException {
+        syncLocalWithRemote(githubCredentials, path, "origin", "main");
     }
 
 

@@ -53,7 +53,7 @@ public class ProjectController {
     }
 
     @GetMapping("{projectId}/analyse")
-    public AnalyseResults analyse(@PathVariable Long projectId) throws IOException {
+    public AnalyseResults analyse(@PathVariable Long projectId) throws IOException, GitAPIException {
         return projectService.analyse(projectId);
     }
 

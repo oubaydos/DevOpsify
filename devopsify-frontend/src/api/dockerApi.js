@@ -4,7 +4,7 @@ import { getCookie, goto } from "../utils/utils";
 
 const ENDPOINT = configData.SERVER_URL + "/docker";
 
-export const getDockerfileDefaultValues = (formValues, setFormValues) => {
+export const getDockerfileDefaultValues = (docker, setDocker) => {
   axios
     .get(`${ENDPOINT}/default-values`, {
       headers: {
@@ -12,12 +12,9 @@ export const getDockerfileDefaultValues = (formValues, setFormValues) => {
       },
     })
     .then((res) => {
-      console.log("here");
-      console.log(res.data);
       const backend = res.data.backend;
       const db = res.data.db;
-      let docker = formValues.docker;
-      docker = {
+      setDocker({
         ...docker,
         dockerBackend: {
           baseBuildImageName: backend["base-image-name"],
@@ -37,12 +34,6 @@ export const getDockerfileDefaultValues = (formValues, setFormValues) => {
           imageBaseOS: db["db-os"],
           dbInitQueriesFilename: db["db-init-queries-filename"],
         },
-      };
-      console.log("docker");
-      console.log(docker);
-      setFormValues({
-        ...formValues,
-        docker: docker,
       });
     });
 };
