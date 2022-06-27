@@ -78,7 +78,9 @@ const CreateNewProjectPage = () => {
     Jenkins: <JenkinsForm {...formProperties} />,
     EC2: <EC2Form {...formProperties} />,
   };
-
+  const gotoPart = (index) => {
+    setCurrent(index);
+  };
   return (
     <Box>
       {error && (
@@ -125,13 +127,23 @@ const CreateNewProjectPage = () => {
         >
           <Grid container>
             {Object.keys(parts).map((name, index) => (
-              <Grid item xs={1.7}>
+              <Grid
+                item
+                xs={1.7}
+                onClick={() => gotoPart(index)}
+                sx={{
+                  ":hover": {
+                    cursor: "pointer",
+                    color:"green"
+                  },
+                }}
+              >
                 <Typography
                   variant="h7"
                   sx={{ py: 1, px: 2, borderRadius: 10 }}
                   style={
                     current === index
-                      ? { backgroundColor: "grey", color: "white" }
+                      ? { backgroundColor: "grey", color: "white" , "&:hover":{color:"green"} }
                       : {}
                   }
                 >

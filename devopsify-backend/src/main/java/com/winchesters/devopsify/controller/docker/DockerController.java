@@ -22,16 +22,31 @@ public class DockerController {
     private final DockerService dockerService;
 
 
+    /**
+     * gets the byte array the database's dockerfile
+     * @param dataBaseDockerfileDto a dto containing all parameters of the dockerfile
+     * @return byte array of the dockerfile
+     * @throws IOException if the is I/O problems
+     */
     @PostMapping("db")
-    public byte[] viewDataBaseDockerfile(@ModelAttribute DataBaseDockerfileDto dto) throws IOException {
-        return dockerService.viewDataBaseDockerfile(dto);
+    public byte[] viewDataBaseDockerfile(@ModelAttribute DataBaseDockerfileDto dataBaseDockerfileDto) throws IOException {
+        return dockerService.viewDataBaseDockerfile(dataBaseDockerfileDto);
     }
 
-    @PostMapping("backend")
-    public byte[] viewBackendDockerfile(@ModelAttribute BackendDockerfileDto dto) throws IOException {
-        return dockerService.viewBackendDockerfile(dto);
+
+    /**
+     * gets the byte array the database's dockerfile
+     * @param backendDockerfileDto a dto containing all parameters of the dockerfile
+     * @return byte array of the dockerfile
+     * @throws IOException if the is I/O problems
+     */@PostMapping("backend")
+    public byte[] viewBackendDockerfile(@ModelAttribute BackendDockerfileDto backendDockerfileDto) throws IOException {
+        return dockerService.viewBackendDockerfile(backendDockerfileDto);
     }
 
+    /**
+     * @return default values used for generating the dockerfiles
+     */
     @GetMapping("default-values")
     public DockerfileDefaultValuesDto getDockerfileDefaultValues() {
 

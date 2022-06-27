@@ -2,6 +2,7 @@ package com.winchesters.devopsify.controller;
 
 import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
 import com.winchesters.devopsify.dto.error.ErrorResponseDto;
+import org.eclipse.jgit.api.errors.GitAPIException;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
@@ -35,7 +36,8 @@ public class GeneralControllerAdviceImpl implements GeneralControllerAdvice {
                     ValidationException.class,
                     MissingRequestHeaderException.class,
                     UnrecognizedPropertyException.class,
-                    BindException.class
+                    BindException.class,
+                    GitAPIException.class
             }
     )
     public ResponseEntity<ErrorResponseDto> handleBadRequest(Exception exception) {
@@ -43,6 +45,5 @@ public class GeneralControllerAdviceImpl implements GeneralControllerAdvice {
         return handleException(HttpStatus.BAD_REQUEST.value(), exception);
 
     }
-
 
 }

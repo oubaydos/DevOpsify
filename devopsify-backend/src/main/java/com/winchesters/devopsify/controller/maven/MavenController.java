@@ -12,6 +12,11 @@ import java.util.List;
 @RequestMapping(path = "api/v1/maven")
 public class MavenController {
 
+    /**
+     * get the list of maven archetypes
+     * @return list of archetypes
+     */
+    //TODO: this methode should return all maven archetypes
     @GetMapping("/archetype")
     List<MavenArchetypeDto> getArchetypes() {
         return List.of(
