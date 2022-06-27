@@ -6,7 +6,6 @@ import com.winchesters.devopsify.model.JenkinsAnalyseResults;
 import com.winchesters.devopsify.model.entity.Project;
 import com.winchesters.devopsify.model.entity.Server;
 
-import java.io.File;
 import java.io.IOException;
 
 public interface JenkinsService {
@@ -25,5 +24,5 @@ public interface JenkinsService {
 
     JenkinsAnalyseResults analyseJenkins(Project project);
 
-    String createJenkinsPipeline(Server jenkins, String name, String remoteRepoUrl, Server dockerhubCredentials, Server ec2Credentials, Credentials githubCredentials) throws IOException, IllegalAccessException;
+    String createJenkinsPipeline(Server jenkins, String name, String remoteRepoUrl, Server dockerhubCredentials, Server ec2Credentials, Credentials githubCredentials) throws IOException;
 }

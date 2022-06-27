@@ -12,7 +12,6 @@ import com.winchesters.devopsify.model.Credentials;
 import com.winchesters.devopsify.model.JenkinsAnalyseResults;
 import com.winchesters.devopsify.model.entity.Project;
 import com.winchesters.devopsify.model.entity.Server;
-import com.winchesters.devopsify.service.technologies.docker.dockerfile.BackendDockerFile;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.slf4j.Logger;
@@ -20,7 +19,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
@@ -180,7 +178,7 @@ public class JenkinsServiceImpl implements JenkinsService {
     }
 
     @Override
-    public String createJenkinsPipeline(Server server, String name, String remoteRepoUrl, Server dockerhubCredentials, Server ec2Credentials, Credentials githubCredentials) throws IOException, IllegalAccessException {
+    public String createJenkinsPipeline(Server server, String name, String remoteRepoUrl, Server dockerhubCredentials, Server ec2Credentials, Credentials githubCredentials) throws IOException {
         setJenkinsClient(server);
         if (jenkinsPluginsNotInstalled())
             installRequiredPlugins();
