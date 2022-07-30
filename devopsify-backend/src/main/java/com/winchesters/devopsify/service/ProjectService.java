@@ -79,80 +79,90 @@ public class ProjectService {
 
     public ProjectDto createNewProjectWithInit(CreateNewProjectWithInitDto dto) throws IOException, GitAPIException, InterruptedException {
 
-
-        String localRepoPath = projectsDirectory() + "/" + dto.general().name();
-
-        //github
-        GithubRepositoryDto githubRepositoryDto = new GithubRepositoryDto(dto.general(), dto.github());
-        GHRepository ghRepository = githubRepositoryService.createRepository(githubRepositoryDto);
-
-        //git
-        gitService.clone(userService.getGithubCredentials(), ghRepository.getHtmlUrl().toString(), localRepoPath);
-
-        //maven
-        mavenService.generateMavenProject(dto.maven(), localRepoPath);
+        try {
 
 
-        //docker
-        CreateNewProjectDockerDto dockerDto = dto.docker();
-        if (dockerDto.dockerizeBackend()) {
-            generateGeneratedFile(
-                    localRepoPath,
-                    localRepoPath,
-                    backendDockerfileDtoToBackendDockerFile(dockerDto.dockerBackend(), dockerDto.defaultDockerBackend(), dto.maven().artifactId()),
-                    "generate backend dockerfile"
-            );
-        }
-        if (dockerDto.dockerizeDB()) {
-            generateGeneratedFile(
-                    localRepoPath,
-                    localRepoPath + "/db",
-                    dataBaseDockerfileDtoToDataBaseDockerFile(dockerDto.dockerDB(), dockerDto.defaultDockerDB()),
-                    "generate db dockerfile"
-            );
-        }
-        //saving project in database
-        Project project = new Project();
-        User user = userService.getCurrentUser();
-        project.setOwner(user);
-        project.setName(dto.general().name());
-        project.setLocalRepoPath(localRepoPath);
-        project.setRemoteRepoUrl(ghRepository.getHtmlUrl().toString());
-        //TODO : jenkins
-        // IMAGE_NAME is not being set in jenkinsfile
-        if (dto.jenkins().generateJenkinsfile()) {
-            generateGeneratedFile(
-                    localRepoPath,
-                    localRepoPath,
-                    jenkinsFileDtoToJenkinsFile(dto.jenkins().jenkinsfile(), dto.maven().artifactId(), project.getRemoteRepoUrl()),
-                    "generate Jenkinsfile"
-            );
-        }
-        project.setJenkinsServer(dto.jenkins().server());
-        // CREATING WEBHOOK TOKEN
-        String webHookUrl = githubRepositoryService.createWebHook(project, project.getName());
+            String localRepoPath = projectsDirectory() + "/" + dto.general().name();
+
+            //github
+            GithubRepositoryDto githubRepositoryDto = new GithubRepositoryDto(dto.general(), dto.github());
+            GHRepository ghRepository = githubRepositoryService.createRepository(githubRepositoryDto);
+
+            //git
+            gitService.clone(userService.getGithubCredentials(), ghRepository.getHtmlUrl().toString(), localRepoPath);
+
+            //maven
+            mavenService.generateMavenProject(dto.maven(), localRepoPath);
+
+
+            //docker
+            CreateNewProjectDockerDto dockerDto = dto.docker();
+            if (dockerDto.dockerizeBackend()) {
+                generateGeneratedFile(
+                        localRepoPath,
+                        localRepoPath,
+                        backendDockerfileDtoToBackendDockerFile(dockerDto.dockerBackend(), dockerDto.defaultDockerBackend(), dto.maven().artifactId()),
+                        "generate backend dockerfile"
+                );
+            }
+            if (dockerDto.dockerizeDB()) {
+                generateGeneratedFile(
+                        localRepoPath,
+                        localRepoPath + "/db",
+                        dataBaseDockerfileDtoToDataBaseDockerFile(dockerDto.dockerDB(), dockerDto.defaultDockerDB()),
+                        "generate db dockerfile"
+                );
+            }
+            //saving project in database
+            Project project = new Project();
+            User user = userService.getCurrentUser();
+            project.setOwner(user);
+            project.setName(dto.general().name());
+            project.setLocalRepoPath(localRepoPath);
+            project.setRemoteRepoUrl(ghRepository.getHtmlUrl().toString());
+            //TODO : jenkins
+            // IMAGE_NAME is not being set in jenkinsfile
+            if (dto.jenkins().generateJenkinsfile()) {
+                generateGeneratedFile(
+                        localRepoPath,
+                        localRepoPath,
+                        jenkinsFileDtoToJenkinsFile(dto.jenkins().jenkinsfile(), dto.maven().artifactId(), project.getRemoteRepoUrl()),
+                        "generate Jenkinsfile"
+                );
+            }
+            project.setJenkinsServer(dto.jenkins().server());
+            // CREATING WEBHOOK TOKEN
+            String webHookUrl = githubRepositoryService.createWebHook(project, project.getName());
         /*
          ssh key with id
          */
-        // TODO must get it from front
+            // TODO must get it from front
 //        Server dockerhubCredentials = new Server("dockerhub", "", "");
 //        Server ec2Credentials = new Server("ec2", "", "");
 
 
-        String token = jenkinsService.createJenkinsPipeline(
-                dto.jenkins().server(),
-                project.getName(),
-                project.getRemoteRepoUrl(),
-                dto.nexus().server(),
-                dto.ec2().server(),
-                new Credentials("githubWithToken", user.getGithubCredentials().username(), user.getGithubCredentials().personalAccessToken())
-        );
-        //TODO : nexus
-        // TODO return token
+            String token = jenkinsService.createJenkinsPipeline(
+                    dto.jenkins().server(),
+                    project.getName(),
+                    project.getRemoteRepoUrl(),
+                    dto.nexus().server(),
+                    dto.ec2().server(),
+                    new Credentials("githubWithToken", user.getGithubCredentials().username(), user.getGithubCredentials().personalAccessToken())
+            );
+            //TODO : nexus
+            // TODO return token
 
-        return EntityToDtoMapper.ProjectToProjectDto(projectRepository.save(project), token, webHookUrl);
+            return EntityToDtoMapper.ProjectToProjectDto(projectRepository.save(project), token, webHookUrl);
+        } catch (Exception e) {
+            cleanAfterCreationFailed(dto);
+            throw e;
+        }
     }
 
+    //TODO : if the creation failed, this methode deletes created objects
+    public void cleanAfterCreationFailed(CreateNewProjectWithInitDto dto) {
+
+    }
 
     public ProjectDto createNewProject(CreateNewProjectDto createNewProjectDto) {
         Project project = new Project();
