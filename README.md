@@ -116,7 +116,7 @@ this project is _in progress_, many things are not yet started
 License
 -------
 
-Copyright (c) 2021 obaydah bouifadene & hamza ben yazid
+Copyright (c) 2021 obaydah bouifadene & hamza ben yazid & yassine lakhdachi
 
 Licensed under
 the [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -126,8 +126,10 @@ Contact
 Reach us here:
 * b.obaydah@gmail.com
 * hamzabyazid@gmail.com
+* lakhdachiyassine@gmail.com
 * [LinkedIn 1](https://www.linkedin.com/in/oubaydos)
 * [LinkedIn 2](https://www.linkedin.com/in/hamza-benyazid)
+* [LinkedIn 3](https://www.linkedin.com/in/yassine-lakhdachi)
 
 Special Thanks
 -------
