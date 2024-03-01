@@ -15,6 +15,16 @@ So far, the only use case we have is creating a new project and generating jenki
 new pipeline in jenkins
 ![eza](https://i.imgur.com/xd75Dil.png)
 
+Creating a project
+------------
+![eza](images/1.png)
+![eza](images/2.png)
+![eza](images/3.png)
+![eza](images/4.png)
+![eza](images/5.png)
+![eza](images/6.png)
+![eza](images/7.png)
+
 ##### TODO:
 
 add import project
